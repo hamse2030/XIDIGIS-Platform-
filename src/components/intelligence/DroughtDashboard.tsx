@@ -30,15 +30,15 @@ export default function DroughtDashboard() {
   return (
     <div className="space-y-8">
       {/* Realtime Alert Bar */}
-      <div className="bg-primary p-4 flex items-center justify-between border-l-8 border-secondary">
-        <div className="flex items-center gap-4 text-white">
-          <AlertTriangle className="text-secondary animate-pulse" size={24} />
-          <span className="text-xs font-black uppercase tracking-widest italic">
-            Active Warning: Severe Rainfall Deficit in Togdheer & Sanaag Regions (Q2 2026)
+      <div className="bg-[#FFFBEB] p-5 flex items-center justify-between border-l-4 border-l-[#F59E0B] rounded shadow-sm">
+        <div className="flex items-center gap-4">
+          <AlertTriangle className="text-[#F59E0B] animate-pulse" size={20} />
+          <span className="text-[10px] font-black uppercase tracking-widest text-primary italic">
+            Strategic Warning: Severe Rainfall Deficit in Togdheer & Sanaag Regions (Q2 2026)
           </span>
         </div>
-        <button className="text-[10px] font-black text-secondary border border-secondary/30 px-3 py-1 uppercase tracking-widest italic hover:bg-secondary hover:text-primary transition-all">
-          View Intel
+        <button className="text-[10px] font-black text-primary border border-primary/20 px-4 py-2 uppercase tracking-widest hover:bg-primary hover:text-white transition-all rounded-sm">
+          Access Intelligence
         </button>
       </div>
 

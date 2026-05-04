@@ -91,12 +91,12 @@ export default function ForumPage() {
             </div>
 
             {/* Advisory Form */}
-            <div className="xi-card bg-primary text-white border-none shadow-xl">
+            <div className="xi-card border-l-4 border-l-primary shadow-lg">
               <div className="xi-card__body">
-                <Briefcase size={24} className="text-secondary-light mb-6" />
+                <Briefcase size={24} className="text-primary mb-6" />
                 <h3 className="text-lg font-serif font-black italic mb-4">Advisory Council</h3>
-                <p className="text-[10px] opacity-70 italic leading-relaxed mb-8">Interested in contributing to our policy research or joining our advisory board?</p>
-                <button className="btn btn-primary bg-white text-primary w-full text-[10px]">
+                <p className="text-[10px] text-text-muted italic leading-relaxed mb-8">Interested in contributing to our policy research or joining our advisory board?</p>
+                <button className="btn btn-primary w-full text-[10px]">
                   Application Portal <Award size={14} />
                 </button>
               </div>

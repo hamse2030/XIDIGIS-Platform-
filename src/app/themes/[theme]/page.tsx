@@ -41,19 +41,18 @@ export default function TopicHubPage({ params }: PageProps) {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Editorial Hub Header */}
-      <section className="bg-primary text-white py-32 border-b-8 border-secondary/30 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-secondary/5 -skew-x-12 transform translate-x-1/2" />
-        <div className="container mx-auto px-6 relative z-10">
+      {/* Institutional Header */}
+      <section className="section bg-white pt-32 pb-16 border-b border-gray-100">
+        <div className="container mx-auto">
           <div className="max-w-4xl">
             <div className="flex items-center gap-4 mb-8">
-              <Link href="/research" className="text-secondary hover:text-white transition-colors text-xs font-black uppercase tracking-[0.3em] flex items-center gap-2 italic">
+              <Link href="/research" className="xi-eyebrow hover:text-primary transition-colors">
                 Research Hub <ChevronRight size={14} />
               </Link>
-              <span className="text-white/40 text-xs font-black uppercase tracking-widest italic">Topic Hub</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-text-muted">Topic Hub</span>
             </div>
-            <h1 className="text-7xl md:text-9xl font-serif font-black mb-8 italic tracking-tighter leading-[0.8]">{currentTheme.title}</h1>
-            <p className="text-2xl text-white/70 max-w-2xl font-medium italic leading-relaxed">
+            <h1 className="text-primary font-serif italic tracking-tighter">{currentTheme.title}</h1>
+            <p className="text-lg text-text-muted leading-relaxed">
               {currentTheme.description}
             </p>
           </div>
@@ -66,32 +65,36 @@ export default function TopicHubPage({ params }: PageProps) {
           {/* Left Column: Topic Intelligence Indicators */}
           <div className="lg:col-span-1 space-y-12">
             <div>
-              <h3 className="text-[10px] font-black text-secondary uppercase tracking-[0.3em] mb-8 italic">Pillar Indicators</h3>
-              <div className="space-y-6">
+              <div className="xi-eyebrow mb-8 border-b border-gray-200 w-full pb-4">Pillar Indicators</div>
+              <div className="space-y-4">
                 {currentTheme.indicators.map((indicator, i) => (
-                  <div key={i} className="p-6 bg-accent/20 border-l-4 border-secondary">
-                    <span className="block text-[10px] font-black text-primary/40 uppercase mb-2 italic">Monitoring</span>
-                    <span className="block text-sm font-black text-primary italic uppercase tracking-tight">{indicator}</span>
+                  <div key={i} className="xi-card">
+                    <div className="xi-card__body py-4">
+                      <span className="block text-[9px] font-black text-text-muted uppercase tracking-widest italic mb-1">Active Monitoring</span>
+                      <span className="block text-xs font-black text-primary uppercase tracking-tight">{indicator}</span>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="p-8 bg-primary text-white rounded-sm">
-              <Activity size={32} className="text-secondary mb-6" />
-              <h4 className="font-serif font-black italic text-xl mb-4">Intelligence Access</h4>
-              <p className="text-xs text-white/60 mb-8 italic">Access live analytical dashboards related to this pillar.</p>
-              <Link href="/intelligence" className="text-[10px] font-black text-secondary uppercase tracking-widest flex items-center gap-2 hover:gap-4 transition-all">
-                Launch Intelligence Suite <ChevronRight size={14} />
-              </Link>
+            <div className="xi-card border-l-4 border-l-primary shadow-lg">
+              <div className="xi-card__body">
+                <Activity size={24} className="text-primary mb-6" />
+                <h4 className="font-serif font-black italic text-lg mb-4">Intelligence Access</h4>
+                <p className="text-[10px] text-text-muted mb-8 italic">Access live analytical dashboards and geospatial monitoring related to this pillar.</p>
+                <Link href="/intelligence" className="btn btn-primary w-full text-[10px]">
+                  Launch Intelligence Suite <ChevronRight size={14} />
+                </Link>
+              </div>
             </div>
           </div>
 
           {/* Center Column: Research Outputs */}
-          <div className="lg:col-span-3 space-y-16">
-            <div className="flex items-center justify-between border-b-4 border-primary pb-6">
-              <h2 className="text-4xl font-serif font-black text-primary italic">Pillar Publications</h2>
-              <span className="text-xs font-black text-secondary uppercase tracking-widest italic">{themePublications.length} Outputs Found</span>
+          <div className="lg:col-span-3 space-y-12">
+            <div className="flex items-center justify-between border-b border-gray-100 pb-6 mb-8">
+              <h2 className="text-3xl font-serif font-black text-primary italic">Thematic Publications</h2>
+              <span className="text-[10px] font-black text-secondary uppercase tracking-widest italic">{themePublications.length} Outputs Found</span>
             </div>
 
             <div className="grid grid-cols-1 gap-12">

@@ -289,12 +289,13 @@
 
   /* ── 11. FOOTER ─────────────────────────────────────────── */
   .xi-footer {
-    background-color: var(--color-surface-dark);
-    color: var(--color-text-muted-dark);
+    background-color: var(--color-surface);
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border);
   }
 
   .xi-footer a:hover {
-    color: var(--color-text-on-dark);
+    color: var(--color-primary);
   }
 
   /* ── 12. HERO TAG / EYEBROW ─────────────────────────────── */
