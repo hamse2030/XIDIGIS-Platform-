@@ -111,6 +111,7 @@ export default function TopicHubPage({ params }: PageProps) {
             </div>
           </div>
 
+          </div>
         </div>
       </div>
     </div>

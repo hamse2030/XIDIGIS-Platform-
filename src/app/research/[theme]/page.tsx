@@ -116,6 +116,7 @@ export default function ResearchThemePage({ params }: PageProps) {
               </div>
             </div>
           </div>
+          </div>
         </div>
       </div>
     </div>

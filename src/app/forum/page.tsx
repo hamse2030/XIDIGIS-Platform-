@@ -104,6 +104,7 @@ export default function ForumPage() {
             </div>
           </div>
 
+          </div>
         </div>
       </div>
     </div>
