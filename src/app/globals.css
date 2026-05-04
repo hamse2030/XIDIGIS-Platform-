@@ -1,0 +1,325 @@
+/* Google Fonts — must be first @import */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@400;500;600;700&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-heading), "Playfair Display", ui-serif, Georgia, serif;
+
+  /* ── Institutional + Analytical Palette ─────────────────────
+     Strict enforcement of Deep Blue (Primary) and Refined Brown (Secondary)
+  ──────────────────────────────────────────────────────────── */
+  --color-primary:            #1E3A8A;   /* Deep Blue — Authority & Action */
+  --color-primary-hover:      #1E40AF;   /* Slightly lighter for hover state */
+  --color-secondary:          #6B3F1D;   /* Refined Brown — Identity Accent */
+  --color-secondary-light:    #8B5A2B;   /* Secondary hover/light */
+
+  /* Neutral System — MOST IMPORTANT */
+  --color-surface:            #FFFFFF;   /* Clean white background */
+  --color-surface-alt:        #F7F9FC;   /* Light gray for section rhythm */
+  --color-surface-dark:       #111827;   /* Dark mode bg */
+  --color-surface-dark-card:  #1F2937;   /* Dark mode card bg */
+
+  --color-text-base:          #111827;   /* Primary text */
+  --color-text-muted:         #6B7280;   /* Secondary text */
+  --color-text-on-dark:       #F9FAFB;   /* Body text on dark bg */
+  --color-text-muted-dark:    #9CA3AF;   /* Muted on dark */
+
+  --color-border:             #E5E7EB;   /* Structural borders */
+  --color-border-strong:      #1E3A8A;   /* Focused/active border */
+  --color-focus-ring:         #3B82F6;   /* WCAG focus indicator */
+
+  --color-institutional-blue: #1E3A8A;   /* Standardized to Primary */
+  --color-success:            #15803D;   
+  --color-warning:            #B45309;   
+  --color-danger:             #B91C1C;   
+
+  /* ── Strict Spacing Scale (8px, 16px, 24px, 32px, 48px, 64px) ── */
+  --gutter: 24px;            /* Consistent 24px gap for all grids */
+  --container-max: 1280px;   /* Fixed container width */
+  --radius-card: 4px;        /* Strict small border radius */
+  --radius-btn:  4px;        /* Strict small border radius */
+
+  /* ── Shadows ─────────────────────────────────────────────── */
+  --shadow-card:        0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Minimal shadow */
+  --shadow-card-hover:  0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  /* ── Transitions ─────────────────────────────────────────── */
+  --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── 2. BASE RESET & DEFAULTS ────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  :root {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-surface);
+    color: var(--color-text-base);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .dark body {
+    background-color: var(--color-surface-dark);
+    color: var(--color-text-on-dark);
+  }
+
+  /* ── Headings ── */
+  h1 { font-family: var(--font-heading); font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; color: var(--color-text-base); margin-bottom: 24px; }
+  h2 { font-family: var(--font-heading); font-size: clamp(2rem, 3vw, 2.5rem); font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; color: var(--color-text-base); margin-bottom: 24px; }
+  h3 { font-family: var(--font-heading); font-size: clamp(1.25rem, 2vw, 1.5rem); font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; color: var(--color-text-base); margin-bottom: 16px; }
+  h4 { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; color: var(--color-text-base); margin-bottom: 16px; }
+  h5 { font-family: var(--font-heading); font-size: 1rem; font-weight: 600; color: var(--color-text-base); margin-bottom: 8px; }
+
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5 {
+    color: var(--color-text-on-dark);
+  }
+
+  p {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    max-width: 650px; /* Strict max width for readability */
+    margin-bottom: 24px;
+  }
+
+  .dark p {
+    color: var(--color-text-muted-dark);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-btn);
+  }
+}
+
+/* ── 3. LAYOUT: GRID & SPACING ───────────────────── */
+@layer components {
+  .container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .grid-12 {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--gutter);
+  }
+
+  .col-span-full    { grid-column: span 12; }
+  .col-span-half    { grid-column: span 6; }
+  .col-span-third   { grid-column: span 4; }
+  .col-span-quarter { grid-column: span 3; }
+
+  /* ── 4. CARD COMPONENT ──────────────────────────────────── */
+  .xi-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-base);
+    overflow: hidden;
+  }
+
+  .xi-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+    border-color: var(--color-border-strong);
+  }
+
+  .dark .xi-card {
+    background-color: var(--color-surface-dark-card);
+    border-color: rgba(255,255,255,0.1);
+  }
+
+  .dark .xi-card:hover {
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .xi-card__body {
+    padding: 24px; /* Strict 24px padding */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Inside gap */
+  }
+
+  .xi-card__footer {
+    margin-top: auto;
+    padding: 16px 24px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .dark .xi-card__footer {
+    border-color: rgba(255,255,255,0.1);
+  }
+
+  /* ── 5. BUTTONS ─────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Icon gap */
+    padding: 12px 20px; /* Strict padding */
+    border-radius: var(--radius-btn);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: var(--transition-base);
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: #FFFFFF;
+    border-color: var(--color-primary);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    /* 8-10% darken simulated by hex change, no heavy shadows */
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    border-color: var(--color-border);
+    color: var(--color-text-base);
+  }
+
+  .btn-outline:hover {
+    background-color: var(--color-surface-alt);
+    border-color: var(--color-text-base);
+  }
+
+  .dark .btn-outline {
+    border-color: rgba(255,255,255,0.2);
+    color: var(--color-text-on-dark);
+  }
+
+  .dark .btn-outline:hover {
+    background-color: rgba(255,255,255,0.05);
+  }
+
+  /* ── 6. NAV LINKS ───────────────────────────────────────── */
+  .nav-link {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    transition: color 0.2s ease;
+    padding-bottom: 2px;
+    border-bottom: 2px solid transparent;
+  }
+
+  .nav-link:hover,
+  .nav-link[aria-current="page"] {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+  }
+
+  .dark .nav-link {
+    color: var(--color-text-muted-dark);
+  }
+
+  .dark .nav-link:hover,
+  .dark .nav-link[aria-current="page"] {
+    color: var(--color-text-on-dark);
+    border-bottom-color: var(--color-text-on-dark);
+  }
+
+  /* ── 7. BADGE / CATEGORY TAG ────────────────────────────── */
+  .xi-badge {
+    display: inline-block;
+    padding: 4px 10px; /* Strict badge padding */
+    border-radius: var(--radius-btn);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: var(--color-surface-alt);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  .xi-badge--blue {
+    background-color: #EFF6FF;
+    color: var(--color-primary);
+    border-color: #BFDBFE;
+  }
+
+  /* ── 8. SECTION RHYTHM & SPACING ────────────────────────── */
+  .section {
+    padding-block: 64px; /* Desktop */
+  }
+
+  @media (max-width: 768px) {
+    .section {
+      padding-block: 40px; /* Mobile */
+    }
+  }
+
+  .section-header {
+    margin-bottom: 32px;
+  }
+
+  /* ── 11. FOOTER ─────────────────────────────────────────── */
+  .xi-footer {
+    background-color: var(--color-surface-dark);
+    color: var(--color-text-muted-dark);
+  }
+
+  .xi-footer a:hover {
+    color: var(--color-text-on-dark);
+  }
+
+  /* ── 12. HERO TAG / EYEBROW ─────────────────────────────── */
+  .xi-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Icon gap */
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-secondary);
+    margin-bottom: 16px;
+  }
+
+  /* ── 14. RESPONSIVE UTILITIES ───────────────────────────── */
+  @media (max-width: 768px) {
+    .grid-12 {
+      grid-template-columns: 1fr;
+    }
+    .col-span-half,
+    .col-span-third,
+    .col-span-quarter {
+      grid-column: span 12;
+    }
+  }
+}
