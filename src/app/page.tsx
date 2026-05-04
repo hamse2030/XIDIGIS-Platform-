@@ -31,103 +31,132 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       
-      {/* 1. HERO (MINIMAL & STRATEGIC) */}
-      <section className="section bg-primary text-white pb-16 pt-32 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
-        <div className="container mx-auto relative z-10">
+      {/* 1. HERO (INSTITUTIONAL & CLEAN) */}
+      <section className="section bg-white pt-32 pb-24 border-b border-gray-100">
+        <div className="container mx-auto">
           <div className="max-w-4xl">
-            <div className="xi-eyebrow text-secondary-light mb-6">
-              <ShieldCheck size={16} /> Independent Research & Intelligence Platform
+            <div className="xi-eyebrow">
+              <ShieldCheck size={14} /> Official Intelligence & Strategic Research Platform
             </div>
-            <h1 className="mb-6 leading-tight">
+            <h1 className="text-primary">
               Bridging the Information Gap in the Horn of Africa.
             </h1>
-            <p className="text-xl text-white/80 max-w-2xl mb-10 italic">
-              Evidence-based analysis, real-time risk forecasting, and strategic foresight empowering institutional decision-making.
+            <p className="text-lg text-text-muted mb-10 leading-relaxed">
+              We provide evidence-based analysis, real-time risk forecasting, and strategic foresight to empower institutional decision-making and regional stability.
             </p>
-            <div className="flex gap-4">
-              <Link href="/intelligence" className="btn btn-primary bg-white text-primary hover:bg-surface-alt">
-                View Live Intelligence <Activity size={16} />
+            <div className="flex flex-wrap gap-4">
+              <Link href="/intelligence" className="btn btn-primary">
+                View Live Intelligence <Activity size={14} />
               </Link>
-              <Link href="/research" className="btn btn-outline border-white/30 text-white hover:bg-white/10">
-                Access Research Archive
+              <Link href="/research" className="btn btn-outline">
+                Access Research Hub
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. LATEST INTELLIGENCE (LIVE DASHBOARD) */}
-      <section className="section bg-surface-alt border-y border-border">
+      {/* 2. STATS SECTION (STRUCTURED REPORT FEEL) */}
+      <section className="section bg-surface-alt border-b border-gray-100">
         <div className="container mx-auto">
-          <div className="section-header flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-            <div>
-              <div className="xi-eyebrow"><Activity size={16} /> Live Risk Assessment</div>
-              <h2>Regional Intelligence Output</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="xi-card group">
+              <div className="xi-card__body items-center text-center">
+                <span className="text-4xl font-serif font-black text-primary mb-2 italic">142</span>
+                <span className="text-xs font-black uppercase tracking-widest text-secondary">Total Publications</span>
+                <p className="text-[10px] text-text-muted mt-2">Aggregated Research Output</p>
+              </div>
             </div>
-            <div className="flex items-center gap-2 text-sm font-bold text-text-muted bg-white px-4 py-2 rounded shadow-sm border border-border">
-              <Clock size={16} className="text-primary" />
-              <span suppressHydrationWarning>Last Updated: {mounted && currentTime ? currentTime : "Loading..."}</span>
+            <div className="xi-card group">
+              <div className="xi-card__body items-center text-center">
+                <span className="text-4xl font-serif font-black text-primary mb-2 italic">12</span>
+                <span className="text-xs font-black uppercase tracking-widest text-secondary">Policy Briefs</span>
+                <p className="text-[10px] text-text-muted mt-2">Direct Government Advisories</p>
+              </div>
+            </div>
+            <div className="xi-card group">
+              <div className="xi-card__body items-center text-center">
+                <span className="text-4xl font-serif font-black text-primary mb-2 italic">28</span>
+                <span className="text-xs font-black uppercase tracking-widest text-secondary">Research Papers</span>
+                <p className="text-[10px] text-text-muted mt-2">Peer-Reviewed Field Studies</p>
+              </div>
+            </div>
+            <div className="xi-card group">
+              <div className="xi-card__body items-center text-center">
+                <span className="text-4xl font-serif font-black text-primary mb-2 italic">3</span>
+                <span className="text-xs font-black uppercase tracking-widest text-secondary">Regional Hubs</span>
+                <p className="text-[10px] text-text-muted mt-2">Active Field Monitoring</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. LATEST INTELLIGENCE (STRUCTURED DASHBOARD) */}
+      <section className="section bg-white">
+        <div className="container mx-auto">
+          <div className="section-header flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+            <div>
+              <div className="xi-eyebrow"><Activity size={14} /> Regional Risk Output</div>
+              <h2 className="text-primary font-serif italic">Active Intelligence Monitor</h2>
+            </div>
+            <div className="flex items-center gap-2 text-xs font-bold text-text-muted bg-surface-alt px-4 py-2 rounded border border-border">
+              <Clock size={14} className="text-primary" />
+              <span suppressHydrationWarning>Updated: {mounted && currentTime ? currentTime : "Loading..."}</span>
             </div>
           </div>
 
           <div className="grid-12">
-            {/* Risk Score Card */}
+            {/* Risk Score Card (REDESIGNED) */}
             <div className="col-span-12 lg:col-span-4">
-              <div className="xi-card bg-surface-dark text-white border-none h-full">
-                <div className="xi-card__body relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-6 opacity-10">
-                    <AlertTriangle size={120} />
-                  </div>
-                  <h4 className="text-secondary-light mb-2 uppercase tracking-widest text-xs">Composite Risk Score</h4>
-                  <div className="text-7xl font-serif font-black mb-4">
+              <div className="xi-card border-l-4 border-l-primary h-full">
+                <div className="xi-card__body">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-text-muted mb-4 block">Composite Risk Index</span>
+                  <div className="text-6xl font-serif font-black text-primary mb-6 italic">
                     {liveRisk?.score || "--"}
-                    <span className="text-2xl text-white/50 font-sans">/100</span>
+                    <span className="text-xl text-text-muted font-sans not-italic">/100</span>
                   </div>
                   
-                  <div className="flex items-center gap-4 mb-6">
-                    <span className={`px-3 py-1 rounded font-bold text-xs uppercase tracking-wider ${
-                      liveRisk?.level === 'Severe' || liveRisk?.level === 'Critical' ? 'bg-danger text-white' : 
-                      liveRisk?.level === 'High' ? 'bg-warning text-white' : 'bg-success text-white'
+                  <div className="flex items-center gap-3 mb-8">
+                    <span className={`xi-badge ${
+                      liveRisk?.level === 'Severe' || liveRisk?.level === 'Critical' ? 'bg-red-50 text-red-700 border-red-200' : 
+                      liveRisk?.level === 'High' ? 'bg-orange-50 text-orange-700 border-orange-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'
                     }`}>
                       {liveRisk?.level} Risk
                     </span>
-                    <span className="text-sm font-bold italic text-white/70 flex items-center gap-1">
-                      Trend: {liveRisk?.trend} <ArrowRight size={14} className={liveRisk?.trend === 'Worsening' ? '-rotate-45 text-danger' : 'rotate-45 text-success'} />
-                    </span>
+                    <span className="text-[10px] font-black uppercase text-text-muted">Trend: {liveRisk?.trend}</span>
                   </div>
                   
-                  <p className="text-sm text-text-on-dark/70 italic line-clamp-3">
-                    Aggregated risk model evaluating climate anomalies, food security indicators, and localized security incidents across the eastern corridor.
+                  <p className="text-xs text-text-muted italic leading-relaxed border-t border-gray-100 pt-6">
+                    A multi-layered calculation synthesizing climate anomalies, market data, and conflict events.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Methodology Panel & Indicators */}
+            {/* Methodology & Indicators */}
             <div className="col-span-12 lg:col-span-8">
-              <div className="xi-card h-full">
+              <div className="xi-card">
                 <div className="xi-card__body">
-                  <div className="flex items-center gap-2 mb-6 border-b border-border pb-4">
-                    <Database size={18} className="text-primary" />
-                    <h5 className="mb-0">XIDIGIS Risk Model Data Sources & Methodology</h5>
+                  <div className="flex items-center gap-2 mb-8 border-b border-gray-100 pb-4">
+                    <Database size={16} className="text-primary" />
+                    <h4 className="text-sm font-black uppercase tracking-widest mb-0">Live Indicator Stream</h4>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                     {liveRisk?.indicators.map((ind, idx) => (
-                      <div key={idx} className="bg-surface-alt p-4 rounded border border-border">
-                        <div className="text-xs font-bold text-text-muted uppercase tracking-wider mb-2">{ind.label}</div>
-                        <div className="text-2xl font-serif font-bold text-primary mb-2">{ind.value}</div>
-                        <div className={`text-[10px] font-black uppercase tracking-widest ${ind.status !== 'Normal' ? 'text-danger' : 'text-success'}`}>
-                          Status: {ind.status}
-                        </div>
+                      <div key={idx} className="p-4 bg-surface-alt border border-border rounded-sm">
+                        <div className="text-[9px] font-black text-text-muted uppercase tracking-tighter mb-1">{ind.label}</div>
+                        <div className="text-xl font-serif font-black text-primary italic">{ind.value}</div>
                       </div>
                     ))}
                   </div>
 
-                  <div className="bg-primary/5 p-4 rounded text-sm text-text-muted italic">
-                    <span className="font-bold text-primary not-italic">Methodology: </span> 
-                    Weighted algorithm synthesizing CHIRPS precipitation deviations (40%), IPC Acute Food Insecurity Phase classifications (40%), and ACLED conflict event densities (20%). Data pipelines are refreshed bi-weekly.
+                  <div className="xi-alert">
+                    <AlertTriangle size={16} />
+                    <span className="italic text-xs font-medium">
+                      <strong>Methodology Note:</strong> Data is aggregated from CHIRPS (Precipitation), IPC (Food Security), and ACLED (Security).
+                    </span>
                   </div>
                 </div>
               </div>
@@ -136,16 +165,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. LATEST RESEARCH (STRICT DESIGN SYSTEM) */}
-      <section className="section bg-surface">
+      {/* 4. LATEST RESEARCH (REPORT FEEL) */}
+      <section className="section bg-surface-alt border-y border-gray-100">
         <div className="container mx-auto">
-          <div className="section-header flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div className="section-header flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
             <div>
-              <div className="xi-eyebrow"><BookOpen size={16} /> Research Engine</div>
-              <h2>Latest Publications</h2>
+              <div className="xi-eyebrow"><BookOpen size={14} /> Research Engine</div>
+              <h2 className="text-primary font-serif italic">Latest Publications</h2>
             </div>
-            <Link href="/research" className="btn btn-outline">
-              View All Research
+            <Link href="/research" className="btn btn-outline border-primary/20 hover:border-primary">
+              View Research Archive
             </Link>
           </div>
 
@@ -159,24 +188,21 @@ export default function Home() {
                 transition={{ delay: i * 0.1 }}
                 className="col-span-12 md:col-span-4"
               >
-                <Link href={`/research/${pub.slug}`} className="xi-card group block cursor-pointer text-left h-full">
+                <Link href={`/research/${pub.slug}`} className="xi-card group">
                   <div className="xi-card__body">
-                    <div className="flex gap-2 mb-4">
+                    <div className="flex gap-2 mb-6">
                       <span className="xi-badge">{pub.type}</span>
                       <span className="xi-badge xi-badge--blue">{pub.theme}</span>
                     </div>
                     
-                    <h3 className="mb-4 group-hover:text-primary transition-colors">{pub.title}</h3>
-                    <p className="line-clamp-3 mb-6 flex-grow">{pub.summary}</p>
+                    <h3 className="text-lg font-serif font-black mb-4 group-hover:text-primary transition-colors italic leading-tight">{pub.title}</h3>
+                    <p className="text-xs text-text-muted line-clamp-3 mb-8 italic">{pub.summary}</p>
                     
-                    <div className="mt-auto pt-4 border-t border-border flex flex-col gap-2">
-                       <div className="flex items-center gap-2 text-xs font-bold text-text-muted">
-                        <MapPin size={12} className="text-secondary" /> {pub.region}
+                    <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-[10px] font-black text-text-muted uppercase">
+                        <MapPin size={10} className="text-secondary" /> {pub.region}
                       </div>
-                      <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-text-muted">
-                        <span>{pub.date} • {pub.author}</span>
-                        <ChevronRight size={14} className="text-primary group-hover:translate-x-1 transition-transform" />
-                      </div>
+                      <ChevronRight size={14} className="text-primary group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
                 </Link>
@@ -186,7 +212,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. KEY THEMES (COHESION LAYER) */}
+      {/* 5. KEY THEMES */}
       <ThemesGrid />
 
     </div>

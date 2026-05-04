@@ -43,11 +43,11 @@ export default function ThemesGrid() {
   return (
     <section className="section bg-surface-alt" aria-labelledby="themes-heading">
       <div className="container mx-auto">
-        <div className="section-header">
-          <div className="xi-eyebrow"><Globe size={16} /> Theme System</div>
-          <h2 id="themes-heading">Thematic Focus Areas</h2>
-          <p className="max-w-2xl">
-            Deep-dive analysis into Somaliland's critical development sectors. All intelligence outputs and research publications are mapped through this central architecture.
+        <div className="section-header mb-16">
+          <div className="xi-eyebrow"><Globe size={14} /> Knowledge Infrastructure</div>
+          <h2 id="themes-heading" className="text-primary font-serif italic">Strategic Thematic Architecture</h2>
+          <p className="max-w-2xl text-text-muted text-sm leading-relaxed italic">
+            Deep-dive analysis into Somaliland's critical development sectors. All intelligence outputs and research publications are mapped through this central information architecture.
           </p>
         </div>
 
@@ -68,8 +68,8 @@ export default function ThemesGrid() {
                   >
                     <theme.icon size={24} />
                   </div>
-                  <h3 className="mb-4 group-hover:text-primary transition-colors">{theme.title}</h3>
-                  <p className="flex-grow mb-6">{theme.description}</p>
+                  <h3 className="text-lg font-serif font-black text-primary mb-4 group-hover:text-primary transition-colors italic leading-tight">{theme.title}</h3>
+                  <p className="flex-grow text-xs text-text-muted mb-8 italic leading-relaxed">{theme.description}</p>
                   
                   <div className="mt-auto pt-6 border-t border-border">
                     <div className="flex flex-wrap gap-2 mb-6">

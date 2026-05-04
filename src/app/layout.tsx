@@ -31,28 +31,28 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           
           {/* Institutional Navigation */}
-          <header className="fixed top-0 left-0 right-0 z-[100] bg-surface/95 dark:bg-surface-dark/95 backdrop-blur-md border-b border-border">
+          <header className="fixed top-0 left-0 right-0 z-[100] bg-white border-b border-gray-200">
             <div className="container mx-auto h-16 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[--color-primary] rounded flex items-center justify-center text-white font-[--font-heading] font-black text-xl italic shadow-lg">X</div>
+              <Link href="/" className="flex items-center gap-3 group">
+                <div className="w-8 h-8 bg-primary rounded flex items-center justify-center text-white font-serif font-black text-lg italic transition-transform group-hover:scale-105">X</div>
                 <div className="flex flex-col leading-none">
-                  <span className="font-[--font-heading] font-black text-2xl text-[--color-primary] dark:text-[--color-text-on-dark] italic tracking-tighter">XIDIGIS</span>
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[--color-secondary] italic">Institute</span>
+                  <span className="font-serif font-black text-xl text-primary italic tracking-tighter">XIDIGIS</span>
+                  <span className="text-[9px] font-black uppercase tracking-[0.2em] text-secondary italic">Institute</span>
                 </div>
-              </div>
+              </Link>
               
               <nav className="hidden lg:flex items-center gap-8">
-                <a href="/" className="nav-link">Home</a>
-                <a href="/research" className="nav-link">Research Hub</a>
-                <a href="/intelligence" className="nav-link flex items-center gap-2">
-                  <Activity size={16} className="text-secondary" /> Intelligence
-                </a>
-                <a href="/about" className="nav-link">About</a>
-                <a href="/forum" className="nav-link text-primary">Insights</a>
+                <Link href="/" className="nav-link">Home</Link>
+                <Link href="/research" className="nav-link">Research Hub</Link>
+                <Link href="/intelligence" className="nav-link flex items-center gap-2">
+                   Intelligence
+                </Link>
+                <Link href="/about" className="nav-link">About</Link>
+                <Link href="/forum" className="nav-link text-primary font-black">Insights</Link>
               </nav>
 
               <div className="flex items-center gap-6">
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-[--color-surface-alt] border border-[--color-border] rounded text-[10px] font-black text-[--color-primary] uppercase tracking-widest">
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-surface-alt border border-border rounded text-[10px] font-black text-primary uppercase tracking-widest">
                   <Globe size={12} /> EN | SO
                 </div>
                 <ThemeToggle />
