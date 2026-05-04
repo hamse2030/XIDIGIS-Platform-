@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Activity, ShieldAlert, ThermometerSun, Wheat, ChevronRight, ArrowUpRight, Database } from "lucide-react";
 import Link from "next/link";
 import DroughtDashboard from "@/components/intelligence/DroughtDashboard";
+import ResearchHub from "@/components/research/ResearchHub";
 
 export default function IntelligenceSuite() {
   const systems = [
@@ -134,6 +135,9 @@ export default function IntelligenceSuite() {
           </div>
         </div>
       </section>
+
+      {/* 5. AI Research Engine Integration */}
+      <ResearchHub />
     </div>
   );
 }
