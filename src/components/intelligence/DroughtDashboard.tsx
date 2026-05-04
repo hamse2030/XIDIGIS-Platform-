@@ -26,6 +26,31 @@ const ipcStats = [
 
 export default function DroughtDashboard() {
   const [activeMetric, setActiveMetric] = useState("rainfall");
+  const [data, setData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchIntelligence() {
+      try {
+        const response = await fetch('/api/intelligence');
+        const result = await response.json();
+        if (result.success) {
+          setData(result.data);
+        } else {
+          setError(result.error);
+        }
+      } catch (err) {
+        setError("Failed to synchronize with intelligence stream.");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchIntelligence();
+  }, []);
+
+  // Fallback to satelliteData if API is not yet populated or errors
+  const chartData = data.length > 0 ? data : satelliteData;
 
   return (
     <div className="space-y-8">
@@ -55,7 +80,7 @@ export default function DroughtDashboard() {
           
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={satelliteData}>
+              <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
                 <XAxis dataKey="month" stroke="#9CA3AF" fontSize={10} fontWeight="bold" tickLine={false} axisLine={false} />
                 <YAxis stroke="#9CA3AF" fontSize={10} fontWeight="bold" tickLine={false} axisLine={false} />
