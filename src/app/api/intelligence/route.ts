@@ -9,6 +9,10 @@ export async function GET() {
     // For now, we simulate a successful Supabase connection
     // and return structured intelligence data.
     
+    if (!supabase) {
+      throw new Error("Supabase client not initialized. Check environment variables.");
+    }
+
     const { data: metrics, error } = await supabase
       .from('intelligence_metrics')
       .select('*')

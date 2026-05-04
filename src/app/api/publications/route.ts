@@ -5,6 +5,10 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
+    if (!supabase) {
+      throw new Error("Supabase client not initialized. Check environment variables.");
+    }
+
     const { data: publications, error } = await supabase
       .from('publications')
       .select('*')
