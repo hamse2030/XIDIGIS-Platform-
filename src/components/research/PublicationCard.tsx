@@ -37,9 +37,12 @@ export default function PublicationCard({ publication, showPreview = false }: Pu
             >
               <Share2 size={14} />
             </button>
-            <a href={`/research/${publication.slug}`} className="p-2 hover:bg-surface-alt rounded-full transition-colors text-text-muted hover:text-primary" title="Download PDF">
-              <Download size={14} />
+            <a href={`/research/reports/${publication.slug}`} className="p-2 hover:bg-surface-alt rounded-full transition-colors text-text-muted hover:text-primary" title="View Report">
+              <ExternalLink size={14} />
             </a>
+            <button className="p-2 hover:bg-surface-alt rounded-full transition-colors text-text-muted hover:text-primary" title="Download PDF">
+              <Download size={14} />
+            </button>
           </div>
         </div>
 
