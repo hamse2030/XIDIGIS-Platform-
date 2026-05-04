@@ -18,7 +18,7 @@ export default function ResearchHub() {
   };
 
   return (
-    <section className="py-24 bg-surface-alt" border-b border-gray-100>
+    <section className="py-24 bg-surface-alt border-b border-gray-100">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
