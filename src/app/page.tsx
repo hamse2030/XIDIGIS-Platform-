@@ -32,7 +32,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       
       {/* 1. HERO (INSTITUTIONAL & CLEAN) */}
-      <section className="section bg-white pt-32 pb-24 border-b border-gray-100">
+      <section className="section bg-surface-alt pt-32 pb-24 border-b border-gray-100">
         <div className="container mx-auto">
           <div className="max-w-4xl">
             <div className="xi-eyebrow">
@@ -57,34 +57,34 @@ export default function Home() {
       </section>
 
       {/* 2. STATS SECTION (STRUCTURED REPORT FEEL) */}
-      <section className="section bg-surface-alt border-b border-gray-100">
+      <section className="section bg-white border-b border-gray-100">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="xi-card group">
               <div className="xi-card__body items-center text-center">
                 <span className="text-4xl font-serif font-black text-primary mb-2 italic">142</span>
-                <span className="text-xs font-black uppercase tracking-widest text-secondary">Total Publications</span>
+                <span className="text-xs font-black uppercase tracking-widest text-primary/60">Total Publications</span>
                 <p className="text-[10px] text-text-muted mt-2">Aggregated Research Output</p>
               </div>
             </div>
             <div className="xi-card group">
               <div className="xi-card__body items-center text-center">
                 <span className="text-4xl font-serif font-black text-primary mb-2 italic">12</span>
-                <span className="text-xs font-black uppercase tracking-widest text-secondary">Policy Briefs</span>
+                <span className="text-xs font-black uppercase tracking-widest text-primary/60">Policy Briefs</span>
                 <p className="text-[10px] text-text-muted mt-2">Direct Government Advisories</p>
               </div>
             </div>
             <div className="xi-card group">
               <div className="xi-card__body items-center text-center">
                 <span className="text-4xl font-serif font-black text-primary mb-2 italic">28</span>
-                <span className="text-xs font-black uppercase tracking-widest text-secondary">Research Papers</span>
+                <span className="text-xs font-black uppercase tracking-widest text-primary/60">Research Papers</span>
                 <p className="text-[10px] text-text-muted mt-2">Peer-Reviewed Field Studies</p>
               </div>
             </div>
             <div className="xi-card group">
               <div className="xi-card__body items-center text-center">
                 <span className="text-4xl font-serif font-black text-primary mb-2 italic">3</span>
-                <span className="text-xs font-black uppercase tracking-widest text-secondary">Regional Hubs</span>
+                <span className="text-xs font-black uppercase tracking-widest text-primary/60">Regional Hubs</span>
                 <p className="text-[10px] text-text-muted mt-2">Active Field Monitoring</p>
               </div>
             </div>
@@ -93,14 +93,14 @@ export default function Home() {
       </section>
 
       {/* 3. LATEST INTELLIGENCE (STRUCTURED DASHBOARD) */}
-      <section className="section bg-white">
+      <section className="section bg-surface-alt">
         <div className="container mx-auto">
           <div className="section-header flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
             <div>
               <div className="xi-eyebrow"><Activity size={14} /> Regional Risk Output</div>
               <h2 className="text-primary font-serif italic">Active Intelligence Monitor</h2>
             </div>
-            <div className="flex items-center gap-2 text-xs font-bold text-text-muted bg-surface-alt px-4 py-2 rounded border border-border">
+            <div className="flex items-center gap-2 text-xs font-bold text-text-muted bg-white px-4 py-2 rounded border border-border">
               <Clock size={14} className="text-primary" />
               <span suppressHydrationWarning>Updated: {mounted && currentTime ? currentTime : "Loading..."}</span>
             </div>
@@ -166,7 +166,7 @@ export default function Home() {
       </section>
 
       {/* 4. LATEST RESEARCH (REPORT FEEL) */}
-      <section className="section bg-surface-alt border-y border-gray-100">
+      <section className="section bg-white border-y border-gray-100">
         <div className="container mx-auto">
           <div className="section-header flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
             <div>
@@ -200,7 +200,7 @@ export default function Home() {
                     
                     <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
                       <div className="flex items-center gap-2 text-[10px] font-black text-text-muted uppercase">
-                        <MapPin size={10} className="text-secondary" /> {pub.region}
+                        <MapPin size={10} className="text-primary/40" /> {pub.region}
                       </div>
                       <ChevronRight size={14} className="text-primary group-hover:translate-x-1 transition-transform" />
                     </div>

@@ -17,7 +17,7 @@ const themes = [
     title: "Climate & Resilience",
     description: "Analyzing climate impact on livestock and water security in the Horn of Africa.",
     icon: CloudRain,
-    color: "var(--color-secondary)",
+    color: "var(--color-primary)",
     link: "/themes/climate",
     sublinks: ["Drought Mitigation", "Resource Management", "Food Security"]
   },
@@ -25,7 +25,7 @@ const themes = [
     title: "Strategic Security",
     description: "Regional stability and intelligence-driven security analysis for policy makers.",
     icon: Shield,
-    color: "var(--color-institutional-blue)",
+    color: "var(--color-primary)",
     link: "/themes/security",
     sublinks: ["Maritime Security", "Regional Stability", "Policy Reform"]
   },

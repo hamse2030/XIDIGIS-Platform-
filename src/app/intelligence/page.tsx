@@ -39,7 +39,7 @@ export default function IntelligenceSuite() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* 1. Institutional Header */}
-      <section className="section bg-white pt-32 pb-16 border-b border-gray-100">
+      <section className="section bg-surface-alt pt-32 pb-16 border-b border-gray-100">
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end gap-8">
             <div className="max-w-3xl">
@@ -57,7 +57,7 @@ export default function IntelligenceSuite() {
                 <span className="text-[9px] font-black uppercase text-text-muted tracking-widest">Data Uptime</span>
               </div>
               <div className="text-center px-6">
-                <span className="block text-2xl font-serif font-black italic text-secondary">3</span>
+                <span className="block text-2xl font-serif font-black italic text-primary">3</span>
                 <span className="text-[9px] font-black uppercase text-text-muted tracking-widest">Active Engines</span>
               </div>
             </div>
@@ -80,7 +80,7 @@ export default function IntelligenceSuite() {
       </section>
 
       {/* 3. System Overview Grid */}
-      <section className="section bg-white">
+      <section className="section bg-surface-alt border-y border-gray-100">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
             {systems.map((system, i) => (
@@ -104,7 +104,7 @@ export default function IntelligenceSuite() {
                   </div>
                   <h3 className="text-xl font-serif font-black text-primary mb-4 italic leading-tight">{system.title}</h3>
                   <p className="text-xs text-text-muted mb-8 italic leading-relaxed">{system.description}</p>
-                  <Link href={system.link} className="mt-auto inline-flex items-center gap-2 text-[10px] font-black text-secondary uppercase tracking-widest hover:gap-4 transition-all italic">
+                  <Link href={system.link} className="mt-auto inline-flex items-center gap-2 text-[10px] font-black text-primary uppercase tracking-widest hover:gap-4 transition-all italic">
                     Enter Monitoring System <ArrowUpRight size={14} />
                   </Link>
                 </div>
@@ -113,7 +113,7 @@ export default function IntelligenceSuite() {
           </div>
 
           {/* 4. Deep Dive Preview */}
-          <div className="xi-card border-t-4 border-t-primary overflow-hidden shadow-xl">
+          <div className="xi-card border-t-4 border-t-primary overflow-hidden shadow-xl bg-white">
             <div className="p-8 border-b border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
               <div>
                 <h2 className="text-2xl font-serif font-black text-primary italic mb-1">Regional Risk Composite</h2>
@@ -128,7 +128,7 @@ export default function IntelligenceSuite() {
                 </button>
               </div>
             </div>
-            <div className="p-10 bg-surface-alt">
+            <div className="p-10 bg-white">
                <DroughtDashboard />
             </div>
           </div>

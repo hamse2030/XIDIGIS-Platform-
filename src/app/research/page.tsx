@@ -43,7 +43,7 @@ export default function ResearchHub() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero */}
-      <section className="section bg-white pt-32 pb-16 border-b border-gray-100">
+      <section className="section bg-surface-alt pt-32 pb-16 border-b border-gray-100">
         <div className="container mx-auto">
           <div className="max-w-4xl">
             <div className="xi-eyebrow">
@@ -78,7 +78,7 @@ export default function ResearchHub() {
               placeholder="Search by title, topic, or tag..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-surface-alt border border-border text-sm text-primary font-medium focus:outline-none focus:border-primary rounded-sm"
+              className="w-full pl-10 pr-4 py-2 bg-white border border-border text-sm text-primary font-medium focus:outline-none focus:border-primary rounded-sm"
             />
           </div>
 
@@ -123,7 +123,7 @@ export default function ResearchHub() {
       <section className="section bg-white flex-1">
         <div className="container mx-auto">
           <div className="flex justify-between items-center mb-12">
-            <span className="text-[10px] font-black text-secondary uppercase tracking-widest italic">
+            <span className="text-[10px] font-black text-primary/60 uppercase tracking-widest italic">
               {filtered.length} result{filtered.length !== 1 ? "s" : ""} found
             </span>
             <div className="flex gap-4">

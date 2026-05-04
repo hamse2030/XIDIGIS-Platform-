@@ -15,24 +15,24 @@ export default function ForumIntegration() {
     <div className="space-y-12">
       {/* Forum Signal Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white dark:bg-slate-800 p-6 border border-secondary/10 rounded-sm">
+        <div className="bg-white p-6 border border-border rounded-sm shadow-sm">
           <div className="flex items-center gap-3 text-primary mb-4">
             <Users size={20} />
             <span className="text-[10px] font-black uppercase tracking-widest italic">Regional Experts</span>
           </div>
           <span className="text-4xl font-serif font-black text-primary italic">1,240+</span>
         </div>
-        <div className="bg-white dark:bg-slate-800 p-6 border border-secondary/10 rounded-sm">
+        <div className="bg-white p-6 border border-border rounded-sm shadow-sm">
           <div className="flex items-center gap-3 text-primary mb-4">
             <MessageSquare size={20} />
             <span className="text-[10px] font-black uppercase tracking-widest italic">Daily Submissions</span>
           </div>
           <span className="text-4xl font-serif font-black text-primary italic">45</span>
         </div>
-        <div className="xi-card border-l-4 border-l-secondary">
+        <div className="xi-card border-l-4 border-l-primary">
           <div className="xi-card__body">
             <div className="flex items-center gap-3 text-primary mb-4">
-              <ShieldCheck size={20} className="text-secondary" />
+              <ShieldCheck size={20} />
               <span className="text-[10px] font-black uppercase tracking-widest italic">AI Moderated</span>
             </div>
             <span className="text-xs font-medium italic text-text-muted leading-relaxed block">
@@ -43,13 +43,13 @@ export default function ForumIntegration() {
       </div>
 
       {/* Thematic Categories */}
-      <div className="bg-white dark:bg-slate-800 border border-secondary/10 rounded-sm overflow-hidden">
+      <div className="bg-white border border-border rounded-sm overflow-hidden shadow-sm">
         <div className="bg-white px-8 py-4 border-b border-gray-100 flex justify-between items-center">
           <h3 className="font-serif font-black text-primary italic tracking-tight uppercase text-[9px] tracking-widest">Research Pillar Discussions</h3>
-          <TrendingUp size={14} className="text-secondary" />
+          <TrendingUp size={14} className="text-primary/40" />
         </div>
         
-        <div className="divide-y divide-secondary/5">
+        <div className="divide-y divide-gray-100">
           {forumCategories.map((cat, i) => (
             <motion.div 
               key={cat.theme}
@@ -57,24 +57,24 @@ export default function ForumIntegration() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="p-8 hover:bg-accent/10 transition-all cursor-pointer group"
+              className="p-8 hover:bg-surface-alt transition-all cursor-pointer group"
             >
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="max-w-md">
-                  <h4 className="text-xl font-serif font-black text-primary mb-2 italic group-hover:text-secondary transition-colors">{cat.theme}</h4>
-                  <p className="text-[10px] font-bold text-primary/40 uppercase tracking-widest italic">Latest Intel: {cat.latest}</p>
+                  <h4 className="text-xl font-serif font-black text-primary mb-2 italic group-hover:opacity-80 transition-opacity">{cat.theme}</h4>
+                  <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest italic">Latest Intel: {cat.latest}</p>
                 </div>
                 
                 <div className="flex items-center gap-12">
                   <div className="text-center">
                     <span className="block text-xl font-serif font-black text-primary">{cat.topics}</span>
-                    <span className="text-[8px] font-black uppercase tracking-widest text-secondary italic">Analyses</span>
+                    <span className="text-[8px] font-black uppercase tracking-widest text-text-muted italic">Analyses</span>
                   </div>
                   <div className="text-center">
-                    <span className="block text-xl font-serif font-black text-secondary">{cat.active}</span>
-                    <span className="text-[8px] font-black uppercase tracking-widest text-primary/40 italic">Active Now</span>
+                    <span className="block text-xl font-serif font-black text-primary/40">{cat.active}</span>
+                    <span className="text-[8px] font-black uppercase tracking-widest text-text-muted italic">Active Now</span>
                   </div>
-                  <button className="p-3 bg-primary/5 text-primary rounded-full hover:bg-primary hover:text-white transition-all">
+                  <button className="p-3 bg-surface-alt text-primary rounded-full hover:bg-primary hover:text-white transition-all border border-border">
                     <Zap size={16} />
                   </button>
                 </div>

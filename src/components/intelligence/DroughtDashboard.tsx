@@ -18,10 +18,10 @@ const satelliteData = [
 ];
 
 const ipcStats = [
-  { phase: "Phase 1: Minimal", count: 450, color: "#1E3A8A" },
-  { phase: "Phase 2: Stressed", count: 320, color: "#D2B48C" },
-  { phase: "Phase 3: Crisis", count: 180, color: "#8B4513" },
-  { phase: "Phase 4: Emergency", count: 90, color: "#ef4444" },
+  { phase: "Phase 1: Minimal", count: 450, color: "#1F2937" },
+  { phase: "Phase 2: Stressed", count: 320, color: "#4B5563" },
+  { phase: "Phase 3: Crisis", count: 180, color: "#9CA3AF" },
+  { phase: "Phase 4: Emergency", count: 90, color: "#DC2626" },
 ];
 
 export default function DroughtDashboard() {
@@ -30,9 +30,9 @@ export default function DroughtDashboard() {
   return (
     <div className="space-y-8">
       {/* Realtime Alert Bar */}
-      <div className="bg-[#FFFBEB] p-5 flex items-center justify-between border-l-4 border-l-[#F59E0B] rounded shadow-sm">
+      <div className="bg-white p-5 flex items-center justify-between border-l-4 border-l-primary rounded shadow-sm">
         <div className="flex items-center gap-4">
-          <AlertTriangle className="text-[#F59E0B] animate-pulse" size={20} />
+          <AlertTriangle className="text-primary animate-pulse" size={20} />
           <span className="text-[10px] font-black uppercase tracking-widest text-primary italic">
             Strategic Warning: Severe Rainfall Deficit in Togdheer & Sanaag Regions (Q2 2026)
           </span>
@@ -44,13 +44,13 @@ export default function DroughtDashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Rainfall Anomaly Chart */}
-        <div className="bg-white dark:bg-slate-800 p-8 border border-secondary/10 rounded-sm">
+        <div className="bg-white p-8 border border-border rounded-sm">
           <div className="flex items-center justify-between mb-10">
             <div className="flex items-center gap-3">
               <CloudRain className="text-primary" />
               <h3 className="font-serif font-black italic text-xl text-primary">CHIRPS Rainfall Anomaly</h3>
             </div>
-            <button className="p-2 hover:bg-accent rounded text-primary/40"><Download size={16} /></button>
+            <button className="p-2 hover:bg-surface-alt rounded text-text-muted hover:text-primary"><Download size={16} /></button>
           </div>
           
           <div className="h-[300px] w-full">
@@ -60,35 +60,31 @@ export default function DroughtDashboard() {
                 <XAxis dataKey="month" stroke="#9CA3AF" fontSize={10} fontWeight="bold" tickLine={false} axisLine={false} />
                 <YAxis stroke="#9CA3AF" fontSize={10} fontWeight="bold" tickLine={false} axisLine={false} />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: "#8B4513", color: "#FFF", borderRadius: "2px", border: "none", fontSize: "12px", fontFamily: "serif" }}
-                  itemStyle={{ color: "#D2B48C", fontWeight: "bold" }}
+                  contentStyle={{ backgroundColor: "#1F2937", color: "#FFF", borderRadius: "2px", border: "none", fontSize: "12px" }}
+                  itemStyle={{ color: "#E5E7EB", fontWeight: "bold" }}
                 />
                 <Line 
                   type="monotone" 
                   dataKey="anomaly" 
-                  stroke="#8B4513" 
+                  stroke="#1F2937" 
                   strokeWidth={4} 
-                  dot={{ fill: "#8B4513", r: 6 }} 
-                  activeDot={{ r: 8, stroke: "#D2B48C", strokeWidth: 2 }}
+                  dot={{ fill: "#1F2937", r: 6 }} 
+                  activeDot={{ r: 8, stroke: "#6B7280", strokeWidth: 2 }}
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
-          <p className="mt-6 text-[10px] font-bold text-primary/40 italic uppercase tracking-widest text-center">
+          <p className="mt-6 text-[10px] font-bold text-text-muted italic uppercase tracking-widest text-center">
             *Source: UCSB Climate Hazards Group Infrared Precipitation with Station data (CHIRPS)
           </p>
         </div>
 
         {/* IPC Classification Breakdown */}
-        <div className="bg-white dark:bg-slate-800 p-8 border border-secondary/10 rounded-sm">
+        <div className="bg-white p-8 border border-border rounded-sm">
           <div className="flex items-center justify-between mb-10">
             <div className="flex items-center gap-3">
               <TrendingUp className="text-primary" />
               <h3 className="font-serif font-black italic text-xl text-primary">IPC Food Security Phase (k)</h3>
-            </div>
-            <div className="flex gap-2">
-              <span className="w-3 h-3 bg-secondary rounded-full" />
-              <span className="w-3 h-3 bg-primary rounded-full" />
             </div>
           </div>
 
@@ -106,7 +102,7 @@ export default function DroughtDashboard() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <p className="mt-6 text-[10px] font-bold text-primary/40 italic uppercase tracking-widest text-center">
+          <p className="mt-6 text-[10px] font-bold text-text-muted italic uppercase tracking-widest text-center">
             *Populations in thousands (estimated). Integrated Food Security Phase Classification.
           </p>
         </div>

@@ -43,7 +43,7 @@ export default function PublicationCard({ publication, showPreview = false }: Pu
           </div>
         </div>
 
-        <h3 className="text-xl font-serif font-black text-primary mb-4 italic leading-tight group-hover:text-secondary transition-colors">
+        <h3 className="text-xl font-serif font-black text-primary mb-4 italic leading-tight group-hover:opacity-80 transition-opacity">
           {publication.title}
         </h3>
 

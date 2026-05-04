@@ -35,7 +35,7 @@ export default function ClimateIntelligence() {
   return (
     <div className="min-h-screen">
       {/* Institutional Header */}
-      <section className="section bg-white pt-32 pb-16 border-b border-gray-100">
+      <section className="section bg-surface-alt pt-32 pb-16 border-b border-gray-100">
         <div className="container mx-auto">
           <div className="max-w-4xl">
             <div className="flex items-center gap-4 mb-8">
@@ -74,9 +74,9 @@ export default function ClimateIntelligence() {
 
       {/* Priority Alert */}
       {worstRegion.risk.score > 35 && (
-        <div className="bg-[#FFFBEB] py-5 border-y border-gray-100">
+        <div className="bg-white py-5 border-y border-gray-100">
           <div className="container mx-auto flex items-center gap-4">
-            <AlertTriangle size={18} className="text-[#F59E0B] animate-pulse" />
+            <AlertTriangle size={18} className="text-primary animate-pulse" />
             <span className="font-black uppercase tracking-widest text-[10px] text-primary italic">
               Strategic Alert: {worstRegion.name} — Risk Index {worstRegion.risk.score}/100 ({worstRegion.risk.level})
             </span>
@@ -105,7 +105,7 @@ export default function ClimateIntelligence() {
               >
                 <div className="xi-card__body">
                   {/* Risk score bar */}
-                  <div className="h-1 bg-gray-100 rounded-full mb-8 overflow-hidden">
+                  <div className="h-1 bg-surface-alt rounded-full mb-8 overflow-hidden border border-border">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${r.risk.score}%` }}
@@ -122,15 +122,15 @@ export default function ClimateIntelligence() {
                   </div>
 
                   <div className="grid grid-cols-3 gap-4 mb-8">
-                    <div className="text-center p-4 bg-surface-alt border border-border">
+                    <div className="text-center p-4 bg-white border border-border">
                       <span className="block text-2xl font-serif font-black italic text-primary">{r.rainfallAnomaly}%</span>
                       <span className="text-[8px] font-black text-text-muted uppercase tracking-widest">Rainfall</span>
                     </div>
-                    <div className="text-center p-4 bg-surface-alt border border-border">
+                    <div className="text-center p-4 bg-white border border-border">
                       <span className="block text-2xl font-serif font-black italic text-primary">IPC {r.ipcPhase}</span>
                       <span className="text-[8px] font-black text-text-muted uppercase tracking-widest">Phase</span>
                     </div>
-                    <div className="text-center p-4 bg-surface-alt border border-border">
+                    <div className="text-center p-4 bg-white border border-border">
                       <span className="block text-2xl font-serif font-black italic text-primary">{r.risk.score}</span>
                       <span className="text-[8px] font-black text-text-muted uppercase tracking-widest">Risk Index</span>
                     </div>

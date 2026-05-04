@@ -9,7 +9,7 @@ export default function ForumPage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* 1. Institutional Header */}
-      <section className="section bg-white pt-32 pb-16 border-b border-gray-100">
+      <section className="section bg-surface-alt pt-32 pb-16 border-b border-gray-100">
         <div className="container mx-auto">
           <div className="max-w-4xl">
             <div className="xi-eyebrow">
@@ -23,7 +23,8 @@ export default function ForumPage() {
         </div>
       </section>
 
-      <div className="container mx-auto py-24">
+      <div className="bg-white border-b border-gray-100">
+        <div className="container mx-auto py-24">
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-16">
           
           {/* Main Forum Column */}
@@ -60,7 +61,7 @@ export default function ForumPage() {
                       { date: "June 02", event: "Maritime Security Roundtable" }
                     ].map((ev, i) => (
                       <div key={i} className="flex gap-4 border-b border-gray-100 pb-4">
-                        <span className="text-[10px] font-black text-secondary uppercase tracking-widest italic">{ev.date}</span>
+                        <span className="text-[10px] font-black text-primary/40 uppercase tracking-widest italic">{ev.date}</span>
                         <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{ev.event}</span>
                       </div>
                     ))}
@@ -84,7 +85,7 @@ export default function ForumPage() {
                     <Users className="text-primary opacity-20" size={32} />
                   </div>
                   <h3 className="text-xl font-serif font-black text-primary italic mb-2">Hamse Aden</h3>
-                  <span className="text-[9px] font-black text-secondary uppercase tracking-widest italic block mb-6">Founder & Strategic Lead</span>
+                  <span className="text-[9px] font-black text-primary/60 uppercase tracking-widest italic block mb-6">Founder & Strategic Lead</span>
                   <p className="text-xs text-text-muted italic leading-relaxed">Dedicated to advancing data-driven development economics and regional security frameworks in Somaliland.</p>
                 </div>
               </div>

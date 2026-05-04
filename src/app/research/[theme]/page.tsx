@@ -30,7 +30,7 @@ export default function ResearchThemePage({ params }: PageProps) {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Institutional Header */}
-      <section className="section bg-white pt-32 pb-16 border-b border-gray-100">
+      <section className="section bg-surface-alt pt-32 pb-16 border-b border-gray-100">
         <div className="container mx-auto">
           <div className="max-w-4xl">
             <div className="flex items-center gap-4 mb-6">
@@ -48,7 +48,8 @@ export default function ResearchThemePage({ params }: PageProps) {
       </section>
 
       {/* Main Content: 2-Column Grid */}
-      <div className="container mx-auto py-24">
+      <div className="bg-white border-b border-gray-100">
+        <div className="container mx-auto py-24">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
           
           {/* Left: Research Outputs */}
@@ -88,13 +89,13 @@ export default function ResearchThemePage({ params }: PageProps) {
                 </p>
                 <ul className="space-y-4">
                   <li className="flex items-start gap-3 text-[9px] font-black text-primary uppercase tracking-widest italic">
-                    <BarChart3 size={14} className="text-secondary shrink-0" /> Real-time indicators
+                    <BarChart3 size={14} className="text-primary/40 shrink-0" /> Real-time indicators
                   </li>
                   <li className="flex items-start gap-3 text-[9px] font-black text-primary uppercase tracking-widest italic">
-                    <Database size={14} className="text-secondary shrink-0" /> Proprietary datasets
+                    <Database size={14} className="text-primary/40 shrink-0" /> Proprietary datasets
                   </li>
                   <li className="flex items-start gap-3 text-[9px] font-black text-primary uppercase tracking-widest italic">
-                    <Info size={14} className="text-secondary shrink-0" /> Policy briefs
+                    <Info size={14} className="text-primary/40 shrink-0" /> Policy briefs
                   </li>
                 </ul>
               </div>

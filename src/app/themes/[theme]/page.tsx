@@ -42,7 +42,7 @@ export default function TopicHubPage({ params }: PageProps) {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Institutional Header */}
-      <section className="section bg-white pt-32 pb-16 border-b border-gray-100">
+      <section className="section bg-surface-alt pt-32 pb-16 border-b border-gray-100">
         <div className="container mx-auto">
           <div className="max-w-4xl">
             <div className="flex items-center gap-4 mb-8">
@@ -59,7 +59,8 @@ export default function TopicHubPage({ params }: PageProps) {
         </div>
       </section>
 
-      <div className="container mx-auto px-6 py-24">
+      <div className="bg-white border-b border-gray-100">
+        <div className="container mx-auto py-24">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-20">
           
           {/* Left Column: Topic Intelligence Indicators */}
@@ -94,7 +95,7 @@ export default function TopicHubPage({ params }: PageProps) {
           <div className="lg:col-span-3 space-y-12">
             <div className="flex items-center justify-between border-b border-gray-100 pb-6 mb-8">
               <h2 className="text-3xl font-serif font-black text-primary italic">Thematic Publications</h2>
-              <span className="text-[10px] font-black text-secondary uppercase tracking-widest italic">{themePublications.length} Outputs Found</span>
+              <span className="text-[10px] font-black text-primary/60 uppercase tracking-widest italic">{themePublications.length} Outputs Found</span>
             </div>
 
             <div className="grid grid-cols-1 gap-12">
@@ -103,8 +104,8 @@ export default function TopicHubPage({ params }: PageProps) {
                   <PublicationCard key={pub.id} publication={pub} />
                 ))
               ) : (
-                <div className="p-20 border-2 border-dashed border-secondary/20 text-center">
-                  <p className="font-serif font-bold text-primary/30 italic text-2xl">No active publications for this pillar.</p>
+                <div className="p-20 border-2 border-dashed border-gray-100 text-center">
+                  <p className="font-serif font-bold text-gray-200 italic text-2xl">No active publications for this pillar.</p>
                 </div>
               )}
             </div>
