@@ -49,7 +49,7 @@ export default function RootLayout({
                    Intelligence
                 </Link>
                 <Link href="/about" className="nav-link">About</Link>
-                <Link href="/forum" className="nav-link text-primary font-black">Insights</Link>
+                <Link href="/forum" className="nav-link">Insights</Link>
               </nav>
 
               <div className="flex items-center gap-6">

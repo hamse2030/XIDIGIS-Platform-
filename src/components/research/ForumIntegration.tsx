@@ -29,22 +29,24 @@ export default function ForumIntegration() {
           </div>
           <span className="text-4xl font-serif font-black text-primary italic">45</span>
         </div>
-        <div className="bg-primary p-6 border border-secondary rounded-sm text-white">
-          <div className="flex items-center gap-3 mb-4">
-            <ShieldCheck size={20} className="text-secondary" />
-            <span className="text-[10px] font-black uppercase tracking-widest italic">AI Moderated</span>
+        <div className="xi-card border-l-4 border-l-secondary">
+          <div className="xi-card__body">
+            <div className="flex items-center gap-3 text-primary mb-4">
+              <ShieldCheck size={20} className="text-secondary" />
+              <span className="text-[10px] font-black uppercase tracking-widest italic">AI Moderated</span>
+            </div>
+            <span className="text-xs font-medium italic text-text-muted leading-relaxed block">
+              Bias detection & source verification active across all discussions.
+            </span>
           </div>
-          <span className="text-xs font-medium italic opacity-80 leading-relaxed block">
-            Bias detection & source verification active across all discussions.
-          </span>
         </div>
       </div>
 
       {/* Thematic Categories */}
       <div className="bg-white dark:bg-slate-800 border border-secondary/10 rounded-sm overflow-hidden">
-        <div className="bg-accent/30 px-8 py-4 border-b border-secondary/10 flex justify-between items-center">
-          <h3 className="font-serif font-black text-primary italic tracking-tight uppercase text-xs tracking-widest">Research Pillar Discussions</h3>
-          <TrendingUp size={16} className="text-secondary" />
+        <div className="bg-white px-8 py-4 border-b border-gray-100 flex justify-between items-center">
+          <h3 className="font-serif font-black text-primary italic tracking-tight uppercase text-[9px] tracking-widest">Research Pillar Discussions</h3>
+          <TrendingUp size={14} className="text-secondary" />
         </div>
         
         <div className="divide-y divide-secondary/5">
@@ -59,7 +61,7 @@ export default function ForumIntegration() {
             >
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="max-w-md">
-                  <h4 className="text-xl font-serif font-black text-primary dark:text-white mb-2 italic group-hover:text-secondary transition-colors">{cat.theme}</h4>
+                  <h4 className="text-xl font-serif font-black text-primary mb-2 italic group-hover:text-secondary transition-colors">{cat.theme}</h4>
                   <p className="text-[10px] font-bold text-primary/40 uppercase tracking-widest italic">Latest Intel: {cat.latest}</p>
                 </div>
                 
@@ -81,8 +83,8 @@ export default function ForumIntegration() {
           ))}
         </div>
 
-        <div className="p-8 bg-accent/30 text-center">
-          <button className="px-10 py-4 bg-primary text-white font-black uppercase tracking-widest text-xs shadow-xl shadow-primary/20 flex items-center gap-3 mx-auto hover:bg-[#6D360F] transition-all italic">
+        <div className="p-8 bg-surface-alt text-center border-t border-gray-100">
+          <button className="btn btn-primary px-10 py-4 text-xs italic mx-auto">
             Enter Collaborative Forum <ArrowUpRight size={16} />
           </button>
         </div>
