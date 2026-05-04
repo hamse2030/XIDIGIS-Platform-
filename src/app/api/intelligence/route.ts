@@ -10,7 +10,10 @@ export async function GET() {
     // and return structured intelligence data.
     
     if (!supabase) {
-      throw new Error("Supabase client not initialized. Check environment variables.");
+      return NextResponse.json({ 
+        success: false, 
+        message: "Supabase client not initialized. Using local fallbacks." 
+      });
     }
 
     const { data: metrics, error } = await supabase
