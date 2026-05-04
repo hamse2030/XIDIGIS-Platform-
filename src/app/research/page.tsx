@@ -6,6 +6,7 @@ import { publications, type ContentMetadata } from "@/lib/content/publications";
 import PublicationCard from "@/components/research/PublicationCard";
 import { BookOpen, FileText, Newspaper, ChevronRight, Search, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
+import Fuse from "fuse.js";
 
 const THEMES = [
   { key: "all", label: "All Outputs" },
@@ -22,14 +23,24 @@ export default function ResearchHub() {
   const [activeType, setActiveType] = useState("All");
   const [query, setQuery] = useState("");
 
+  const fuse = new Fuse(publications, {
+    keys: ["title", "abstract", "summary", "tags"],
+    threshold: 0.35,
+    distance: 100,
+    ignoreLocation: true
+  });
+
   const filtered = publications.filter((p) => {
     const matchTheme = activeTheme === "all" || p.theme === activeTheme;
     const matchType = activeType === "All" || p.type === activeType;
-    const matchQuery =
-      !query ||
-      p.title.toLowerCase().includes(query.toLowerCase()) ||
-      p.abstract.toLowerCase().includes(query.toLowerCase()) ||
-      p.tags.some((t) => t.toLowerCase().includes(query.toLowerCase()));
+    
+    if (query.trim() === "") {
+      return matchTheme && matchType;
+    }
+
+    const searchResults = fuse.search(query);
+    const matchQuery = searchResults.some(result => result.item.id === p.id);
+    
     return matchTheme && matchType && matchQuery;
   });
 
