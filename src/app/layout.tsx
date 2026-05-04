@@ -3,6 +3,7 @@ import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import Link from "next/link";
 import { MessageSquare, Globe, ShieldCheck, User, Search, Activity } from "lucide-react";
 
 const playfair = Playfair_Display({
