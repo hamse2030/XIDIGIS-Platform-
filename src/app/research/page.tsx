@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { publications, type ContentMetadata } from "@/lib/content/publications";
 import PublicationCard from "@/components/research/PublicationCard";
@@ -22,15 +22,36 @@ export default function ResearchHub() {
   const [activeTheme, setActiveTheme] = useState("all");
   const [activeType, setActiveType] = useState("All");
   const [query, setQuery] = useState("");
+  const [dynamicPublications, setDynamicPublications] = useState<ContentMetadata[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const fuse = new Fuse(publications, {
+  useEffect(() => {
+    async function fetchDocs() {
+      try {
+        const response = await fetch('/api/publications');
+        const result = await response.json();
+        if (result.success) {
+          setDynamicPublications(result.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch publications");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchDocs();
+  }, []);
+
+  const displayPublications = dynamicPublications.length > 0 ? dynamicPublications : publications;
+
+  const fuse = new Fuse(displayPublications, {
     keys: ["title", "abstract", "summary", "tags"],
     threshold: 0.35,
     distance: 100,
     ignoreLocation: true
   });
 
-  const filtered = publications.filter((p) => {
+  const filtered = displayPublications.filter((p) => {
     const matchTheme = activeTheme === "all" || p.theme === activeTheme;
     const matchType = activeType === "All" || p.type === activeType;
     
@@ -45,10 +66,10 @@ export default function ResearchHub() {
   });
 
   const stats = [
-    { label: "Total Outputs", value: publications.length, icon: BookOpen },
-    { label: "Policy Briefs", value: publications.filter((p) => p.type === "Brief").length, icon: Newspaper },
-    { label: "Research Papers", value: publications.filter((p) => p.type === "Paper").length, icon: FileText },
-    { label: "Full Reports", value: publications.filter((p) => p.type === "Report").length, icon: BookOpen },
+    { label: "Total Outputs", value: displayPublications.length, icon: BookOpen },
+    { label: "Policy Briefs", value: displayPublications.filter((p) => p.type === "Brief").length, icon: Newspaper },
+    { label: "Research Papers", value: displayPublications.filter((p) => p.type === "Paper").length, icon: FileText },
+    { label: "Full Reports", value: displayPublications.filter((p) => p.type === "Report").length, icon: BookOpen },
   ];
 
   return (
