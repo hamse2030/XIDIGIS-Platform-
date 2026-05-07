@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { FileText, Download, Share2, ExternalLink, Calendar, User } from "lucide-react";
+import { FileText, Download, Share2, ExternalLink, Calendar, User, Eye } from "lucide-react";
 import { ContentMetadata } from "@/lib/content/publications";
+import PDFViewer from "./PDFViewer";
 
 interface PublicationCardProps {
   publication: ContentMetadata;
@@ -10,74 +12,85 @@ interface PublicationCardProps {
 }
 
 export default function PublicationCard({ publication, showPreview = false }: PublicationCardProps) {
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+
   const generateCitation = () => {
     return `XIDIGIS (${publication.date.split(' ').pop()}). "${publication.title}." XIDIGIS Strategic Research Series.`;
   };
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="xi-card group"
-    >
-      <div className="xi-card__body">
-        <div className="flex justify-between items-start mb-6">
-          <div className="flex gap-2">
-            <span className="px-2 py-0.5 border border-primary text-primary text-[8px] font-black uppercase tracking-widest italic rounded-sm">{publication.type}</span>
-            <span className="px-2 py-0.5 bg-surface-alt border border-border text-text-muted text-[8px] font-black uppercase tracking-widest italic rounded-sm">{publication.category}</span>
-          </div>
-          <div className="flex gap-2">
-            <button 
-              onClick={() => {
-                navigator.clipboard.writeText(generateCitation());
-                alert("Citation copied to clipboard!");
-              }}
-              className="p-2 hover:bg-surface-alt rounded-full transition-colors text-text-muted hover:text-primary" 
-              title="Copy Citation"
-            >
-              <Share2 size={14} />
-            </button>
-            <a href={`/research/reports/${publication.slug}`} className="p-2 hover:bg-surface-alt rounded-full transition-colors text-text-muted hover:text-primary" title="View Report">
-              <ExternalLink size={14} />
-            </a>
-            <button className="p-2 hover:bg-surface-alt rounded-full transition-colors text-text-muted hover:text-primary" title="Download PDF">
-              <Download size={14} />
-            </button>
-          </div>
-        </div>
-
-        <h3 className="text-xl font-serif font-black text-primary mb-4 italic leading-tight group-hover:opacity-80 transition-opacity">
-          {publication.title}
-        </h3>
-
-        <p className="text-[10px] text-text-muted mb-8 leading-relaxed italic">
-          {publication.abstract}
-        </p>
-
-        <div className="flex justify-between items-center pt-6 border-t border-gray-100">
-          <div className="flex items-center gap-2 text-[9px] font-black text-text-muted uppercase tracking-widest italic">
-            <User size={12} /> {publication.author}
-          </div>
-          <div className="flex items-center gap-2 text-[9px] font-black text-text-muted uppercase tracking-widest italic">
-            <Calendar size={12} /> {publication.date}
-          </div>
-        </div>
-
-        {showPreview && (
-          <div className="mt-8 relative aspect-[4/3] bg-surface-alt border border-border rounded overflow-hidden">
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-200">
-              <FileText size={48} />
-              <span className="text-[10px] font-black uppercase mt-2 tracking-widest italic">Institutional Preview</span>
+    <>
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        whileHover={{ y: -4 }}
+        className="xi-card group shadow-elevated bg-white"
+      >
+        <div className="p-8">
+          <div className="flex justify-between items-start mb-8">
+            <div className="flex gap-2">
+              <span className="px-3 py-1 bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest italic rounded-sm">{publication.type}</span>
+              <span className="px-3 py-1 bg-ivory-200 border border-ivory-500 text-slate-500 text-[9px] font-black uppercase tracking-widest italic rounded-sm">{publication.category}</span>
             </div>
-            <div className="absolute inset-0 bg-primary/0 hover:bg-primary/5 transition-colors flex items-center justify-center opacity-0 hover:opacity-100 cursor-pointer">
-              <button className="px-4 py-2 bg-white text-primary text-[10px] font-black uppercase tracking-widest italic shadow-xl flex items-center gap-2 rounded-sm border border-border">
-                Open Full Viewer <ExternalLink size={12} />
+            <div className="flex gap-3">
+              <button 
+                onClick={() => setIsViewerOpen(true)}
+                className="p-2.5 bg-ivory-100 hover:bg-slate-900 hover:text-white rounded transition-all text-slate-400 shadow-sm border border-ivory-200" 
+                title="View Document"
+              >
+                <Eye size={14} />
+              </button>
+              <button className="p-2.5 bg-ivory-100 hover:bg-slate-900 hover:text-white rounded transition-all text-slate-400 shadow-sm border border-ivory-200" title="Download PDF">
+                <Download size={14} />
               </button>
             </div>
           </div>
-        )}
-      </div>
-    </motion.div>
+
+          <h3 className="text-2xl font-serif font-black text-slate-900 mb-4 italic leading-tight group-hover:text-slate-700 transition-colors">
+            {publication.title}
+          </h3>
+
+          <p className="text-[11px] text-slate-500 mb-10 leading-relaxed italic line-clamp-3">
+            {publication.abstract}
+          </p>
+
+          <div className="flex justify-between items-center pt-8 border-t border-ivory-200">
+            <div className="flex items-center gap-2.5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              <User size={12} className="text-ivory-500" /> {publication.author}
+            </div>
+            <div className="flex items-center gap-2.5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              <Calendar size={12} className="text-ivory-500" /> {publication.date}
+            </div>
+          </div>
+
+          {showPreview && (
+            <div 
+              onClick={() => setIsViewerOpen(true)}
+              className="mt-10 relative aspect-[16/10] bg-ivory-100 border border-ivory-500 rounded-sm overflow-hidden group/preview cursor-pointer"
+            >
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-ivory-500 transition-transform group-hover/preview:scale-110">
+                <FileText size={48} strokeWidth={1} />
+                <span className="text-[10px] font-black uppercase mt-4 tracking-[0.2em]">Institutional Preview</span>
+              </div>
+              <div className="absolute inset-0 bg-slate-900/0 group-hover/preview:bg-slate-900/40 transition-all flex items-center justify-center opacity-0 group-hover/preview:opacity-100">
+                <button className="px-6 py-3 bg-white text-slate-900 text-[10px] font-black uppercase tracking-widest italic shadow-elevated flex items-center gap-3 rounded-sm">
+                  Launch Interactive Viewer <ExternalLink size={14} />
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </motion.div>
+
+      <PDFViewer 
+        isOpen={isViewerOpen}
+        onClose={() => setIsViewerOpen(false)}
+        title={publication.title}
+        url={publication.pdfUrl || "#"}
+        author={publication.author}
+        date={publication.date}
+      />
+    </>
   );
 }
+
 

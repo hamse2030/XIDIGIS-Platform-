@@ -1,0 +1,15 @@
+{
+  "weights": {
+    "climate": 0.35,
+    "foodSecurity": 0.35,
+    "security": 0.2,
+    "market": 0.1
+  },
+  "thresholds": {
+    "critical": 75,
+    "severe": 55,
+    "high": 35,
+    "moderate": 15
+  }
+}
+
