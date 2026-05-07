@@ -29,39 +29,79 @@ export default function IntelligenceSuite() {
   return (
     <div className="min-h-screen bg-ivory-50 pb-20">
       
-      {/* 1. INSTITUTIONAL RISK BANNER */}
-      <section className="bg-white border-b border-ivory-200 pt-12 pb-12">
-        <div className="max-w-content grid grid-cols-12 gap-8 items-center">
-          <div className="col-span-12 lg:col-span-5">
-            <div className="xi-eyebrow">Strategic Intelligence Feed</div>
-            <h1 className="text-4xl font-serif font-black text-slate-900 italic leading-tight mb-4">Regional Risk Monitoring</h1>
-            <p className="text-slate-500 font-medium italic max-w-md">Bridging data gaps through high-fidelity multi-indicator forecasting and real-time geospatial analysis.</p>
-          </div>
-          <div className="col-span-12 lg:col-span-7 flex justify-end">
-            <div className="xi-card p-8 flex items-center gap-12 border-l-4 border-l-brand-amber min-w-[500px]">
-              <div>
-                <div className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Composite Risk Index</div>
-                <div className="flex items-end gap-3">
-                  <span className="text-6xl font-serif font-black text-slate-900 leading-none">{compositeScore}</span>
-                  <span className="text-sm font-bold text-slate-400 mb-1 uppercase tracking-tighter">/ 100</span>
+      {/* 1. INSTITUTIONAL STRATEGIC OVERVIEW */}
+      <section className="bg-white border-b border-ivory-200 pt-16 pb-16">
+        <div className="max-w-content">
+          <div className="xi-eyebrow mb-4">Strategic Intelligence Command</div>
+          <div className="grid grid-cols-12 gap-12 items-start">
+            <div className="col-span-12 lg:col-span-5">
+              <h1 className="text-5xl font-serif font-black text-slate-900 italic leading-tight mb-6">Regional Early Warning Infrastructure</h1>
+              <p className="text-slate-500 font-medium italic leading-relaxed mb-10 text-lg">
+                The XIDIGIS Intelligence Hub is an institutional situational awareness platform for monitoring 
+                emerging drought conditions, food security deterioration, and regional instability trajectories.
+              </p>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-6 bg-ivory-50 border border-ivory-200 rounded">
+                  <div className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-2">Active Alerts</div>
+                  <div className="text-3xl font-serif font-black text-brand-burnt">04</div>
+                  <div className="text-[9px] font-bold text-slate-500 mt-1 uppercase italic">Critical Severity</div>
+                </div>
+                <div className="p-6 bg-ivory-50 border border-ivory-200 rounded">
+                  <div className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-2">Regional Trend</div>
+                  <div className="text-3xl font-serif font-black text-brand-amber">ELEVATED</div>
+                  <div className="text-[9px] font-bold text-slate-500 mt-1 uppercase italic">Worsening Persistence</div>
                 </div>
               </div>
-              <div className="h-16 w-px bg-ivory-200" />
-              <div className="flex-1">
-                <div className="flex justify-between items-center mb-3">
-                  <span className="text-[10px] font-black uppercase text-brand-amber tracking-widest">Status: Elevated</span>
-                  <span className="text-[10px] font-bold text-slate-400">TREND: WORSENING</span>
+            </div>
+
+            <div className="col-span-12 lg:col-span-7">
+              <div className="xi-card p-10 bg-white shadow-elevated border-l-8 border-l-brand-burnt relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-4 opacity-5">
+                  <ShieldAlert size={120} />
                 </div>
-                <div className="w-full h-2 bg-ivory-200 rounded-full overflow-hidden">
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: `${compositeScore}%` }}
-                    className={`h-full ${getSeverityColor(compositeScore)}`}
-                  />
-                </div>
-                <div className="mt-3 text-[9px] font-bold text-slate-400 uppercase flex gap-4">
-                  <span className="flex items-center gap-1"><Database size={10} /> CHIRPS v2.0</span>
-                  <span className="flex items-center gap-1"><Activity size={10} /> IPC PHASE 3</span>
+                
+                <div className="flex flex-col md:flex-row gap-12 items-center">
+                  <div className="text-center md:text-left">
+                    <div className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Composite Risk Index</div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-8xl font-serif font-black text-slate-900 tracking-tighter">72</span>
+                      <span className="text-xl font-bold text-slate-300">/ 100</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex-1 w-full">
+                    <div className="space-y-6">
+                      <div>
+                        <div className="flex justify-between text-[10px] font-black uppercase tracking-widest mb-2">
+                          <span className="text-slate-900">Current Risk Intensity</span>
+                          <span className="text-brand-burnt">SEVERE PRESSURE</span>
+                        </div>
+                        <div className="w-full h-3 bg-ivory-200 rounded-full overflow-hidden">
+                          <motion.div 
+                            initial={{ width: 0 }}
+                            animate={{ width: '72%' }}
+                            className="h-full bg-brand-burnt"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-3 gap-6 pt-4 border-t border-ivory-200">
+                        <div>
+                          <div className="text-[9px] font-black text-slate-400 uppercase mb-1">Climate Stress</div>
+                          <div className="text-sm font-black text-slate-900 italic">42% (High)</div>
+                        </div>
+                        <div>
+                          <div className="text-[9px] font-black text-slate-400 uppercase mb-1">Food Security</div>
+                          <div className="text-sm font-black text-slate-900 italic">Phase 3+</div>
+                        </div>
+                        <div>
+                          <div className="text-[9px] font-black text-slate-400 uppercase mb-1">Instability</div>
+                          <div className="text-sm font-black text-slate-900 italic">Elevated</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -32,22 +32,34 @@ export async function GET() {
 
   if (idxError) return NextResponse.json({ error: idxError.message }, { status: 500 });
 
-  // 2. Map indices to GeoJSON
+  // 2. Map indices to GeoJSON layers
   const features = SOMALILAND_GEOJSON.features.map(feature => {
-    // Find the latest anomaly for this region
     const regionIndices = (indices as any[])?.filter((idx: any) => {
       const regionData = Array.isArray(idx.regions) ? idx.regions[0] : idx.regions;
       return regionData?.name === feature.properties.name;
     });
+
+    const climateIdx = regionIndices?.find((idx: any) => idx.name === 'CLIMATE_STRESS_INDEX');
+    const foodIdx = regionIndices?.find((idx: any) => idx.name === 'FOOD_SECURITY_INDEX');
+    const securityIdx = regionIndices?.find((idx: any) => idx.name === 'SECURITY_INDEX');
     
-    const latestAnomaly = regionIndices?.find((idx: any) => idx.name.includes('ANOMALY'));
-    
+    // Calculate a mock composite if indices aren't fully populated yet
+    const cVal = Number(climateIdx?.value || 0);
+    const fVal = Number(foodIdx?.value || 0);
+    const sVal = Number(securityIdx?.value || 0);
+    const compositeRisk = Math.round((cVal * 0.4) + (fVal * 0.4) + (sVal * 0.2));
+
     return {
       ...feature,
       properties: {
         ...feature.properties,
-        score: latestAnomaly ? Math.abs(Math.min(0, Number(latestAnomaly.value))) : 0, // Normalized 0-100
-        rawValue: latestAnomaly?.value || 0
+        compositeRisk,
+        layers: {
+          climate: cVal,
+          food: fVal,
+          security: sVal,
+          forecast: Math.min(100, compositeRisk + 5) // Mock forecast
+        }
       }
     };
   });

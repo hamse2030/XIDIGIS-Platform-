@@ -20,6 +20,7 @@ export default function DroughtMap({ onRegionSelect }: DroughtMapProps) {
   const [timeStep, setTimeStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeLayer, setActiveLayer] = useState<'compositeRisk' | 'climate' | 'food' | 'security' | 'forecast'>('compositeRisk');
 
   useEffect(() => {
     fetch('/api/intelligence/map')
@@ -37,7 +38,10 @@ export default function DroughtMap({ onRegionSelect }: DroughtMapProps) {
 
   // ── Choropleth Styling (Semantic Brand Colors) ──
   const getStyle = (feature: any) => {
-    const score = feature.properties.score || 0;
+    let score = 0;
+    if (activeLayer === 'compositeRisk') score = feature.properties.compositeRisk || 0;
+    else score = feature.properties.layers?.[activeLayer] || 0;
+
     let color = "#0F9D88"; // brand-teal (Safe)
     if (score >= 75) color = "#B3472A";      // brand-burnt (Critical)
     else if (score >= 55) color = "#D9534F"; // brand-deep-orange (Severe)
@@ -100,7 +104,30 @@ export default function DroughtMap({ onRegionSelect }: DroughtMapProps) {
         )}
       </MapContainer>
 
-      {/* 2. TIME SLIDER (Institutional Pattern) */}
+      {/* 2. LAYER SELECTOR (Strategic Ops style) */}
+      <div className="absolute top-6 left-6 z-[1000] flex flex-col gap-2">
+        {[
+          { id: 'compositeRisk', label: 'Composite Risk' },
+          { id: 'climate', label: 'Climate Stress' },
+          { id: 'food', label: 'Food Security' },
+          { id: 'security', label: 'Security Density' },
+          { id: 'forecast', label: '90D Forecast' }
+        ].map((layer) => (
+          <button
+            key={layer.id}
+            onClick={() => setActiveLayer(layer.id as any)}
+            className={`px-4 py-2 rounded-sm text-[9px] font-black uppercase tracking-widest transition-all text-left border ${
+              activeLayer === layer.id 
+                ? 'bg-slate-900 text-white border-slate-900 shadow-md translate-x-1' 
+                : 'bg-white/90 text-slate-500 border-ivory-200 hover:border-slate-400'
+            }`}
+          >
+            {layer.label}
+          </button>
+        ))}
+      </div>
+
+      {/* 3. TIME SLIDER (Institutional Pattern) */}
       <div className="absolute bottom-6 left-6 right-6 z-[1000]">
         <div className="xi-card bg-white/90 backdrop-blur-md p-4 max-w-xl mx-auto border-ivory-500 shadow-elevated">
           <div className="flex items-center gap-5">

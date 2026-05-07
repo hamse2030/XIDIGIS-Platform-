@@ -36,26 +36,25 @@ export function calculateRiskFromMetrics(
   const mScore = marketVal;
 
   const totalScore = 
-    (cScore * weights.climate) + 
-    (fScore * weights.foodSecurity) + 
-    (sScore * weights.security) +
-    (mScore * weights.market);
+    (cScore * 0.4) + 
+    (fScore * 0.4) + 
+    (sScore * 0.2);
 
   let level: RiskLevel = 'Low';
-  if (totalScore >= thresholds.critical) level = 'Critical';
-  else if (totalScore >= thresholds.severe) level = 'Severe';
-  else if (totalScore >= thresholds.high) level = 'High';
-  else if (totalScore >= thresholds.moderate) level = 'Moderate';
+  if (totalScore >= 75) level = 'Critical';
+  else if (totalScore >= 55) level = 'Severe';
+  else if (totalScore >= 35) level = 'High';
+  else if (totalScore >= 15) level = 'Moderate';
 
   return {
     score: Math.round(totalScore),
     level,
     trend: totalScore > 40 ? 'Worsening' : 'Stable',
     indicators: [
-      { label: 'Climate Anomaly', value: climateVal, status: cScore > 30 ? 'Warning' : 'Normal' },
-      { label: 'IPC Phase', value: foodVal, status: foodVal >= 3 ? 'Alert' : 'Normal' },
-      { label: 'Security Context', value: securityVal, status: sScore > 40 ? 'Warning' : 'Normal' },
-      { label: 'Market Volatility', value: marketVal, status: marketVal > 15 ? 'Warning' : 'Normal' }
+      { label: 'Climate Anomaly', value: climateVal, status: cScore > 40 ? 'Alert' : (cScore > 20 ? 'Warning' : 'Normal') },
+      { label: 'IPC Phase', value: foodVal, status: foodVal >= 4 ? 'Alert' : (foodVal >= 3 ? 'Warning' : 'Normal') },
+      { label: 'Security Context', value: securityVal, status: sScore > 50 ? 'Alert' : (sScore > 25 ? 'Warning' : 'Normal') },
+      { label: 'Market Volatility', value: marketVal, status: marketVal > 30 ? 'Warning' : 'Normal' }
     ]
   };
 }
