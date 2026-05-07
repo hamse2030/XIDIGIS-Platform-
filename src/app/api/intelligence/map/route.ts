@@ -50,10 +50,21 @@ export async function GET(request: Request) {
     const foodIdx = regionIndices?.find((idx) => idx.name === 'FOOD_SECURITY_INDEX');
     const securityIdx = regionIndices?.find((idx) => idx.name === 'SECURITY_INDEX');
     
+    const regionMocks: Record<string, {c: number, f: number, s: number}> = {
+      "Maroodi Jeex": { c: 20, f: 30, s: 40 },
+      "Awdal": { c: 40, f: 20, s: 15 },
+      "Sahil": { c: 60, f: 55, s: 20 },
+      "Togdheer": { c: 80, f: 75, s: 60 },
+      "Sool": { c: 85, f: 80, s: 90 },
+      "Sanaag": { c: 70, f: 85, s: 65 }
+    };
+
+    const mock = regionMocks[feature.properties.name as string] || { c: 50, f: 50, s: 50 };
+    
     // Calculate a mock composite if indices aren't fully populated yet
-    const cVal = Number(climateIdx?.value || 0);
-    const fVal = Number(foodIdx?.value || 0);
-    const sVal = Number(securityIdx?.value || 0);
+    const cVal = climateIdx?.value ? Number(climateIdx.value) : mock.c;
+    const fVal = foodIdx?.value ? Number(foodIdx.value) : mock.f;
+    const sVal = securityIdx?.value ? Number(securityIdx.value) : mock.s;
     const compositeRisk = Math.round((cVal * 0.4) + (fVal * 0.4) + (sVal * 0.2));
 
     return {
@@ -65,7 +76,7 @@ export async function GET(request: Request) {
           climate: cVal,
           food: fVal,
           security: sVal,
-          forecast: Math.min(100, compositeRisk + 5) // Mock forecast
+          forecast: Math.min(100, compositeRisk + 15) // Worsening forecast mock
         }
       }
     };
