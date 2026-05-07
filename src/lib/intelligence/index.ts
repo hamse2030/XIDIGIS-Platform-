@@ -29,7 +29,7 @@ export function calculateRiskFromMetrics(
 ): RiskOutput {
   const { weights, thresholds } = riskConfig;
 
-  // Normalize inputs (simple linear mapping for now)
+  // Normalize inputs
   const cScore = Math.min(Math.max(Math.abs(climateVal), 0), 100);
   const fScore = (foodVal / 5) * 100;
   const sScore = (securityVal / 10) * 100;
@@ -65,7 +65,6 @@ export function calculateRiskFromMetrics(
  * Composes specialized engines and applies institutional weights.
  */
 export async function calculateRegionalRisk(regionId: string): Promise<RiskOutput> {
-  // Execute all engines in parallel
   const [climate, food, security, market] = await Promise.all([
     getClimateScore(regionId),
     getFoodSecurityScore(regionId),
