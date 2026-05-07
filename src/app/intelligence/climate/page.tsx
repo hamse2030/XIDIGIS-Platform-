@@ -1,158 +1,157 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ThermometerSun, AlertTriangle, CloudRain, Activity, Database, ChevronRight } from "lucide-react";
-import { calculateRiskFromMetrics } from "@/lib/intelligence/riskEngine";
+import { useState, useEffect } from "react";
+import { 
+  CloudRain, ThermometerSun, AlertTriangle, 
+  ArrowLeft, Calendar, Download, Info 
+} from "lucide-react";
 import Link from "next/link";
+import { 
+  LineChart, Line, XAxis, YAxis, CartesianGrid, 
+  Tooltip, ResponsiveContainer, AreaChart, Area 
+} from 'recharts';
 
-// Simulated CHIRPS-based regional data
-const REGIONS = [
-  { name: "Togdheer", rainfallAnomaly: -42, ipcPhase: 3, security: 2 },
-  { name: "Sool",     rainfallAnomaly: -58, ipcPhase: 4, security: 4 },
-  { name: "Sanaag",   rainfallAnomaly: -31, ipcPhase: 3, security: 2 },
-  { name: "Woqooyi",  rainfallAnomaly: -12, ipcPhase: 2, security: 1 },
-  { name: "Awdal",    rainfallAnomaly: -8,  ipcPhase: 2, security: 1 },
-  { name: "Sahil",    rainfallAnomaly: -22, ipcPhase: 2, security: 2 },
+const MOCK_HISTORICAL_DATA = [
+  { month: 'Oct 25', anomaly: -5 },
+  { month: 'Nov 25', anomaly: -12 },
+  { month: 'Dec 25', anomaly: -20 },
+  { month: 'Jan 26', anomaly: -35 },
+  { month: 'Feb 26', anomaly: -42 },
+  { month: 'Mar 26', anomaly: -18 },
+  { month: 'Apr 26', anomaly: -14 },
 ];
 
-const LEVEL_COLORS: Record<string, string> = {
-  Critical: "text-red-600 bg-red-50 border-red-200",
-  Severe:   "text-orange-600 bg-orange-50 border-orange-200",
-  High:     "text-yellow-700 bg-yellow-50 border-yellow-200",
-  Moderate: "text-blue-600 bg-blue-50 border-blue-200",
-  Low:      "text-emerald-600 bg-emerald-50 border-emerald-200",
-};
-
 export default function ClimateIntelligence() {
-  const regionalRisks = REGIONS.map((r) => ({
-    ...r,
-    risk: calculateRiskFromMetrics(r.rainfallAnomaly, r.ipcPhase, r.security),
-  }));
-
-  const worstRegion = [...regionalRisks].sort((a, b) => b.risk.score - a.risk.score)[0];
-  const avgScore = Math.round(regionalRisks.reduce((s, r) => s + r.risk.score, 0) / regionalRisks.length);
-
   return (
-    <div className="min-h-screen">
-      {/* Institutional Header */}
-      <section className="section bg-surface-alt pt-32 pb-16 border-b border-gray-100">
-        <div className="container mx-auto">
-          <div className="max-w-4xl">
-            <div className="flex items-center gap-4 mb-8">
-              <Link href="/intelligence" className="xi-eyebrow hover:text-primary transition-colors">
-                Intelligence Suite <ChevronRight size={14} />
-              </Link>
-              <span className="text-[10px] font-black uppercase tracking-widest text-text-muted">Climate Intelligence</span>
+    <div className="min-h-screen bg-ivory-50 pb-20">
+      
+      {/* 1. INSTITUTIONAL HEADER */}
+      <header className="bg-white border-b border-ivory-200 py-10">
+        <div className="max-w-content">
+          <Link href="/intelligence" className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors mb-6">
+            <ArrowLeft size={14} /> Back to Intelligence Hub
+          </Link>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+            <div>
+              <div className="xi-eyebrow mb-2">Climate Subsystem — CHIRPS v2.0</div>
+              <h1 className="text-4xl font-serif font-black italic text-slate-900">Climate Resilience & Drought Monitoring</h1>
             </div>
-            <div className="flex flex-col md:flex-row justify-between items-end gap-12">
-              <div>
-                <div className="flex items-center gap-4 mb-6">
-                  <ThermometerSun size={32} className="text-primary" />
-                  <h1 className="text-primary font-serif italic tracking-tighter">Climate Intelligence Hub</h1>
-                </div>
-                <p className="text-lg text-text-muted leading-relaxed">
-                  CHIRPS satellite-driven anomaly detection and multi-region drought risk scoring across Somaliland's pastoral zones.
-                </p>
+            <div className="flex gap-4">
+              <button className="px-6 py-2.5 bg-ivory-200 border border-ivory-500 rounded text-[9px] font-black uppercase tracking-widest hover:bg-ivory-500 transition-all flex items-center gap-2">
+                <Download size={14} /> Export Dataset
+              </button>
+              <div className="px-4 py-2.5 bg-slate-900 text-white rounded text-[9px] font-black uppercase tracking-widest flex items-center gap-2">
+                <Calendar size={14} /> LAST UPDATE: 07 MAY 2026
               </div>
+            </div>
+          </div>
+        </div>
+      </header>
 
-              <div className="grid grid-cols-3 gap-8 shrink-0 pb-2">
+      <main className="max-w-content py-16 space-y-12">
+        
+        {/* 2. STRATEGIC METRICS GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {[
+            { label: 'Rainfall Anomaly', value: '-14%', sub: '30d Percentile', icon: CloudRain, color: 'text-brand-amber' },
+            { label: 'Drought Intensity', value: 'Moderate', sub: 'Persistence Score', icon: AlertTriangle, color: 'text-brand-amber' },
+            { label: 'Dry Day Persistence', value: '18 Days', sub: 'Consecutive', icon: ThermometerSun, color: 'text-brand-burnt' },
+            { label: 'Seasonal Outlook', value: 'Below Avg', sub: '90D Projection', icon: Info, color: 'text-slate-400' }
+          ].map((m, i) => (
+            <div key={i} className="xi-card p-6 border-l-2 border-l-ivory-500">
+              <div className="flex justify-between items-start mb-4">
+                <div className="text-[9px] font-black uppercase text-slate-400 tracking-widest">{m.label}</div>
+                <m.icon size={16} className={m.color} />
+              </div>
+              <div className="text-2xl font-serif font-black text-slate-900 italic">{m.value}</div>
+              <div className="text-[9px] font-bold text-slate-400 uppercase italic mt-1">{m.sub}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* 3. TEMPORAL ANOMALY TRACKER */}
+        <div className="grid grid-cols-12 gap-8">
+          <div className="col-span-12 lg:col-span-8">
+            <div className="xi-card p-10 h-full">
+              <div className="flex justify-between items-center mb-10">
+                <div>
+                  <h3 className="text-lg font-serif font-black italic text-slate-900">Historical Anomaly Persistence</h3>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase italic">Monthly deviation from 30-year CHIRPS baseline</p>
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-brand-amber" />
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-500">Anomaly %</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="h-[400px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={MOCK_HISTORICAL_DATA}>
+                    <defs>
+                      <linearGradient id="colorAnomaly" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#D19F2B" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#D19F2B" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F0EFEA" />
+                    <XAxis 
+                      dataKey="month" 
+                      axisLine={false} 
+                      tickLine={false} 
+                      tick={{ fontSize: 10, fontWeight: 900, fill: '#94a3b8' }}
+                      dy={10}
+                    />
+                    <YAxis 
+                      axisLine={false} 
+                      tickLine={false} 
+                      tick={{ fontSize: 10, fontWeight: 900, fill: '#94a3b8' }}
+                    />
+                    <Tooltip 
+                      contentStyle={{ backgroundColor: '#1F2937', border: 'none', borderRadius: '4px', padding: '12px' }}
+                      itemStyle={{ color: '#fff', fontSize: '10px', fontWeight: 900, textTransform: 'uppercase' }}
+                      labelStyle={{ color: '#94a3b8', fontSize: '8px', marginBottom: '4px', fontWeight: 900 }}
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="anomaly" 
+                      stroke="#D19F2B" 
+                      strokeWidth={3}
+                      fillOpacity={1} 
+                      fill="url(#colorAnomaly)" 
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-span-12 lg:col-span-4">
+            <div className="xi-card p-10 bg-slate-900 text-white h-full border-none">
+              <div className="xi-eyebrow text-slate-400 mb-6">Analytical Insight</div>
+              <h4 className="text-2xl font-serif font-black italic mb-6">Regional Deterioration Patterns</h4>
+              <p className="text-slate-400 text-sm leading-relaxed italic mb-8">
+                Current observations suggest that the **Maroodi Jeex** and **Togdheer** administrative units are experiencing 
+                consecutive months of below-average precipitation.
+              </p>
+              <div className="space-y-6">
                 {[
-                  { label: "Avg. Risk Score", value: avgScore },
-                  { label: "Alert Regions", value: regionalRisks.filter(r => r.risk.score > 35).length },
-                  { label: "Data Source", value: "CHIRPS" },
+                  { label: 'Anomaly Persistence', value: 'High', color: 'text-brand-amber' },
+                  { label: 'Forecast Confidence', value: '82%', color: 'text-white' },
+                  { label: 'Ingestion Status', value: 'Nominal', color: 'text-emerald-400' }
                 ].map((s, i) => (
-                  <div key={i} className="text-center">
-                    <span className="block text-3xl font-serif font-black italic text-primary mb-1">{s.value}</span>
-                    <span className="text-[9px] font-black uppercase tracking-widest text-text-muted">{s.label}</span>
+                  <div key={i} className="flex justify-between items-center py-4 border-t border-white/10">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">{s.label}</span>
+                    <span className={`text-xs font-black italic ${s.color}`}>{s.value}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Priority Alert */}
-      {worstRegion.risk.score > 35 && (
-        <div className="bg-white py-5 border-y border-gray-100">
-          <div className="container mx-auto flex items-center gap-4">
-            <AlertTriangle size={18} className="text-primary animate-pulse" />
-            <span className="font-black uppercase tracking-widest text-[10px] text-primary italic">
-              Strategic Alert: {worstRegion.name} — Risk Index {worstRegion.risk.score}/100 ({worstRegion.risk.level})
-            </span>
-          </div>
-        </div>
-      )}
-
-      {/* Regional Risk Grid */}
-      <section className="section bg-white">
-        <div className="container mx-auto">
-          <div className="flex items-center justify-between mb-12">
-            <h2 className="text-3xl font-serif font-black text-primary italic">Regional Risk Assessment</h2>
-            <div className="flex items-center gap-2 text-[10px] font-black text-text-muted uppercase tracking-widest">
-              <Database size={14} /> Updated: May 2026
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-            {regionalRisks.map((r, i) => (
-              <motion.div
-                key={r.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}
-                className="xi-card group"
-              >
-                <div className="xi-card__body">
-                  {/* Risk score bar */}
-                  <div className="h-1 bg-surface-alt rounded-full mb-8 overflow-hidden border border-border">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${r.risk.score}%` }}
-                      transition={{ duration: 1, delay: i * 0.1 }}
-                      className={`h-full ${r.risk.score > 55 ? "bg-red-500" : r.risk.score > 35 ? "bg-orange-400" : "bg-emerald-500"}`}
-                    />
-                  </div>
-
-                  <div className="flex justify-between items-start mb-6">
-                    <h3 className="text-2xl font-serif font-black text-primary italic">{r.name}</h3>
-                    <span className={`px-2 py-0.5 text-[8px] font-black uppercase tracking-widest border rounded ${LEVEL_COLORS[r.risk.level]}`}>
-                      {r.risk.level}
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-4 mb-8">
-                    <div className="text-center p-4 bg-white border border-border">
-                      <span className="block text-2xl font-serif font-black italic text-primary">{r.rainfallAnomaly}%</span>
-                      <span className="text-[8px] font-black text-text-muted uppercase tracking-widest">Rainfall</span>
-                    </div>
-                    <div className="text-center p-4 bg-white border border-border">
-                      <span className="block text-2xl font-serif font-black italic text-primary">IPC {r.ipcPhase}</span>
-                      <span className="text-[8px] font-black text-text-muted uppercase tracking-widest">Phase</span>
-                    </div>
-                    <div className="text-center p-4 bg-white border border-border">
-                      <span className="block text-2xl font-serif font-black italic text-primary">{r.risk.score}</span>
-                      <span className="text-[8px] font-black text-text-muted uppercase tracking-widest">Risk Index</span>
-                    </div>
-                  </div>
-
-                  <p className="text-[10px] text-text-muted italic leading-relaxed">{r.risk.trend === "Worsening" ? "⚠ " : "✓ "}{r.risk.trend} — {r.risk.indicators[0].value < -30 ? "Severe drought signal detected." : "Within tolerable variance."}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Methodology Note */}
-          <div className="mt-16 xi-card border-l-4 border-l-primary">
-            <div className="xi-card__body">
-              <h4 className="font-serif font-black text-primary italic text-xl mb-4">Methodology & Data Sources</h4>
-              <p className="text-sm text-text-muted italic leading-relaxed max-w-3xl">
-                Risk scores are computed using the XIDIGIS Regional Risk Engine, which weights CHIRPS rainfall anomalies (40%), IPC food security phases (40%), and security incident context (20%). Data is sourced from FEWS NET, CHIRPS v2.0, and Somaliland pastoral monitoring networks.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      </main>
     </div>
   );
 }

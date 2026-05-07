@@ -155,20 +155,25 @@ export default function IntelligenceSuite() {
                   </div>
                 </div>
               </div>
-              <div className="p-6 bg-white border-t border-ivory-200 flex items-center justify-between">
-                <div className="flex gap-8">
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest mb-1">Last Pipeline Sync</span>
-                    <span className="text-xs font-bold text-slate-700">2026-05-07 12:45 EAT</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest mb-1">Layer Visibility</span>
-                    <span className="text-xs font-bold text-slate-700 flex items-center gap-1"><Globe size={12} className="text-brand-primary" /> Multi-Indicator Composite</span>
+              <div className="p-6 bg-white border-t border-ivory-200 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="flex flex-col">
+                  <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest mb-1">Pipeline Synchronization</span>
+                  <span className="text-xs font-black text-slate-900 flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> 
+                    NOMINAL — 07 MAY 2026 12:45
+                  </span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest mb-1">Forecast Confidence</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-black text-slate-900 italic">MODERATE (0.75)</span>
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <button className="px-4 py-2 bg-ivory-200 hover:bg-ivory-500 rounded text-[10px] font-black uppercase transition-colors">Export GeoJSON</button>
-                  <button className="btn-primary text-[10px] uppercase tracking-widest font-black">Full Analytics</button>
+                <div className="flex flex-col">
+                  <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest mb-1">Data Integrity</span>
+                  <span className="text-xs font-black text-slate-900 flex items-center gap-2">
+                    <Database size={12} className="text-slate-400" /> AUDITED — 13 REGIONS
+                  </span>
                 </div>
               </div>
             </div>
@@ -219,9 +224,12 @@ export default function IntelligenceSuite() {
                       </div>
                     </section>
                     
-                    <button className="w-full py-3 bg-slate-900 text-white rounded text-[10px] font-black uppercase tracking-widest hover:bg-slate-700 transition-all flex items-center justify-center gap-2">
+                    <Link 
+                      href={`/intelligence/region/${selectedRegion.id || selectedRegion.name.toLowerCase().replace(' ', '-')}`}
+                      className="w-full py-3 bg-slate-900 text-white rounded text-[10px] font-black uppercase tracking-widest hover:bg-slate-700 transition-all flex items-center justify-center gap-2"
+                    >
                       Enter Monitoring System <ArrowUpRight size={14} />
-                    </button>
+                    </Link>
                   </div>
                 </motion.div>
               ) : (
@@ -261,9 +269,9 @@ export default function IntelligenceSuite() {
                 <span className="text-brand-amber">BELOW AVERAGE</span>
               </div>
             </div>
-            <button className="w-full py-2.5 border border-ivory-500 rounded text-[9px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all">
+            <Link href="/intelligence/climate" className="w-full py-2.5 border border-ivory-500 rounded text-[9px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all text-center block">
               Launch Climate Module
-            </button>
+            </Link>
           </div>
 
           {/* Food Security Subsystem */}
@@ -287,9 +295,9 @@ export default function IntelligenceSuite() {
                 <span className="text-brand-deep-orange">620k Estimated</span>
               </div>
             </div>
-            <button className="w-full py-2.5 border border-ivory-500 rounded text-[9px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all">
+            <Link href="/intelligence/food-security" className="w-full py-2.5 border border-ivory-500 rounded text-[9px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all text-center block">
               Launch Food Module
-            </button>
+            </Link>
           </div>
 
           {/* Security Subsystem */}
@@ -313,9 +321,9 @@ export default function IntelligenceSuite() {
                 <span className="text-brand-burnt">ESCALATING</span>
               </div>
             </div>
-            <button className="w-full py-2.5 border border-ivory-500 rounded text-[9px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all">
+            <Link href="/intelligence/security" className="w-full py-2.5 border border-ivory-500 rounded text-[9px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all text-center block">
               Launch Stability Module
-            </button>
+            </Link>
           </div>
 
         </div>
@@ -331,9 +339,9 @@ export default function IntelligenceSuite() {
               XIDIGIS utilizes multi-indicator anomaly persistence analysis to project regional risk trajectories 
               up to 90 days in advance, enabling early intervention before crisis escalation.
             </p>
-            <button className="px-8 py-3 bg-white text-slate-900 rounded text-[10px] font-black uppercase tracking-widest hover:bg-ivory-500 transition-all flex items-center gap-3">
+            <Link href="/intelligence/forecasting" className="px-8 py-3 bg-white text-slate-900 rounded text-[10px] font-black uppercase tracking-widest hover:bg-ivory-500 transition-all flex items-center gap-3">
               Full Forecast Analysis <ArrowUpRight size={14} />
-            </button>
+            </Link>
           </div>
           <div className="flex-1 grid grid-cols-2 gap-6 w-full">
             <div className="p-6 bg-white/5 border border-white/10 rounded">

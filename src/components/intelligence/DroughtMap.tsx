@@ -23,18 +23,32 @@ export default function DroughtMap({ onRegionSelect }: DroughtMapProps) {
   const [activeLayer, setActiveLayer] = useState<'compositeRisk' | 'climate' | 'food' | 'security' | 'forecast'>('compositeRisk');
 
   useEffect(() => {
-    fetch('/api/intelligence/map')
+    // Map timeStep (0-100) to a date within the last 90 days
+    const daysOffset = 100 - timeStep;
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() - daysOffset);
+    
+    setIsLoading(true);
+    fetch(`/api/intelligence/map?date=${targetDate.toISOString()}`)
       .then(res => res.json())
       .then(data => {
-        if (data.error) {
-          console.error('API Error:', data.error);
-        } else {
-          setMapData(data);
-        }
+        if (data.error) console.error('API Error:', data.error);
+        else setMapData(data);
       })
       .catch(err => console.error('Error fetching map data:', err))
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [timeStep]);
+
+  // ── Auto-Playback Effect ──
+  useEffect(() => {
+    let interval: any;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setTimeStep(prev => (prev >= 100 ? 0 : prev + 1));
+      }, 500);
+    }
+    return () => clearInterval(interval);
+  }, [isPlaying]);
 
   // ── Choropleth Styling (Semantic Brand Colors) ──
   const getStyle = (feature: any) => {
