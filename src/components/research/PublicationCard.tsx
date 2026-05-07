@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FileText, Download, Share2, ExternalLink, Calendar, User, Eye } from "lucide-react";
+import { FileText, Download, ExternalLink, Calendar, User, Eye } from "lucide-react";
 import { ContentMetadata } from "@/lib/content/publications";
 import PDFViewer from "./PDFViewer";
 
@@ -13,10 +13,6 @@ interface PublicationCardProps {
 
 export default function PublicationCard({ publication, showPreview = false }: PublicationCardProps) {
   const [isViewerOpen, setIsViewerOpen] = useState(false);
-
-  const generateCitation = () => {
-    return `XIDIGIS (${publication.date.split(' ').pop()}). "${publication.title}." XIDIGIS Strategic Research Series.`;
-  };
 
   return (
     <>

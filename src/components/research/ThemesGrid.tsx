@@ -47,7 +47,7 @@ export default function ThemesGrid() {
           <div className="xi-eyebrow"><Globe size={14} /> Knowledge Infrastructure</div>
           <h2 id="themes-heading" className="text-primary font-serif italic">Strategic Thematic Architecture</h2>
           <p className="max-w-2xl text-text-muted text-sm leading-relaxed italic">
-            Deep-dive analysis into Somaliland's critical development sectors. All intelligence outputs and research publications are mapped through this central information architecture.
+            Deep-dive analysis into Somaliland&apos;s critical development sectors. All intelligence outputs and research publications are mapped through this central information architecture.
           </p>
         </div>
 

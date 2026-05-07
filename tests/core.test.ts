@@ -1,6 +1,3 @@
-import { getClimateScore } from '../src/lib/intelligence/climateEngine';
-import { calculateRegionalRisk } from '../src/lib/intelligence/index';
-
 /**
  * XIDIGIS Core Unit Tests
  * 

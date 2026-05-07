@@ -5,7 +5,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
   BarChart, Bar, Cell
 } from "recharts";
-import { CloudRain, AlertTriangle, Info, TrendingUp, Download } from "lucide-react";
+import { CloudRain, AlertTriangle, TrendingUp, Download } from "lucide-react";
 
 // Mock satellite data (CHIRPS Anomaly Simulation)
 const satelliteData = [
@@ -25,10 +25,7 @@ const ipcStats = [
 ];
 
 export default function DroughtDashboard() {
-  const [activeMetric, setActiveMetric] = useState("rainfall");
-  const [data, setData] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [data, setData] = useState<unknown[]>([]);
 
   useEffect(() => {
     async function fetchIntelligence() {
@@ -37,13 +34,9 @@ export default function DroughtDashboard() {
         const result = await response.json();
         if (result.success) {
           setData(result.data);
-        } else {
-          setError(result.error);
         }
-      } catch (err) {
-        setError("Failed to synchronize with intelligence stream.");
-      } finally {
-        setIsLoading(false);
+      } catch {
+        console.error("Failed to synchronize with intelligence stream.");
       }
     }
     fetchIntelligence();

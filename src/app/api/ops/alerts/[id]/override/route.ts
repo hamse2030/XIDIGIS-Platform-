@@ -41,8 +41,7 @@ export async function POST(
  * Approve Alert Override (Reviewer/Publisher Role Required)
  */
 export async function PUT(
-  request: NextRequest,
-  { params: _params }: { params: Promise<{ id: string }> }
+  request: NextRequest
 ) {
   try {
     const { overrideId, status } = await request.json();

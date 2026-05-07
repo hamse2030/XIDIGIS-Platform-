@@ -26,18 +26,17 @@ export default function AnalystConsole() {
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState("all");
 
-  async function fetchAlerts() {
-    setIsLoading(true);
-    const { data } = await supabase
-      .from('alerts')
-      .select('*, regions(name)')
-      .order('created_at', { ascending: false });
-    
-    if (data) setAlerts(data as any); // Type cast due to Supabase join result
-    setIsLoading(false);
-  }
-
   useEffect(() => {
+    async function fetchAlerts() {
+      const { data } = await supabase
+        .from('alerts')
+        .select('*, regions(name)')
+        .order('created_at', { ascending: false });
+      
+      if (data) setAlerts(data as unknown as Alert[]);
+      setIsLoading(false);
+    }
+
     fetchAlerts();
   }, []);
 

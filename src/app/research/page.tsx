@@ -23,7 +23,6 @@ export default function ResearchHub() {
   const [activeType, setActiveType] = useState("All");
   const [query, setQuery] = useState("");
   const [dynamicPublications, setDynamicPublications] = useState<ContentMetadata[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchDocs() {
@@ -33,10 +32,8 @@ export default function ResearchHub() {
         if (result.success) {
           setDynamicPublications(result.data);
         }
-      } catch (err) {
+      } catch {
         console.error("Failed to fetch publications");
-      } finally {
-        setIsLoading(false);
       }
     }
     fetchDocs();

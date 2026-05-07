@@ -25,9 +25,10 @@ export default function SomalilandMap() {
     let active = true;
     import("leaflet").then((leaflet) => {
       if (active) {
-        setL(leaflet.default as any);
+        const LeafletNamespace = leaflet.default as unknown as typeof import("leaflet");
+        setL(LeafletNamespace);
         // Fix marker icon issue in Next.js
-        const DefaultIcon = (leaflet.default as any).Icon.Default;
+        const DefaultIcon = LeafletNamespace.Icon.Default;
         delete DefaultIcon.prototype._getIconUrl;
         DefaultIcon.mergeOptions({
           iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",

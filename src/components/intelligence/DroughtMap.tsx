@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence } from "framer-motion";
 import { Play, Pause } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 
@@ -27,7 +26,7 @@ interface GeoJSONData {
   features: Array<{
     type: string;
     properties: RegionProperties;
-    geometry: any;
+    geometry: unknown;
   }>;
 }
 
@@ -79,7 +78,8 @@ export default function DroughtMap({ onRegionSelect }: DroughtMapProps) {
   }, [isPlaying]);
 
   // ── Choropleth Styling (Semantic Brand Colors) ──
-  const getStyle = (feature: any) => {
+  const getStyle = (feature: GeoJSONData['features'][0] | undefined) => {
+    if (!feature) return {};
     const props = feature.properties as RegionProperties;
     let score = 0;
     if (activeLayer === 'compositeRisk') score = props.compositeRisk || 0;
@@ -100,18 +100,30 @@ export default function DroughtMap({ onRegionSelect }: DroughtMapProps) {
     };
   };
 
-  const onEachFeature = (feature: any, layer: any) => {
-    layer.on({
+  const onEachFeature = (feature: GeoJSONData['features'][0], layer: unknown) => {
+    interface LeafletEvent {
+      target: {
+        setStyle: (style: { fillOpacity: number; weight: number }) => void;
+      };
+    }
+
+    const leafletLayer = layer as { 
+      on: (events: { 
+        click: () => void; 
+        mouseover: (e: LeafletEvent) => void; 
+        mouseout: (e: LeafletEvent) => void; 
+      }) => void 
+    };
+
+    leafletLayer.on({
       click: () => {
         if (onRegionSelect) onRegionSelect(feature.properties as RegionProperties);
       },
-      mouseover: (e: any) => {
-        const l = e.target;
-        l.setStyle({ fillOpacity: 1, weight: 2 });
+      mouseover: (e) => {
+        e.target.setStyle({ fillOpacity: 1, weight: 2 });
       },
-      mouseout: (e: any) => {
-        const l = e.target;
-        l.setStyle({ fillOpacity: 0.8, weight: 1 });
+      mouseout: (e) => {
+        e.target.setStyle({ fillOpacity: 0.8, weight: 1 });
       }
     });
   };
@@ -158,7 +170,7 @@ export default function DroughtMap({ onRegionSelect }: DroughtMapProps) {
         ].map((layer) => (
           <button
             key={layer.id}
-            onClick={() => setActiveLayer(layer.id as any)}
+            onClick={() => setActiveLayer(layer.id as 'compositeRisk' | 'climate' | 'food' | 'security' | 'forecast')}
             className={`px-4 py-2 rounded-sm text-[9px] font-black uppercase tracking-widest transition-all text-left border ${
               activeLayer === layer.id 
                 ? 'bg-slate-900 text-white border-slate-900 shadow-md translate-x-1' 

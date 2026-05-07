@@ -24,8 +24,12 @@ export async function getRegionalTimeseries(
     area_reducer: 'mean'
   };
 
+  interface TimeseriesResponse {
+    timeseries?: ClimateEngineResponse[];
+  }
+
   try {
-    const response = await climateRequest<any>(ENDPOINTS.TIMESERIES_COORDINATES, params);
+    const response = await climateRequest<TimeseriesResponse>(ENDPOINTS.TIMESERIES_COORDINATES, params);
     // Climate Engine often returns a nested structure or array depending on the exact dataset
     return response.timeseries || [];
   } catch (error) {

@@ -3,7 +3,7 @@
 import { use } from "react";
 import { publications } from "@/lib/content/publications";
 import PublicationCard from "@/components/research/PublicationCard";
-import { ShieldCheck, Info, ChevronRight, BarChart3, Database, Activity, Map as MapIcon } from "lucide-react";
+import { ChevronRight, Activity } from "lucide-react";
 import Link from "next/link";
 
 interface PageProps {

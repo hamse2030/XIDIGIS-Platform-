@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { normalizeRainfallAnomaly, calculateDroughtScore } from './rainfall-normalization';
+import { calculateDroughtScore } from './rainfall-normalization';
 
 /**
  * CHIRPS Data Ingestion Pipeline

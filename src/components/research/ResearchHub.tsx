@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Upload, FileText, Sparkles, Loader2 } from "lucide-react";
+import { Upload, Sparkles, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function ResearchHub() {

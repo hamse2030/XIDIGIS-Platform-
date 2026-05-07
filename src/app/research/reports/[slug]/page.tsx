@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState, useEffect } from "react";
+import { use } from "react";
 import { publications } from "@/lib/content/publications";
 import { ChevronLeft, Download, Share2, BookOpen, Clock, Tag, User, MapPin } from "lucide-react";
 import Link from "next/link";
