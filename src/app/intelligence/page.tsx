@@ -14,9 +14,26 @@ const DroughtMap = dynamic(() => import("@/components/intelligence/DroughtMap"),
   loading: () => <div className="h-[600px] bg-ivory-200 animate-pulse rounded-lg flex items-center justify-center text-slate-500 font-bold uppercase tracking-widest text-xs">Initializing GIS Engine...</div>
 });
 
+import AIBriefing from "@/components/intelligence/AIBriefing";
+
 export default function IntelligenceSuite() {
   const [selectedRegion, setSelectedRegion] = useState<any>(null);
-  const [compositeScore, setCompositeScore] = useState(68);
+  const [compositeScore, setCompositeScore] = useState(72);
+  const [briefing, setBriefing] = useState<any>({
+    headline: 'Regional Risk Persistence in Sool and Sanaag',
+    summary: 'Analysis of multi-indicator data streams indicates a composite risk score of 72. Drought persistence remains the primary driver of regional vulnerability.',
+    keyFindings: [
+      'Rainfall anomalies of -42% observed in eastern administrative units.',
+      'IPC Phase 3 (Crisis) conditions verified across 3 primary monitoring zones.',
+      'Anticipatory forecasting suggests a 72% probability of continued stress through the next 60 days.'
+    ],
+    recommendations: [
+      'Initiate targeted humanitarian resource prepositioning in high-stress corridors.',
+      'Enhance localized market monitoring to detect grain price spikes early.',
+      'Deploy rapid assessment teams to verify satellite-detected climate anomalies.'
+    ],
+    criticalHotspots: ['Sool', 'Sanaag', 'Togdheer']
+  });
 
   const getSeverityColor = (score: number) => {
     if (score >= 75) return 'bg-brand-burnt';
@@ -337,6 +354,9 @@ export default function IntelligenceSuite() {
             </div>
           </div>
         </div>
+      {/* 5. AI INTELLIGENCE BRIEFING */}
+      <section className="max-w-content pt-20 pb-40">
+        <AIBriefing briefing={briefing} />
       </section>
     </div>
   );
