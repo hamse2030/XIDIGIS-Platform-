@@ -359,9 +359,10 @@ export default function IntelligenceSuite() {
             <div className="p-6 bg-white/5 border border-white/10 rounded">
               <div className="text-[9px] font-black uppercase text-slate-500 mb-2">Confidence</div>
               <div className="text-4xl font-serif font-black text-white/40 italic">0.75</div>
-            </div>
           </div>
         </div>
+      </section>
+
       {/* 5. AI INTELLIGENCE BRIEFING */}
       <section className="max-w-content pt-20 pb-40">
         <AIBriefing briefing={briefing} />
