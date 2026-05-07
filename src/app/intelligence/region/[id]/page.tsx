@@ -2,11 +2,10 @@
 
 import { useParams } from "next/navigation";
 import { 
-  ArrowLeft, Map as MapIcon, CloudRain, 
-  Wheat, ShieldAlert, Activity, ArrowUpRight 
+  ArrowLeft, CloudRain, 
+  Wheat, ShieldAlert
 } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 
 export default function RegionalCommandCenter() {
   const params = useParams();
@@ -101,7 +100,7 @@ export default function RegionalCommandCenter() {
               <div className="xi-eyebrow mb-4">Predictive Trajectory</div>
               <h2 className="text-4xl font-serif font-black italic text-slate-900 mb-6">Regional Forecast Outlook</h2>
               <p className="text-slate-500 text-sm italic font-medium leading-relaxed mb-8">
-                The persistence of rainfall anomalies suggests a **78% probability** of risk escalation to "Severe" status within the next 45 days. 
+                The persistence of rainfall anomalies suggests a **78% probability** of risk escalation to &quot;Severe&quot; status within the next 45 days. 
                 Food security indicators are expected to deteriorate without immediate intervention.
               </p>
               <div className="flex gap-4">

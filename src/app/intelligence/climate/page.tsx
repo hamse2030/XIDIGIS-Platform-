@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { 
   CloudRain, ThermometerSun, AlertTriangle, 
   ArrowLeft, Calendar, Download, Info 
 } from "lucide-react";
 import Link from "next/link";
 import { 
-  LineChart, Line, XAxis, YAxis, CartesianGrid, 
+  XAxis, YAxis, CartesianGrid, 
   Tooltip, ResponsiveContainer, AreaChart, Area 
 } from 'recharts';
 

@@ -1,9 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Mail, Calendar, ArrowRight, Users, Briefcase, Award } from "lucide-react";
 import ForumIntegration from "@/components/research/ForumIntegration";
-import Image from "next/image";
 
 export default function ForumPage() {
   return (

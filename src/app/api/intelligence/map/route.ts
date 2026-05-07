@@ -37,16 +37,18 @@ export async function GET(request: Request) {
 
   if (idxError) return NextResponse.json({ error: idxError.message }, { status: 500 });
 
+  const typedIndices = (indices || []) as unknown as RegionIndex[];
+
   // 2. Map indices to GeoJSON layers
   const features = SOMALILAND_GEOJSON.features.map(feature => {
-    const regionIndices = (indices as any[])?.filter((idx: any) => {
+    const regionIndices = typedIndices?.filter((idx) => {
       const regionData = Array.isArray(idx.regions) ? idx.regions[0] : idx.regions;
       return regionData?.name === feature.properties.name;
     });
 
-    const climateIdx = regionIndices?.find((idx: any) => idx.name === 'CLIMATE_STRESS_INDEX');
-    const foodIdx = regionIndices?.find((idx: any) => idx.name === 'FOOD_SECURITY_INDEX');
-    const securityIdx = regionIndices?.find((idx: any) => idx.name === 'SECURITY_INDEX');
+    const climateIdx = regionIndices?.find((idx) => idx.name === 'CLIMATE_STRESS_INDEX');
+    const foodIdx = regionIndices?.find((idx) => idx.name === 'FOOD_SECURITY_INDEX');
+    const securityIdx = regionIndices?.find((idx) => idx.name === 'SECURITY_INDEX');
     
     // Calculate a mock composite if indices aren't fully populated yet
     const cVal = Number(climateIdx?.value || 0);

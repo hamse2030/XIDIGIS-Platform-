@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { 
-  ArrowRight, BookOpen, Activity, AlertTriangle, 
-  Clock, Database, ChevronRight, BarChart3, 
-  ShieldCheck, MapPin, Globe, Database as DbIcon,
+  ArrowRight, Activity, 
+  Clock, ChevronRight, BarChart3, 
+  ShieldCheck, MapPin, Globe,
   ArrowUpRight
 } from "lucide-react";
 import ThemesGrid from "@/components/research/ThemesGrid";
@@ -14,14 +14,13 @@ import { publications } from "@/lib/content/publications";
 import { calculateRiskFromMetrics, RiskOutput } from "@/lib/intelligence/riskEngine";
 
 export default function Home() {
-  const [liveRisk, setLiveRisk] = useState<RiskOutput | null>(null);
+  const [liveRisk] = useState<RiskOutput>(() => calculateRiskFromMetrics(-25, 3, 8, 0));
   const [currentTime, setCurrentTime] = useState("");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const risk = calculateRiskFromMetrics(-25, 3, 8, 0);
-    setLiveRisk(risk);
+
 
     const interval = setInterval(() => {
       const now = new Date();

@@ -1,8 +1,8 @@
 "use client";
 
 import { 
-  ShieldAlert, Activity, AlertTriangle, 
-  ArrowLeft, Calendar, Download, Map as MapIcon,
+  ShieldAlert, 
+  ArrowLeft,
   Flame, UserMinus, ShieldCheck, Zap
 } from "lucide-react";
 import Link from "next/link";

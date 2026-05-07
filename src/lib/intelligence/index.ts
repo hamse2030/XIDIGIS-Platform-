@@ -2,7 +2,7 @@ import { getClimateScore } from './climateEngine';
 import { getFoodSecurityScore } from './foodSecurityEngine';
 import { getSecurityScore } from './securityEngine';
 import { getMarketScore } from './marketEngine';
-import riskConfig from '../../config/risk-weights.json';
+import { supabase } from '../supabase';
 
 export type RiskLevel = 'Low' | 'Moderate' | 'High' | 'Severe' | 'Critical';
 
@@ -29,13 +29,10 @@ export function calculateRiskFromMetrics(
   securityVal: number, 
   marketVal: number = 0
 ): RiskOutput {
-  const { weights, thresholds } = riskConfig;
-
   // Normalize inputs
   const cScore = Math.min(Math.max(Math.abs(climateVal), 0), 100);
   const fScore = (foodVal / 5) * 100;
   const sScore = (securityVal / 10) * 100;
-  const mScore = marketVal;
 
   const totalScore = 
     (cScore * 0.4) + 
@@ -98,10 +95,15 @@ export async function calculateRegionalRisk(regionId: string): Promise<RiskOutpu
   const baseRisk = (fusion.finalRisk * 0.4) + (food.score * 0.4) + (security.score * 0.2);
   const finalRisk = baseRisk * (1 + (A / 100) + P);
 
-  return calculateRiskFromMetrics(
+  const output = calculateRiskFromMetrics(
     climate.value,
     food.value,
     security.value,
     market.value
   );
+
+  return {
+    ...output,
+    score: Math.round(finalRisk)
+  };
 }

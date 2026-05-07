@@ -13,11 +13,7 @@ interface PageProps {
 export default function ReportDetailPage({ params }: PageProps) {
   const { slug } = use(params);
   const report = publications.find(p => p.slug === slug);
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!report) {
     return (

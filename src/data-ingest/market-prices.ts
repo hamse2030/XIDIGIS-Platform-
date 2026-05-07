@@ -21,14 +21,26 @@ loadEnv();
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
 
+interface Region {
+  id: string;
+  name: string;
+}
+
+interface Source {
+  id: string;
+}
+
 async function ingestMarketPrices() {
   console.log('📈 Starting Market Price Ingestion...');
 
   // 1. Get Metadata
-  const { data: regions } = await (supabase.from('regions').select('id, name') as any);
-  const { data: source } = await (supabase.from('sources').select('id').eq('name', 'Local Market Feed').single() as any);
+  const { data: regions } = await supabase.from('regions').select('id, name');
+  const { data: source } = await supabase.from('sources').select('id').eq('name', 'Local Market Feed').single();
 
-  if (!regions || !source) {
+  const typedRegions = regions as unknown as Region[];
+  const typedSource = source as unknown as Source;
+
+  if (!typedRegions || !typedSource) {
     console.error('❌ Metadata missing (Regions or Source)');
     return;
   }
@@ -36,7 +48,7 @@ async function ingestMarketPrices() {
   const variables = ['price_maize', 'price_sorghum', 'price_goat_export'];
   const observations = [];
 
-  for (const region of regions) {
+  for (const region of typedRegions) {
     for (const variable of variables) {
       // Simulation: Price + small random fluctuation
       const basePrice = variable === 'price_goat_export' ? 85 : 1200;
@@ -44,7 +56,7 @@ async function ingestMarketPrices() {
 
       observations.push({
         region_id: region.id,
-        source_id: source.id,
+        source_id: typedSource.id,
         variable,
         value,
         observed_at: new Date().toISOString()
@@ -60,11 +72,11 @@ async function ingestMarketPrices() {
     console.log(`✅ Successfully ingested ${observations.length} market observations.`);
     
     // 3. Trigger Index Calculation (Simplified for demo)
-    await calculateMarketIndices(regions);
+    await calculateMarketIndices(typedRegions);
   }
 }
 
-async function calculateMarketIndices(regions: any[]) {
+async function calculateMarketIndices(regions: Region[]) {
   console.log('🔄 Calculating Market Indices...');
   
   const indices = regions.map(region => ({

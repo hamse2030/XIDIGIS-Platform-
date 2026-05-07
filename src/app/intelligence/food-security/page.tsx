@@ -1,9 +1,8 @@
 "use client";
 
 import { 
-  Wheat, TrendingDown, AlertCircle, 
-  ArrowLeft, Calendar, Download, Map as MapIcon,
-  BarChart3, Activity
+  TrendingDown, AlertCircle, 
+  ArrowLeft
 } from "lucide-react";
 import Link from "next/link";
 import { 

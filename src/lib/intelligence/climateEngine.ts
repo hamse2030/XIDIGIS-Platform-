@@ -31,7 +31,7 @@ export async function getClimateScore(regionId: string) {
   }
 
   // 2. Fallback to pre-calculated index if real data is missing or stale
-  let { data, error } = await supabase
+  const { data, error } = await supabase
     .from('indices')
     .select('value, metadata')
     .eq('region_id', regionId)
@@ -44,8 +44,13 @@ export async function getClimateScore(regionId: string) {
     return { score: 0, value: 0, status: 'Normal' as const };
   }
 
+  interface ClimateMetadata {
+    anomaly_percent?: number;
+  }
+
   const score = Number(data.value);
-  const anomaly = Number((data.metadata as any)?.anomaly_percent || 0);
+  const metadata = data.metadata as unknown as ClimateMetadata;
+  const anomaly = Number(metadata?.anomaly_percent || 0);
   
   return {
     score: Math.min(100, score),

@@ -1,9 +1,7 @@
 "use client";
 
 import { 
-  Zap, TrendingUp, AlertTriangle, 
-  ArrowLeft, Calendar, Download, 
-  Target, BarChart, Percent, ArrowUpRight
+  ArrowLeft, Target, ArrowUpRight
 } from "lucide-react";
 import Link from "next/link";
 import { 

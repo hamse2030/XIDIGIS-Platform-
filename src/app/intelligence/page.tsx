@@ -2,9 +2,9 @@
 
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { 
-  ShieldAlert, Activity, Filter, Info, 
-  ChevronRight, Calendar, Globe, Database,
+  ShieldAlert, Activity, Globe, Database,
   ArrowUpRight, ThermometerSun, Wheat
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,10 +16,17 @@ const DroughtMap = dynamic(() => import("@/components/intelligence/DroughtMap"),
 
 import AIBriefing from "@/components/intelligence/AIBriefing";
 
+interface Briefing {
+  headline: string;
+  summary: string;
+  keyFindings: string[];
+  recommendations: string[];
+  criticalHotspots: string[];
+}
+
 export default function IntelligenceSuite() {
   const [selectedRegion, setSelectedRegion] = useState<any>(null);
-  const [compositeScore, setCompositeScore] = useState(72);
-  const [briefing, setBriefing] = useState<any>({
+  const [briefing] = useState<Briefing>({
     headline: 'Regional Risk Persistence in Sool and Sanaag',
     summary: 'Analysis of multi-indicator data streams indicates a composite risk score of 72. Drought persistence remains the primary driver of regional vulnerability.',
     keyFindings: [

@@ -19,20 +19,25 @@ const hotspots = [
 
 export default function SomalilandMap() {
   const [isMounted, setIsMounted] = useState(false);
-  const [L, setL] = useState<any>(null);
+  const [L, setL] = useState<typeof import("leaflet") | null>(null);
 
   useEffect(() => {
-    setIsMounted(true);
+    let active = true;
     import("leaflet").then((leaflet) => {
-      setL(leaflet.default);
-      // Fix marker icon issue in Next.js
-      delete (leaflet.default.Icon.Default.prototype as any)._getIconUrl;
-      leaflet.default.Icon.Default.mergeOptions({
-        iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-        iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-        shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-      });
+      if (active) {
+        setL(leaflet.default as any);
+        // Fix marker icon issue in Next.js
+        const DefaultIcon = (leaflet.default as any).Icon.Default;
+        delete DefaultIcon.prototype._getIconUrl;
+        DefaultIcon.mergeOptions({
+          iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+          iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+          shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+        });
+        setIsMounted(true);
+      }
     });
+    return () => { active = false; };
   }, []);
 
   if (!isMounted || !L) return <div className="h-[500px] bg-slate-100 animate-pulse rounded-xl" />;

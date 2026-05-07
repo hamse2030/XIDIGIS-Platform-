@@ -56,7 +56,7 @@ export async function generateDailyBriefing(): Promise<IntelligenceBriefing> {
     summary: `Analysis of multi-indicator data streams indicates a composite risk score of ${Math.round(Number(indices[0].value))}. Drought persistence remains the primary driver of regional vulnerability, with secondary pressure from market volatility.`,
     keyFindings: [
       `Rainfall anomalies of -${climateStress}% observed in eastern administrative units.`,
-      `IPC Phase 3 (Crisis) conditions verified across ${hotspots.length} primary monitoring zones.`,
+      `Food security stress level verified at ${foodStress} points across monitoring zones.`,
       'Anticipatory forecasting suggests a 72% probability of continued stress through the next 60 days.'
     ],
     recommendations: [

@@ -4,31 +4,42 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ShieldAlert, Filter, Search, ChevronRight, 
-  CheckCircle2, Clock, XCircle, FileText, 
-  MessageSquare, User, History, Database
+  CheckCircle2, FileText, 
+  MessageSquare, History, Database
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
+interface Alert {
+  id: string;
+  severity: string;
+  created_at: string;
+  message: string;
+  region_id: string;
+  regions: {
+    name: string;
+  };
+}
+
 export default function AnalystConsole() {
-  const [alerts, setAlerts] = useState<any[]>([]);
-  const [selectedAlert, setSelectedAlert] = useState<any>(null);
+  const [alerts, setAlerts] = useState<Alert[]>([]);
+  const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState("all");
 
-  useEffect(() => {
-    fetchAlerts();
-  }, []);
-
   async function fetchAlerts() {
     setIsLoading(true);
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('alerts')
       .select('*, regions(name)')
       .order('created_at', { ascending: false });
     
-    if (data) setAlerts(data);
+    if (data) setAlerts(data as any); // Type cast due to Supabase join result
     setIsLoading(false);
   }
+
+  useEffect(() => {
+    fetchAlerts();
+  }, []);
 
   const getSeverityBorder = (severity: string) => {
     switch (severity) {

@@ -17,8 +17,13 @@ export async function getSecurityScore(regionId: string) {
     .limit(1)
     .single();
 
+  interface SecurityMetadata {
+    incident_count?: number;
+  }
+
   const score = Number(idx?.value || 0);
-  const incidents = Number((idx?.metadata as any)?.incident_count || 0);
+  const metadata = idx?.metadata as unknown as SecurityMetadata;
+  const incidents = Number(metadata?.incident_count || 0);
 
   return {
     score,

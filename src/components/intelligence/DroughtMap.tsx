@@ -11,37 +11,65 @@ const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.Map
 const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLayer), { ssr: false });
 const GeoJSON = dynamic(() => import("react-leaflet").then((mod) => mod.GeoJSON), { ssr: false });
 
+interface RegionProperties {
+  name: string;
+  compositeRisk?: number;
+  layers?: {
+    climate: number;
+    food: number;
+    security: number;
+    forecast: number;
+  };
+}
+
+interface GeoJSONData {
+  type: string;
+  features: Array<{
+    type: string;
+    properties: RegionProperties;
+    geometry: any;
+  }>;
+}
+
 interface DroughtMapProps {
-  onRegionSelect?: (region: any) => void;
+  onRegionSelect?: (region: RegionProperties) => void;
 }
 
 export default function DroughtMap({ onRegionSelect }: DroughtMapProps) {
-  const [mapData, setMapData] = useState<any>(null);
+  const [mapData, setMapData] = useState<GeoJSONData | null>(null);
   const [timeStep, setTimeStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [activeLayer, setActiveLayer] = useState<'compositeRisk' | 'climate' | 'food' | 'security' | 'forecast'>('compositeRisk');
 
   useEffect(() => {
-    // Map timeStep (0-100) to a date within the last 90 days
+    let active = true;
     const daysOffset = 100 - timeStep;
     const targetDate = new Date();
     targetDate.setDate(targetDate.getDate() - daysOffset);
     
-    setIsLoading(true);
-    fetch(`/api/intelligence/map?date=${targetDate.toISOString()}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.error) console.error('API Error:', data.error);
-        else setMapData(data);
-      })
-      .catch(err => console.error('Error fetching map data:', err))
-      .finally(() => setIsLoading(false));
+    async function loadData() {
+      try {
+        const res = await fetch(`/api/intelligence/map?date=${targetDate.toISOString()}`);
+        const data = await res.json();
+        if (active) {
+          if (data.error) console.error('API Error:', data.error);
+          else setMapData(data);
+          setIsLoading(false);
+        }
+      } catch (err) {
+        console.error('Error fetching map data:', err);
+        if (active) setIsLoading(false);
+      }
+    }
+
+    loadData();
+    return () => { active = false; };
   }, [timeStep]);
 
   // ── Auto-Playback Effect ──
   useEffect(() => {
-    let interval: any;
+    let interval: NodeJS.Timeout;
     if (isPlaying) {
       interval = setInterval(() => {
         setTimeStep(prev => (prev >= 100 ? 0 : prev + 1));
@@ -52,9 +80,10 @@ export default function DroughtMap({ onRegionSelect }: DroughtMapProps) {
 
   // ── Choropleth Styling (Semantic Brand Colors) ──
   const getStyle = (feature: any) => {
+    const props = feature.properties as RegionProperties;
     let score = 0;
-    if (activeLayer === 'compositeRisk') score = feature.properties.compositeRisk || 0;
-    else score = feature.properties.layers?.[activeLayer] || 0;
+    if (activeLayer === 'compositeRisk') score = props.compositeRisk || 0;
+    else score = props.layers?.[activeLayer] || 0;
 
     let color = "#0F9D88"; // brand-teal (Safe)
     if (score >= 75) color = "#B3472A";      // brand-burnt (Critical)
@@ -73,8 +102,8 @@ export default function DroughtMap({ onRegionSelect }: DroughtMapProps) {
 
   const onEachFeature = (feature: any, layer: any) => {
     layer.on({
-      click: (e: any) => {
-        if (onRegionSelect) onRegionSelect(feature.properties);
+      click: () => {
+        if (onRegionSelect) onRegionSelect(feature.properties as RegionProperties);
       },
       mouseover: (e: any) => {
         const l = e.target;

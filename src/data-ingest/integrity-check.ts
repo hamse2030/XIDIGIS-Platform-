@@ -34,7 +34,7 @@ async function notify(message: string, severity: 'WARNING' | 'CRITICAL') {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: `*XIDIGIS ${severity}*: ${message}` })
       });
-    } catch (e) {
+    } catch {
       console.error('Failed to send webhook');
     }
   }
@@ -43,23 +43,35 @@ async function notify(message: string, severity: 'WARNING' | 'CRITICAL') {
 async function checkIntegrity() {
   console.log('🔍 Starting System Integrity Audit...');
 
+  interface IntegrityRegion {
+    region_id: string;
+    calculated_at: string;
+    regions: { name: string } | { name: string }[] | null;
+  }
+
   // --- Audit 1: Data Freshness ---
   const { data: stalenessData } = await supabase
     .from('indices')
     .select('region_id, calculated_at, regions(name)')
     .order('calculated_at', { ascending: false });
 
+  const typedStaleness = (stalenessData || []) as unknown as IntegrityRegion[];
   const thirtySixHoursAgo = new Date(Date.now() - 36 * 60 * 60 * 1000);
-  const staleRegions = stalenessData?.filter(d => new Date(d.calculated_at) < thirtySixHoursAgo);
+  const staleRegions = typedStaleness.filter(d => new Date(d.calculated_at) < thirtySixHoursAgo);
 
-  if (staleRegions && staleRegions.length > 0) {
-    const names = Array.from(new Set((staleRegions as any[]).map(r => {
+  if (staleRegions.length > 0) {
+    const names = Array.from(new Set(staleRegions.map(r => {
       const regionData = Array.isArray(r.regions) ? r.regions[0] : r.regions;
       return regionData?.name || 'Unknown';
     }))).join(', ');
     await notify(`Data staleness detected in regions: ${names}. Ingestion may be failing.`, 'CRITICAL');
   } else {
     console.log('✅ All region data is fresh (<36h).');
+  }
+
+  interface CriticalIndex {
+    value: number;
+    regions: { name: string } | { name: string }[] | null;
   }
 
   // --- Audit 2: Critical Alert Escalation ---
@@ -69,8 +81,10 @@ async function checkIntegrity() {
     .gt('value', 75) // Critical Threshold
     .ilike('name', '%ANOMALY%');
 
-  if (criticalData && criticalData.length > 0) {
-    const alerts = (criticalData as any[]).map(d => {
+  const typedCritical = (criticalData || []) as unknown as CriticalIndex[];
+
+  if (typedCritical.length > 0) {
+    const alerts = typedCritical.map(d => {
       const regionData = Array.isArray(d.regions) ? d.regions[0] : d.regions;
       return `${regionData?.name || 'Unknown'} (${d.value}%)`;
     }).join(', ');

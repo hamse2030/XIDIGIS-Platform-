@@ -17,8 +17,13 @@ export async function getFoodSecurityScore(regionId: string) {
     .limit(1)
     .single();
 
+  interface FoodMetadata {
+    phase?: number;
+  }
+
   const score = Number(idx?.value || 0);
-  const phase = Number((idx?.metadata as any)?.phase || 1);
+  const metadata = idx?.metadata as unknown as FoodMetadata;
+  const phase = Number(metadata?.phase || 1);
 
   return {
     score,
