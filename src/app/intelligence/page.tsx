@@ -218,6 +218,126 @@ export default function IntelligenceSuite() {
           </div>
         </div>
       </div>
+
+      {/* 3. OPERATIONAL SUBSYSTEMS */}
+      <section className="max-w-content pt-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          {/* Climate Subsystem */}
+          <div className="xi-card p-8 border-t-4 border-t-brand-amber">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-8 rounded bg-ivory-200 flex items-center justify-center text-brand-amber">
+                <ThermometerSun size={18} />
+              </div>
+              <h3 className="text-sm font-black uppercase tracking-widest text-slate-900">Climate Intelligence</h3>
+            </div>
+            <p className="text-xs font-medium text-slate-500 italic mb-8 leading-relaxed">
+              Monitoring drought emergence and rainfall deterioration using CHIRPS v2.0 satellite imagery and regional anomaly detection.
+            </p>
+            <div className="space-y-4 mb-8">
+              <div className="flex justify-between items-center text-[10px] font-bold">
+                <span className="text-slate-400 uppercase">Anomaly Profile</span>
+                <span className="text-slate-900">-14% (Moderate)</span>
+              </div>
+              <div className="flex justify-between items-center text-[10px] font-bold">
+                <span className="text-slate-400 uppercase">Seasonal Outlook</span>
+                <span className="text-brand-amber">BELOW AVERAGE</span>
+              </div>
+            </div>
+            <button className="w-full py-2.5 border border-ivory-500 rounded text-[9px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all">
+              Launch Climate Module
+            </button>
+          </div>
+
+          {/* Food Security Subsystem */}
+          <div className="xi-card p-8 border-t-4 border-t-brand-deep-orange">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-8 rounded bg-ivory-200 flex items-center justify-center text-brand-deep-orange">
+                <Wheat size={18} />
+              </div>
+              <h3 className="text-sm font-black uppercase tracking-widest text-slate-900">Food Security</h3>
+            </div>
+            <p className="text-xs font-medium text-slate-500 italic mb-8 leading-relaxed">
+              Translating climate stress into humanitarian vulnerability assessment based on IPC Phase 3+ classifications and FEWS NET data.
+            </p>
+            <div className="space-y-4 mb-8">
+              <div className="flex justify-between items-center text-[10px] font-bold">
+                <span className="text-slate-400 uppercase">Highest IPC Phase</span>
+                <span className="text-slate-900">Phase 3 (Crisis)</span>
+              </div>
+              <div className="flex justify-between items-center text-[10px] font-bold">
+                <span className="text-slate-400 uppercase">Population at Risk</span>
+                <span className="text-brand-deep-orange">620k Estimated</span>
+              </div>
+            </div>
+            <button className="w-full py-2.5 border border-ivory-500 rounded text-[9px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all">
+              Launch Food Module
+            </button>
+          </div>
+
+          {/* Security Subsystem */}
+          <div className="xi-card p-8 border-t-4 border-t-brand-burnt">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-8 rounded bg-ivory-200 flex items-center justify-center text-brand-burnt">
+                <ShieldAlert size={18} />
+              </div>
+              <h3 className="text-sm font-black uppercase tracking-widest text-slate-900">Stability Monitor</h3>
+            </div>
+            <p className="text-xs font-medium text-slate-500 italic mb-8 leading-relaxed">
+              Measuring instability pressure and conflict escalation using ACLED real-time incident density and fatality tracking.
+            </p>
+            <div className="space-y-4 mb-8">
+              <div className="flex justify-between items-center text-[10px] font-bold">
+                <span className="text-slate-400 uppercase">Incident Density</span>
+                <span className="text-slate-900">High (7d Rolling)</span>
+              </div>
+              <div className="flex justify-between items-center text-[10px] font-bold">
+                <span className="text-slate-400 uppercase">Instability Trend</span>
+                <span className="text-brand-burnt">ESCALATING</span>
+              </div>
+            </div>
+            <button className="w-full py-2.5 border border-ivory-500 rounded text-[9px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all">
+              Launch Stability Module
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 4. FORECAST & EARLY WARNING SUMMARY */}
+      <section className="max-w-content pt-20">
+        <div className="xi-card p-12 bg-slate-900 text-white flex flex-col md:flex-row gap-16 items-center border-none">
+          <div className="max-w-md">
+            <div className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-4">Strategic Forecasting</div>
+            <h2 className="text-4xl font-serif font-black italic leading-tight mb-6">Anticipatory Intelligence</h2>
+            <p className="text-slate-300 text-sm font-medium italic leading-relaxed mb-8">
+              XIDIGIS utilizes multi-indicator anomaly persistence analysis to project regional risk trajectories 
+              up to 90 days in advance, enabling early intervention before crisis escalation.
+            </p>
+            <button className="px-8 py-3 bg-white text-slate-900 rounded text-[10px] font-black uppercase tracking-widest hover:bg-ivory-500 transition-all flex items-center gap-3">
+              Full Forecast Analysis <ArrowUpRight size={14} />
+            </button>
+          </div>
+          <div className="flex-1 grid grid-cols-2 gap-6 w-full">
+            <div className="p-6 bg-white/5 border border-white/10 rounded">
+              <div className="text-[9px] font-black uppercase text-slate-500 mb-2">30D Risk Prob.</div>
+              <div className="text-4xl font-serif font-black text-brand-amber">42%</div>
+            </div>
+            <div className="p-6 bg-white/5 border border-white/10 rounded">
+              <div className="text-[9px] font-black uppercase text-slate-500 mb-2">60D Risk Prob.</div>
+              <div className="text-4xl font-serif font-black text-brand-deep-orange">68%</div>
+            </div>
+            <div className="p-6 bg-white/5 border border-white/10 rounded">
+              <div className="text-[9px] font-black uppercase text-slate-500 mb-2">90D Risk Prob.</div>
+              <div className="text-4xl font-serif font-black text-brand-burnt">72%</div>
+            </div>
+            <div className="p-6 bg-white/5 border border-white/10 rounded">
+              <div className="text-[9px] font-black uppercase text-slate-500 mb-2">Confidence</div>
+              <div className="text-4xl font-serif font-black text-white/40 italic">0.75</div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

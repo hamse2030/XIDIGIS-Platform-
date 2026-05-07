@@ -1,15 +1,28 @@
+import { supabase } from '../supabase';
+
 /**
- * Food Security Engine (Placeholder)
- * Currently returns mock data.
+ * Food Security Engine
+ * Pulls latest IPC-based risk metrics from the database.
  */
 export async function getFoodSecurityScore(regionId: string) {
-  // TODO: Implement logic to read IPC Phase from Supabase
-  const mockIpcPhase = 3; 
-  const score = (mockIpcPhase - 1) * 25; // Phase 1=0, Phase 5=100
+  if (!supabase) return { score: 0, value: 0, status: 'Normal' };
+
+  // Try to fetch latest FOOD_SECURITY_INDEX
+  const { data: idx } = await supabase
+    .from('indices')
+    .select('value, metadata')
+    .eq('region_id', regionId)
+    .eq('name', 'FOOD_SECURITY_INDEX')
+    .order('calculated_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  const score = Number(idx?.value || 0);
+  const phase = Number((idx?.metadata as any)?.phase || 1);
 
   return {
-    score: Math.min(100, score),
-    value: mockIpcPhase,
-    status: (mockIpcPhase >= 3 ? 'Warning' : 'Normal') as 'Normal' | 'Warning' | 'Alert'
+    score,
+    value: phase,
+    status: (score >= 60 ? 'Alert' : (score >= 30 ? 'Warning' : 'Normal')) as 'Normal' | 'Warning' | 'Alert'
   };
 }
