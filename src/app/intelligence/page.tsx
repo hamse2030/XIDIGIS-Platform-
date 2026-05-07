@@ -21,6 +21,12 @@ const DroughtMap = dynamic(() => import("@/components/intelligence/DroughtMap"),
   loading: () => <div className="h-[600px] bg-ivory-200 animate-pulse rounded-lg flex items-center justify-center text-slate-500 font-bold uppercase tracking-widest text-xs">Initializing GIS Engine...</div>
 });
 
+const SomalilandMap = dynamic(() => import("@/components/intelligence/SomalilandMap"), { 
+  ssr: false,
+  loading: () => <div className="h-[600px] bg-ivory-200 animate-pulse rounded-lg flex items-center justify-center text-slate-500 font-bold uppercase tracking-widest text-xs">Initializing Somaliland Map...</div>
+});
+
+import DroughtDashboard from "@/components/intelligence/DroughtDashboard";
 import AIBriefing from "@/components/intelligence/AIBriefing";
 
 interface Briefing {
@@ -260,6 +266,11 @@ export default function IntelligenceSuite() {
         </div>
       </div>
 
+      {/* 2.5 DROUGHT & METRICS DASHBOARD */}
+      <div className="max-w-content pb-12">
+        <DroughtDashboard />
+      </div>
+
       {/* 3. OPERATIONAL SUBSYSTEMS */}
       <section className="max-w-content pt-20">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -381,8 +392,17 @@ export default function IntelligenceSuite() {
     </section>
 
     {/* 5. AI INTELLIGENCE BRIEFING */}
-      <section className="max-w-content pt-20 pb-40">
+      <section className="max-w-content pt-20 pb-20">
         <AIBriefing briefing={briefing} />
+      </section>
+
+    {/* 6. REGIONAL FOCUS: SOMALILAND */}
+      <section className="max-w-content pb-40">
+        <div className="xi-eyebrow mb-4">Regional Focus</div>
+        <h2 className="text-4xl font-serif font-black italic leading-tight mb-10 text-slate-900">Somaliland Overview</h2>
+        <div className="h-[600px] w-full rounded-lg overflow-hidden border border-ivory-200 shadow-elevated">
+          <SomalilandMap />
+        </div>
       </section>
     </div>
   );
