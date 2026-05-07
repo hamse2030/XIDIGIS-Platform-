@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import ThemesGrid from "@/components/research/ThemesGrid";
 import { publications } from "@/lib/content/publications";
-import { calculateRegionalRisk, RiskOutput } from "@/lib/intelligence/riskEngine";
+import { calculateRiskFromMetrics, RiskOutput } from "@/lib/intelligence/riskEngine";
 
 export default function Home() {
   const [liveRisk, setLiveRisk] = useState<RiskOutput | null>(null);
@@ -20,7 +20,7 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true);
-    const risk = calculateRegionalRisk(-25, 3, 8);
+    const risk = calculateRiskFromMetrics(-25, 3, 8);
     setLiveRisk(risk);
 
     const interval = setInterval(() => {

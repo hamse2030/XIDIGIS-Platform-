@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ThermometerSun, AlertTriangle, CloudRain, Activity, Database, ChevronRight } from "lucide-react";
-import { calculateRegionalRisk } from "@/lib/intelligence/riskEngine";
+import { calculateRiskFromMetrics } from "@/lib/intelligence/riskEngine";
 import Link from "next/link";
 
 // Simulated CHIRPS-based regional data
@@ -26,7 +26,7 @@ const LEVEL_COLORS: Record<string, string> = {
 export default function ClimateIntelligence() {
   const regionalRisks = REGIONS.map((r) => ({
     ...r,
-    risk: calculateRegionalRisk(r.rainfallAnomaly, r.ipcPhase, r.security),
+    risk: calculateRiskFromMetrics(r.rainfallAnomaly, r.ipcPhase, r.security),
   }));
 
   const worstRegion = [...regionalRisks].sort((a, b) => b.risk.score - a.risk.score)[0];
