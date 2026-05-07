@@ -5,9 +5,32 @@ import { supabase } from '../supabase';
  * Normalizes precipitation anomalies into a 0-100 risk score.
  */
 export async function getClimateScore(regionId: string) {
-  if (!supabase) return { score: 0, value: 0, status: 'Normal' };
+  if (!supabase) return { score: 0, value: 0, status: 'Normal' as const };
 
-  // 1. Try to get the latest calculated index
+  // 1. Fetch latest real observation from Climate Engine Ingestion Layer
+  const { data: obs, error: obsError } = await supabase
+    .from('climate_engine_observations')
+    .select('*')
+    .eq('region_id', regionId)
+    .order('observation_date', { ascending: false })
+    .limit(1)
+    .single();
+
+  if (!obsError && obs) {
+    const obsDate = new Date(obs.observation_date);
+    const isStale = (new Date().getTime() - obsDate.getTime()) > (36 * 60 * 60 * 1000);
+    
+    if (!isStale) {
+      return {
+        score: Math.round(obs.normalized_risk * 100),
+        value: obs.raw_value,
+        status: (obs.normalized_risk > 0.6 ? 'Alert' : (obs.normalized_risk > 0.3 ? 'Warning' : 'Normal')) as 'Normal' | 'Warning' | 'Alert'
+      };
+    }
+    console.warn(`Climate Engine: Data for ${regionId} is stale (>36h). Checking for static index fallback.`);
+  }
+
+  // 2. Fallback to pre-calculated index if real data is missing or stale
   let { data, error } = await supabase
     .from('indices')
     .select('value, metadata')
@@ -18,33 +41,15 @@ export async function getClimateScore(regionId: string) {
     .single();
 
   if (error || !data) {
-    // 2. Fallback to raw climate observations
-    const { data: rawData } = await supabase
-      .from('climate_observations')
-      .select('drought_risk_score, rainfall_anomaly')
-      .eq('region_id', regionId)
-      .order('observation_date', { ascending: false })
-      .limit(1)
-      .single();
-    
-    if (!rawData) {
-      console.warn('Climate Engine: No recent index or observation found for region', regionId);
-      return { score: 0, value: 0, status: 'Normal' as const };
-    }
-    data = { value: rawData.drought_risk_score, metadata: { anomaly_percent: rawData.rainfall_anomaly } };
+    return { score: 0, value: 0, status: 'Normal' as const };
   }
 
   const score = Number(data.value);
   const anomaly = Number((data.metadata as any)?.anomaly_percent || 0);
   
-  // Normalization Logic:
-  // 0% or positive anomaly (more rain) = 0 risk
-  // -100% anomaly (no rain) = 100 risk
-  const normalizedScore = Math.abs(Math.min(0, anomaly));
-  
   return {
-    score: Math.min(100, normalizedScore),
+    score: Math.min(100, score),
     value: anomaly,
-    status: (anomaly < -20 ? 'Alert' : (anomaly < -10 ? 'Warning' : 'Normal')) as 'Normal' | 'Warning' | 'Alert'
+    status: (score > 60 ? 'Alert' : (score > 30 ? 'Warning' : 'Normal')) as 'Normal' | 'Warning' | 'Alert'
   };
 }

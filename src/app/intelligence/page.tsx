@@ -8,7 +8,6 @@ import {
   ArrowUpRight, ThermometerSun, Wheat
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
 
 const DroughtMap = dynamic(() => import("@/components/intelligence/DroughtMap"), { 
   ssr: false,

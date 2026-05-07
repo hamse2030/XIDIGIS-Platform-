@@ -61,9 +61,12 @@ export function calculateRiskFromMetrics(
   };
 }
 
+import { resolveConflict } from './fusion/conflict-resolver';
+import { calculateAcceleration, calculatePersistence } from './temporal/trend-engine';
+
 /**
- * Composite Risk Engine (Async)
- * Composes specialized engines and applies institutional weights.
+ * Composite Risk Engine (Async) — Early Warning System (EWS) Version
+ * Applies the predictive formula: R_final = (BaseRisk) * (1 + A + P)
  */
 export async function calculateRegionalRisk(regionId: string): Promise<RiskOutput> {
   const [climate, food, security, market] = await Promise.all([
@@ -72,6 +75,28 @@ export async function calculateRegionalRisk(regionId: string): Promise<RiskOutpu
     getSecurityScore(regionId),
     getMarketScore(regionId)
   ]);
+
+  // 1. Resolve Climate Fusion (Assuming we have a second source or using climate.value as proxy)
+  const fusion = resolveConflict(climate.score, climate.score); // Simplified for current data availability
+  
+  // 2. Fetch History for Temporal Factors
+  const { data: historyData } = await supabase
+    .from('indices')
+    .select('value')
+    .eq('region_id', regionId)
+    .eq('name', 'COMPOSITE_RISK')
+    .order('calculated_at', { ascending: false })
+    .limit(10);
+    
+  const history = (historyData?.map(d => Number(d.value)) || []).reverse();
+  
+  // 3. Calculate Factors
+  const A = calculateAcceleration(history);
+  const P = calculatePersistence(history);
+
+  // 4. Predictive Formula: R_final = (0.4C + 0.4F + 0.2S) * (1 + A + P)
+  const baseRisk = (fusion.finalRisk * 0.4) + (food.score * 0.4) + (security.score * 0.2);
+  const finalRisk = baseRisk * (1 + (A / 100) + P);
 
   return calculateRiskFromMetrics(
     climate.value,
