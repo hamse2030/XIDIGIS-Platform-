@@ -24,6 +24,7 @@ const DroughtMap = dynamic(() => import("@/components/intelligence/DroughtMap"),
 import AIBriefing from "@/components/intelligence/AIBriefing";
 
 interface Briefing {
+  date: string;
   headline: string;
   summary: string;
   keyFindings: string[];
@@ -34,6 +35,7 @@ interface Briefing {
 export default function IntelligenceSuite() {
   const [selectedRegion, setSelectedRegion] = useState<RegionProperties | null>(null);
   const [briefing] = useState<Briefing>({
+    date: new Date().toISOString().split('T')[0],
     headline: 'Regional Risk Persistence in Sool and Sanaag',
     summary: 'Analysis of multi-indicator data streams indicates a composite risk score of 72. Drought persistence remains the primary driver of regional vulnerability.',
     keyFindings: [

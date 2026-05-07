@@ -29,6 +29,7 @@ export default function SomalilandMap() {
         setL(LeafletNamespace);
         // Fix marker icon issue in Next.js
         const DefaultIcon = LeafletNamespace.Icon.Default;
+        // @ts-expect-error: Leaflet's internal method _getIconUrl is not exposed in its TypeScript types
         delete DefaultIcon.prototype._getIconUrl;
         DefaultIcon.mergeOptions({
           iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",

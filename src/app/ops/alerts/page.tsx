@@ -28,6 +28,11 @@ export default function AnalystConsole() {
 
   useEffect(() => {
     async function fetchAlerts() {
+      if (!supabase) {
+        setIsLoading(false);
+        return;
+      }
+      
       const { data } = await supabase
         .from('alerts')
         .select('*, regions(name)')

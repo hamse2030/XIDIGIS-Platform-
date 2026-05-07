@@ -77,13 +77,17 @@ export async function calculateRegionalRisk(regionId: string): Promise<RiskOutpu
   const fusion = resolveConflict(climate.score, climate.score); // Simplified for current data availability
   
   // 2. Fetch History for Temporal Factors
-  const { data: historyData } = await supabase
-    .from('indices')
-    .select('value')
-    .eq('region_id', regionId)
-    .eq('name', 'COMPOSITE_RISK')
-    .order('calculated_at', { ascending: false })
-    .limit(10);
+  let historyData = null;
+  if (supabase) {
+    const { data } = await supabase
+      .from('indices')
+      .select('value')
+      .eq('region_id', regionId)
+      .eq('name', 'COMPOSITE_RISK')
+      .order('calculated_at', { ascending: false })
+      .limit(10);
+    historyData = data;
+  }
     
   const history = (historyData?.map(d => Number(d.value)) || []).reverse();
   

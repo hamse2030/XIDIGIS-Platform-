@@ -8,6 +8,7 @@ import { RiskLevel } from '../index';
 
 export async function processAlerts(regionId: string, riskScore: number, level: RiskLevel) {
   if (riskScore < 50) return; // Only process elevated risks
+  if (!supabase) return; // Wait for initialization
 
   const { data: existingAlert } = await supabase
     .from('alerts')

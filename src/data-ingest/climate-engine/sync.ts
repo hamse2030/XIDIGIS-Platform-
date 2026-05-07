@@ -2,11 +2,6 @@ import { createClient } from '@supabase/supabase-js';
 import { REGIONS, DATASETS, VARIABLES } from './endpoints';
 import { getRegionalTimeseries } from './timeseries.service';
 import { transformClimateData } from './transform';
-import * as dotenv from 'dotenv';
-import path from 'path';
-
-// Load environment variables
-dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

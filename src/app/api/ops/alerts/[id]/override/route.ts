@@ -15,6 +15,10 @@ export async function POST(
     // In a real app, we would verify the user role from the session here
     // For now, we rely on Supabase RLS which checks the public.users table
 
+    if (!supabase) {
+      return NextResponse.json({ error: 'Database connection unavailable' }, { status: 500 });
+    }
+
     const { data, error } = await supabase
       .from('alert_overrides')
       .insert([
@@ -45,6 +49,10 @@ export async function PUT(
 ) {
   try {
     const { overrideId, status } = await request.json();
+
+    if (!supabase) {
+      return NextResponse.json({ error: 'Database connection unavailable' }, { status: 500 });
+    }
 
     const { data, error } = await supabase
       .from('alert_overrides')

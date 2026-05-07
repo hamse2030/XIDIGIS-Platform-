@@ -22,9 +22,9 @@ interface RegionProperties {
 }
 
 interface GeoJSONData {
-  type: string;
+  type: "FeatureCollection";
   features: Array<{
-    type: string;
+    type: "Feature";
     properties: RegionProperties;
     geometry: unknown;
   }>;
