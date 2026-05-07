@@ -23,21 +23,27 @@ const SOMALILAND_GEOJSON = {
 };
 
 export async function GET(request: Request) {
-  if (!supabase) return NextResponse.json({ error: 'Supabase not configured' }, { status: 500 });
-
   const { searchParams } = new URL(request.url);
   const selectedDate = searchParams.get('date') || new Date().toISOString();
 
-  // 1. Fetch latest indices for all regions as of the selected date
-  const { data: indices, error: idxError } = await supabase
-    .from('indices')
-    .select('*, regions(name, code)')
-    .lte('calculated_at', selectedDate)
-    .order('calculated_at', { ascending: false });
+  let typedIndices: RegionIndex[] = [];
 
-  if (idxError) return NextResponse.json({ error: idxError.message }, { status: 500 });
+  // 1. Fetch latest indices for all regions as of the selected date (if Supabase is connected)
+  if (supabase) {
+    try {
+      const { data: indices, error: idxError } = await supabase
+        .from('indices')
+        .select('*, regions(name, code)')
+        .lte('calculated_at', selectedDate)
+        .order('calculated_at', { ascending: false });
 
-  const typedIndices = (indices || []) as unknown as RegionIndex[];
+      if (!idxError && indices) {
+        typedIndices = indices as unknown as RegionIndex[];
+      }
+    } catch (e) {
+      console.warn("Supabase fetch failed, falling back to mock data", e);
+    }
+  }
 
   // 2. Map indices to GeoJSON layers
   const features = SOMALILAND_GEOJSON.features.map(feature => {
