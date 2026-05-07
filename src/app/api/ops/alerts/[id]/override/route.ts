@@ -6,10 +6,10 @@ import { supabase } from '@/lib/supabase';
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const alertId = params.id;
+    const { id: alertId } = await params;
     const { newLevel, reason } = await request.json();
 
     // In a real app, we would verify the user role from the session here
@@ -41,7 +41,7 @@ export async function POST(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { overrideId, status } = await request.json();

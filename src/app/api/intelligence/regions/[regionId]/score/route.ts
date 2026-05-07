@@ -3,10 +3,10 @@ import { calculateRegionalRisk } from '@/lib/intelligence';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { regionId: string } }
+  { params }: { params: Promise<{ regionId: string }> }
 ) {
   try {
-    const regionId = params.regionId;
+    const { regionId } = await params;
     const riskData = await calculateRegionalRisk(regionId);
 
     return NextResponse.json({
