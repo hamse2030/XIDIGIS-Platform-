@@ -26,7 +26,7 @@ async function ingestMarketPrices() {
 
   // 1. Get Metadata
   const { data: regions } = await supabase.from('regions').select('id, name');
-  const { data: source } = await supabase.from('sources').filter('name', 'eq', 'Local Market Feed').single();
+  const { data: source } = await supabase.from('sources').select('id').eq('name', 'Local Market Feed').single();
 
   if (!regions || !source) {
     console.error('❌ Metadata missing (Regions or Source)');

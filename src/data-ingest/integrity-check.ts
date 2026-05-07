@@ -53,7 +53,10 @@ async function checkIntegrity() {
   const staleRegions = stalenessData?.filter(d => new Date(d.calculated_at) < thirtySixHoursAgo);
 
   if (staleRegions && staleRegions.length > 0) {
-    const names = Array.from(new Set(staleRegions.map(r => r.regions.name))).join(', ');
+    const names = Array.from(new Set(staleRegions.map(r => {
+      const regionData = Array.isArray(r.regions) ? r.regions[0] : r.regions;
+      return regionData?.name || 'Unknown';
+    }))).join(', ');
     await notify(`Data staleness detected in regions: ${names}. Ingestion may be failing.`, 'CRITICAL');
   } else {
     console.log('✅ All region data is fresh (<36h).');
@@ -67,7 +70,10 @@ async function checkIntegrity() {
     .ilike('name', '%ANOMALY%');
 
   if (criticalData && criticalData.length > 0) {
-    const alerts = criticalData.map(d => `${d.regions.name} (${d.value}%)`).join(', ');
+    const alerts = criticalData.map(d => {
+      const regionData = Array.isArray(d.regions) ? d.regions[0] : d.regions;
+      return `${regionData?.name || 'Unknown'} (${d.value}%)`;
+    }).join(', ');
     await notify(`Critical drought anomalies detected: ${alerts}. Immediate analyst review required.`, 'CRITICAL');
   } else {
     console.log('✅ No automated Critical alerts triggered.');
