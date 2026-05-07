@@ -53,7 +53,7 @@ async function checkIntegrity() {
   const staleRegions = stalenessData?.filter(d => new Date(d.calculated_at) < thirtySixHoursAgo);
 
   if (staleRegions && staleRegions.length > 0) {
-    const names = Array.from(new Set(staleRegions.map(r => {
+    const names = Array.from(new Set((staleRegions as any[]).map(r => {
       const regionData = Array.isArray(r.regions) ? r.regions[0] : r.regions;
       return regionData?.name || 'Unknown';
     }))).join(', ');
@@ -70,7 +70,7 @@ async function checkIntegrity() {
     .ilike('name', '%ANOMALY%');
 
   if (criticalData && criticalData.length > 0) {
-    const alerts = criticalData.map(d => {
+    const alerts = (criticalData as any[]).map(d => {
       const regionData = Array.isArray(d.regions) ? d.regions[0] : d.regions;
       return `${regionData?.name || 'Unknown'} (${d.value}%)`;
     }).join(', ');

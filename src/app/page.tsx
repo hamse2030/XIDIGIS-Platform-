@@ -20,7 +20,7 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true);
-    const risk = calculateRiskFromMetrics(-25, 3, 8);
+    const risk = calculateRiskFromMetrics(-25, 3, 8, 0);
     setLiveRisk(risk);
 
     const interval = setInterval(() => {

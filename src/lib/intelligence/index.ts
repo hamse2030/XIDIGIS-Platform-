@@ -6,6 +6,8 @@ import riskConfig from '../../config/risk-weights.json';
 
 export type RiskLevel = 'Low' | 'Moderate' | 'High' | 'Severe' | 'Critical';
 
+export type IndicatorStatus = 'Normal' | 'Warning' | 'Alert';
+
 export interface RiskOutput {
   score: number;
   level: RiskLevel;
@@ -13,7 +15,7 @@ export interface RiskOutput {
   indicators: {
     label: string;
     value: number;
-    status: 'Normal' | 'Warning' | 'Alert';
+    status: IndicatorStatus;
   }[];
 }
 
@@ -51,10 +53,10 @@ export function calculateRiskFromMetrics(
     level,
     trend: totalScore > 40 ? 'Worsening' : 'Stable',
     indicators: [
-      { label: 'Climate Anomaly', value: climateVal, status: cScore > 40 ? 'Alert' : (cScore > 20 ? 'Warning' : 'Normal') },
-      { label: 'IPC Phase', value: foodVal, status: foodVal >= 4 ? 'Alert' : (foodVal >= 3 ? 'Warning' : 'Normal') },
-      { label: 'Security Context', value: securityVal, status: sScore > 50 ? 'Alert' : (sScore > 25 ? 'Warning' : 'Normal') },
-      { label: 'Market Volatility', value: marketVal, status: marketVal > 30 ? 'Warning' : 'Normal' }
+      { label: 'Climate Anomaly', value: climateVal, status: (cScore > 40 ? 'Alert' : (cScore > 20 ? 'Warning' : 'Normal')) as IndicatorStatus },
+      { label: 'IPC Phase', value: foodVal, status: (foodVal >= 4 ? 'Alert' : (foodVal >= 3 ? 'Warning' : 'Normal')) as IndicatorStatus },
+      { label: 'Security Context', value: securityVal, status: (sScore > 50 ? 'Alert' : (sScore > 25 ? 'Warning' : 'Normal')) as IndicatorStatus },
+      { label: 'Market Volatility', value: marketVal, status: (marketVal > 30 ? 'Warning' : 'Normal') as IndicatorStatus }
     ]
   };
 }
