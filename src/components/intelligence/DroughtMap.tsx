@@ -152,6 +152,7 @@ export default function DroughtMap({ onRegionSelect }: DroughtMapProps) {
         />
         {mapData && (
           <GeoJSON 
+            key={`${activeLayer}-${timeStep}`}
             data={mapData} 
             style={getStyle} 
             onEachFeature={onEachFeature} 
