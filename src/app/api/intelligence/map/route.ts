@@ -1,6 +1,14 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
+interface RegionIndex {
+  id: string;
+  name: string;
+  value: number | string;
+  calculated_at: string;
+  regions: { name: string; code: string };
+}
+
 // Mock GeoJSON for Somaliland Regions (Simplified)
 const SOMALILAND_GEOJSON = {
   type: "FeatureCollection",
@@ -27,8 +35,8 @@ export async function GET() {
   // 2. Map indices to GeoJSON
   const features = SOMALILAND_GEOJSON.features.map(feature => {
     // Find the latest anomaly for this region
-    const regionIndices = indices?.filter(idx => idx.regions.name === feature.properties.name);
-    const latestAnomaly = regionIndices?.find(idx => idx.name.includes('ANOMALY'));
+    const regionIndices = (indices as RegionIndex[])?.filter((idx: RegionIndex) => idx.regions?.name === feature.properties.name);
+    const latestAnomaly = regionIndices?.find((idx: RegionIndex) => idx.name.includes('ANOMALY'));
     
     return {
       ...feature,
