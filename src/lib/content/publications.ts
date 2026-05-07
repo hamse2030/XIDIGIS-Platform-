@@ -14,6 +14,7 @@ export interface ContentMetadata {
   dataSources: string[];
   methodology: string;
   tags: string[];
+  pdfUrl?: string;
 }
 
 export const publications: ContentMetadata[] = [
