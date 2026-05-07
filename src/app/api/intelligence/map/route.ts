@@ -13,12 +13,36 @@ interface RegionIndex {
 const SOMALILAND_GEOJSON = {
   type: "FeatureCollection",
   features: [
-    { type: "Feature", properties: { name: "Maroodi Jeex", code: "SL-MJ" }, geometry: { type: "Polygon", coordinates: [[[43.5, 9.2], [44.8, 9.2], [44.8, 10.1], [43.5, 10.1], [43.5, 9.2]]] } },
-    { type: "Feature", properties: { name: "Awdal", code: "SL-AW" }, geometry: { type: "Polygon", coordinates: [[[42.7, 10.1], [43.5, 10.1], [43.5, 11.0], [42.7, 11.0], [42.7, 10.1]]] } },
-    { type: "Feature", properties: { name: "Sahil", code: "SL-SH" }, geometry: { type: "Polygon", coordinates: [[[44.8, 10.1], [45.5, 10.1], [45.5, 11.0], [44.8, 11.0], [44.8, 10.1]]] } },
-    { type: "Feature", properties: { name: "Togdheer", code: "SL-TO" }, geometry: { type: "Polygon", coordinates: [[[44.8, 8.5], [46.5, 8.5], [46.5, 10.1], [44.8, 10.1], [44.8, 8.5]]] } },
-    { type: "Feature", properties: { name: "Sool", code: "SL-SO" }, geometry: { type: "Polygon", coordinates: [[[46.5, 8.2], [48.0, 8.2], [48.0, 9.5], [46.5, 9.5], [46.5, 8.2]]] } },
-    { type: "Feature", properties: { name: "Sanaag", code: "SL-SA" }, geometry: { type: "Polygon", coordinates: [[[46.5, 9.5], [49.0, 9.5], [49.0, 11.5], [46.5, 11.5], [46.5, 9.5]]] } }
+    { 
+      type: "Feature", 
+      properties: { name: "Awdal", code: "SL-AW" }, 
+      geometry: { type: "Polygon", coordinates: [[[42.7, 10.1], [43.5, 10.1], [43.5, 11.0], [42.7, 11.0], [42.7, 10.1]]] } 
+    },
+    { 
+      type: "Feature", 
+      properties: { name: "Maroodi Jeex", code: "SL-MJ" }, 
+      geometry: { type: "Polygon", coordinates: [[[43.5, 9.2], [44.8, 9.2], [44.8, 10.1], [43.5, 10.1], [43.5, 9.2]]] } 
+    },
+    { 
+      type: "Feature", 
+      properties: { name: "Sahil", code: "SL-SH" }, 
+      geometry: { type: "Polygon", coordinates: [[[44.8, 10.1], [45.5, 10.1], [45.5, 11.0], [44.8, 11.0], [44.8, 10.1]]] } 
+    },
+    { 
+      type: "Feature", 
+      properties: { name: "Togdheer", code: "SL-TO" }, 
+      geometry: { type: "Polygon", coordinates: [[[44.8, 8.5], [46.5, 8.5], [46.5, 10.1], [44.8, 10.1], [44.8, 8.5]]] } 
+    },
+    { 
+      type: "Feature", 
+      properties: { name: "Sool", code: "SL-SO" }, 
+      geometry: { type: "Polygon", coordinates: [[[46.5, 8.2], [48.0, 8.2], [48.0, 9.5], [46.5, 9.5], [46.5, 8.2]]] } 
+    },
+    { 
+      type: "Feature", 
+      properties: { name: "Sanaag", code: "SL-SA" }, 
+      geometry: { type: "Polygon", coordinates: [[[46.5, 9.5], [49.0, 9.5], [49.0, 11.5], [46.5, 11.5], [46.5, 9.5]]] } 
+    }
   ]
 };
 
