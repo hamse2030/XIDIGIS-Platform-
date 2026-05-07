@@ -35,8 +35,12 @@ export async function GET() {
   // 2. Map indices to GeoJSON
   const features = SOMALILAND_GEOJSON.features.map(feature => {
     // Find the latest anomaly for this region
-    const regionIndices = (indices as RegionIndex[])?.filter((idx: RegionIndex) => idx.regions?.name === feature.properties.name);
-    const latestAnomaly = regionIndices?.find((idx: RegionIndex) => idx.name.includes('ANOMALY'));
+    const regionIndices = (indices as any[])?.filter((idx: any) => {
+      const regionData = Array.isArray(idx.regions) ? idx.regions[0] : idx.regions;
+      return regionData?.name === feature.properties.name;
+    });
+    
+    const latestAnomaly = regionIndices?.find((idx: any) => idx.name.includes('ANOMALY'));
     
     return {
       ...feature,

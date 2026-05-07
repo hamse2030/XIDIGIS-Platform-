@@ -25,10 +25,14 @@ export default function DroughtMap({ onRegionSelect }: DroughtMapProps) {
     fetch('/api/intelligence/map')
       .then(res => res.json())
       .then(data => {
-        setMapData(data);
-        setIsLoading(false);
+        if (data.error) {
+          console.error('API Error:', data.error);
+        } else {
+          setMapData(data);
+        }
       })
-      .catch(err => console.error('Error fetching map data:', err));
+      .catch(err => console.error('Error fetching map data:', err))
+      .finally(() => setIsLoading(false));
   }, []);
 
   // ── Choropleth Styling (Semantic Brand Colors) ──
