@@ -7,7 +7,20 @@ import {
   Database, Zap, ArrowUpRight, BarChart3, Filter,
   Terminal, Share2, Download, Maximize2
 } from "lucide-react";
-import DroughtMap from "@/components/intelligence/DroughtMap";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const DroughtMap = dynamic(() => import("@/components/intelligence/DroughtMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center bg-surface-alt/50">
+      <div className="text-[10px] font-mono font-bold text-text-dim uppercase tracking-[0.4em] animate-pulse">
+        Initializing GIS Engine...
+      </div>
+    </div>
+  ),
+});
+
 import DroughtDashboard from "@/components/intelligence/DroughtDashboard";
 import AIBriefing from "@/components/intelligence/AIBriefing";
 
