@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
 /**
- * XIDIGIS Risk Projection Engine
+ * FALAG Risk Projection Engine
  * Analyzes temporal persistence of anomalies to forecast future risk levels.
  */
 

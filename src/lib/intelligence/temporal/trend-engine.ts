@@ -1,5 +1,5 @@
 /**
- * XIDIGIS Temporal Intelligence: Trend & Acceleration Engine
+ * FALAG Temporal Intelligence: Trend & Acceleration Engine
  */
 
 export function calculateTrend(history: number[]): number {

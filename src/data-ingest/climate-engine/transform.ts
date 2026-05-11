@@ -2,7 +2,7 @@ import { ClimateEngineResponse, ClimateObservation, ClimateVariable } from './ty
 import { normalizeRisk } from './normalize';
 
 /**
- * Transform raw API JSON into structured XIDIGIS observations
+ * Transform raw API JSON into structured FALAG observations
  */
 export function transformClimateData(
   raw: ClimateEngineResponse[], 

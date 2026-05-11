@@ -1,13 +1,13 @@
-import { Playfair_Display, Inter } from "next/font/google";
+import { Outfit, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import Link from "next/link";
-import { Globe, ShieldCheck, User, LayoutDashboard } from "lucide-react";
+import { Globe, ShieldCheck, User, LayoutDashboard, Terminal } from "lucide-react";
 import type { Metadata } from "next";
 
-const playfair = Playfair_Display({
+const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-heading",
+  variable: "--font-display",
 });
 
 const inter = Inter({
@@ -15,13 +15,18 @@ const inter = Inter({
   variable: "--font-sans",
 });
 
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
+
 export const metadata: Metadata = {
-  title: "XIDIGIS | Strategic Intelligence & Policy Research Institute",
-  description: "XIDIGIS is the authoritative regional platform for strategic foresight, multi-indicator risk intelligence, and independent policy research in the Horn of Africa.",
-  keywords: ["Somaliland", "Intelligence", "Research", "Foresight", "Strategic Policy", "Risk Monitoring", "Climate Resilience"],
+  title: "FALAG | Strategic Intelligence & Analytical Research System",
+  description: "FALAG is a high-credibility regional platform for strategic intelligence, real-time risk monitoring, and independent analytical research.",
+  keywords: ["FALAG", "Intelligence System", "Regional Research", "Strategic Foresight", "Risk Monitoring", "Data-Driven Analysis"],
   openGraph: {
-    title: "XIDIGIS | Institutional Intelligence Hub",
-    description: "Bridging the information gap through high-fidelity data and expert analysis.",
+    title: "FALAG | Institutional Intelligence Platform",
+    description: "Modern analytical environment for strategic regional monitoring and foresight.",
     type: "website",
   },
 };
@@ -32,94 +37,130 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-ivory-50 text-slate-700`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+    <html lang="en" suppressHydrationWarning className="dark">
+      <body className={`${inter.variable} ${outfit.variable} ${mono.variable} font-sans antialiased bg-background text-text-main`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark" enableSystem>
           
-          {/* 1. TOP NAV (Institutional Wordmark) */}
-          <header className="fixed top-0 left-0 right-0 z-[100] bg-white/80 backdrop-blur-md border-b border-ivory-200 shadow-sm">
-            <div className="max-w-content h-16 flex items-center justify-between">
-              <Link href="/" className="flex items-center gap-4 group">
-                <div className="w-8 h-8 bg-slate-900 rounded flex items-center justify-center text-white font-serif font-black text-lg italic transition-transform group-hover:scale-105">X</div>
+          {/* 1. STRATEGIC NAVIGATION (Intelligence Grade) */}
+          <header className="fixed top-0 left-0 right-0 z-[100] bg-background/80 backdrop-blur-xl border-b border-border-subtle">
+            <div className="max-w-content h-20 flex items-center justify-between">
+              <Link href="/" className="flex items-center gap-6 group">
+                <div className="w-10 h-10 border border-primary/30 flex items-center justify-center relative overflow-hidden">
+                   <div className="absolute inset-0 bg-primary/10 group-hover:bg-primary/20 transition-colors" />
+                   <Terminal size={20} className="text-primary relative z-10" />
+                </div>
                 <div className="flex flex-col leading-none">
-                  <span className="font-serif font-black text-xl text-slate-900 italic tracking-tighter">XIDIGIS</span>
-                  <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 italic">Institute</span>
+                  <span className="font-display font-black text-2xl tracking-tighter uppercase">FALAG</span>
+                  <span className="text-[10px] font-mono font-bold tracking-[0.4em] text-primary/70 uppercase">Intelligence</span>
                 </div>
               </Link>
               
-              <nav className="hidden lg:flex items-center gap-10">
-                <Link href="/" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors uppercase tracking-widest text-[11px]">Home</Link>
-                <Link href="/research" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors uppercase tracking-widest text-[11px]">Research Hub</Link>
-                <Link href="/intelligence" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors uppercase tracking-widest text-[11px]">Intelligence Hub</Link>
-                <Link href="/ops/alerts" className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors uppercase tracking-widest text-[11px]">
-                  <LayoutDashboard size={12} className="text-slate-400" /> Strategic Ops
-                </Link>
-                <Link href="/forum" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors uppercase tracking-widest text-[11px]">Public Discourse</Link>
+              <nav className="hidden lg:flex items-center gap-12">
+                {[
+                  { label: 'Intelligence Hub', href: '/intelligence' },
+                  { label: 'Research Hub', href: '/research' },
+                  { label: 'Strategic Ops', href: '/ops/alerts', icon: LayoutDashboard },
+                  { label: 'Discourse', href: '/forum' }
+                ].map((item) => (
+                  <Link 
+                    key={item.label}
+                    href={item.href} 
+                    className="text-[11px] font-mono font-bold text-text-dim hover:text-primary transition-all uppercase tracking-widest flex items-center gap-2"
+                  >
+                    {item.icon && <item.icon size={14} className="opacity-50" />}
+                    {item.label}
+                  </Link>
+                ))}
               </nav>
 
-              <div className="flex items-center gap-6">
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-ivory-200 border border-ivory-500 rounded text-[10px] font-black text-slate-700 uppercase tracking-widest">
-                  <Globe size={12} /> EN | SO
+              <div className="flex items-center gap-8">
+                <div className="hidden sm:flex items-center gap-3 text-[10px] font-mono font-bold text-text-dim uppercase tracking-widest">
+                  <Globe size={14} className="text-primary/50" />
+                  <span className="text-primary">EN</span>
+                  <span className="opacity-30">|</span>
+                  <span>SO</span>
                 </div>
-                <button className="btn-primary text-[10px] uppercase tracking-widest font-black py-2.5 px-6 shadow-lg">Analyst Login</button>
+                <button className="btn-primary">
+                  Access Portal
+                </button>
               </div>
             </div>
           </header>
 
-          <main className="pt-16 min-h-screen">
-            {children}
+          <main className="pt-20 min-h-screen relative overflow-hidden">
+            {/* Background Aesthetics */}
+            <div className="absolute inset-0 bg-grid opacity-[0.03] pointer-events-none" />
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none -translate-x-1/2 translate-y-1/2" />
+            
+            <div className="relative z-10">
+              {children}
+            </div>
           </main>
 
-          {/* 2. INSTITUTIONAL FOOTER */}
-          <footer className="bg-white border-t border-ivory-200 pt-20 pb-12 mt-20">
+          {/* 2. ANALYTICAL FOOTER */}
+          <footer className="bg-surface border-t border-border-subtle pt-32 pb-16 relative z-20">
             <div className="max-w-content">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
-                <div className="col-span-1 md:col-span-2">
-                  <div className="flex items-center gap-3 mb-8">
-                    <div className="w-10 h-10 bg-slate-900 text-white rounded flex items-center justify-center font-serif font-black text-xl italic">X</div>
+              <div className="grid grid-cols-12 gap-12 mb-24">
+                <div className="col-span-12 lg:col-span-5">
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="w-10 h-10 border border-primary/30 flex items-center justify-center">
+                       <Terminal size={20} className="text-primary" />
+                    </div>
                     <div className="flex flex-col leading-none">
-                      <span className="font-serif font-black text-2xl italic tracking-tighter text-slate-900">XIDIGIS</span>
-                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Policy Research Forum</span>
+                      <span className="font-display font-black text-2xl tracking-tighter uppercase">FALAG</span>
+                      <span className="text-[10px] font-mono font-bold tracking-[0.4em] text-primary/70 uppercase italic">Analytical Research System</span>
                     </div>
                   </div>
-                  <p className="text-slate-500 max-w-md mb-10 leading-relaxed font-medium italic">
-                    XIDIGIS is an independent strategic intelligence platform dedicated to bridging the information gap in Somaliland through evidence-based analysis and high-level collaborative discourse.
+                  <p className="text-text-dim max-w-md mb-12 text-sm leading-relaxed font-medium">
+                    FALAG is a modern institutional intelligence platform dedicated to high-fidelity risk monitoring, strategic regional forecasting, and independent policy analysis within complex environments.
                   </p>
-                  <div className="flex gap-4">
+                  <div className="flex gap-6">
                     {[Globe, ShieldCheck, User].map((Icon, i) => (
-                      <div key={i} className="w-10 h-10 rounded-full border border-ivory-200 flex items-center justify-center hover:bg-slate-900 hover:text-white transition-all cursor-pointer text-slate-700">
-                        <Icon size={18} />
+                      <div key={i} className="w-12 h-12 border border-border-subtle flex items-center justify-center hover:border-primary hover:text-primary transition-all cursor-pointer text-text-dim group">
+                        <Icon size={20} className="group-hover:scale-110 transition-transform" />
                       </div>
                     ))}
                   </div>
                 </div>
                 
-                <div>
-                  <h4 className="font-sans font-black text-slate-900 mb-8 uppercase tracking-widest text-[10px]">Strategic Verticals</h4>
-                  <ul className="space-y-4 text-xs font-bold text-slate-500 italic">
-                    <li className="hover:text-slate-900 transition-colors cursor-pointer">Climate Resilience</li>
-                    <li className="hover:text-slate-900 transition-colors cursor-pointer">Maritime Security</li>
-                    <li className="hover:text-slate-900 transition-colors cursor-pointer">Economic Forecasting</li>
-                    <li className="hover:text-slate-900 transition-colors cursor-pointer">Digital Sovereignty</li>
+                <div className="col-span-6 lg:col-span-3 lg:col-start-8">
+                  <h4 className="font-mono font-bold text-primary mb-10 uppercase tracking-[0.3em] text-[10px]">Intelligence Verticals</h4>
+                  <ul className="space-y-5 text-[11px] font-bold text-text-dim uppercase tracking-widest">
+                    <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">
+                       <div className="w-1 h-1 bg-primary/30 rounded-full" /> Climate Stress
+                    </li>
+                    <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">
+                       <div className="w-1 h-1 bg-primary/30 rounded-full" /> Security Density
+                    </li>
+                    <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">
+                       <div className="w-1 h-1 bg-primary/30 rounded-full" /> Market Stability
+                    </li>
+                    <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">
+                       <div className="w-1 h-1 bg-primary/30 rounded-full" /> Conflict Dynamics
+                    </li>
                   </ul>
                 </div>
 
-                <div>
-                  <h4 className="font-sans font-black text-slate-900 mb-8 uppercase tracking-widest text-[10px]">Institutional</h4>
-                  <ul className="space-y-4 text-xs font-bold text-slate-500 italic">
-                    <li className="hover:text-slate-900 transition-colors cursor-pointer">About the Institute</li>
-                    <li className="hover:text-slate-900 transition-colors cursor-pointer">Research Methodology</li>
-                    <li className="hover:text-slate-900 transition-colors cursor-pointer">Advisory Board</li>
-                    <li className="hover:text-slate-900 transition-colors cursor-pointer">Contact Operations</li>
+                <div className="col-span-6 lg:col-span-2">
+                  <h4 className="font-mono font-bold text-primary mb-10 uppercase tracking-[0.3em] text-[10px]">Institutional</h4>
+                  <ul className="space-y-5 text-[11px] font-bold text-text-dim uppercase tracking-widest">
+                    <li className="hover:text-primary transition-colors cursor-pointer">Operations</li>
+                    <li className="hover:text-primary transition-colors cursor-pointer">Methodology</li>
+                    <li className="hover:text-primary transition-colors cursor-pointer">Advisory</li>
+                    <li className="hover:text-primary transition-colors cursor-pointer">Governance</li>
                   </ul>
                 </div>
               </div>
 
-              <div className="pt-8 border-t border-ivory-200 flex flex-col md:flex-row justify-between gap-6 text-[10px] font-black uppercase tracking-widest text-slate-500 italic">
-                <span>© 2026 XIDIGIS INSTITUTE FOR STRATEGIC RESEARCH. AUTHORITATIVE & INDEPENDENT.</span>
-                <div className="flex gap-8">
-                  <span className="hover:text-slate-900 cursor-pointer">Privacy Protocol</span>
-                  <span className="hover:text-slate-900 cursor-pointer">Terms of Engagement</span>
+              <div className="pt-10 border-t border-border-subtle flex flex-col md:flex-row justify-between gap-8 text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-text-dim/60">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-low animate-pulse" />
+                  <span>SYSTEM OPERATIONAL // FALAG DATA CORE v1.4.0</span>
+                </div>
+                <div className="flex gap-12">
+                  <span className="hover:text-primary cursor-pointer transition-colors">Security Protocol</span>
+                  <span className="hover:text-primary cursor-pointer transition-colors">© 2026 FALAG SYSTEM</span>
                 </div>
               </div>
             </div>
@@ -129,4 +170,3 @@ export default function RootLayout({
     </html>
   );
 }
-

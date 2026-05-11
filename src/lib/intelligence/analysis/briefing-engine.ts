@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
 /**
- * XIDIGIS AI Intelligence Briefing Engine
+ * FALAG AI Intelligence Briefing Engine
  * Synthesizes multi-indicator data into institutional policy briefings.
  */
 

@@ -1,135 +1,189 @@
-/* Google Fonts — must be first @import */
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@400;500;600;700&display=swap");
+/* Google Fonts — Outfit for Headings, Inter for Body */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap");
 
 @import "tailwindcss";
 
 @theme {
   /* Fonts */
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-display: "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
 
-  /* ── Brand Palette (Institutional Slate & Ivory) ───── */
-  --color-slate-900: #0F1724;
-  --color-slate-700: #1F2937;
-  --color-slate-500: #374151;
+  /* ── FALAG Intelligence Palette (Space & Cyan) ───── */
+  --color-navy-950: #080C16; /* Deep Background */
+  --color-navy-900: #0F172A; /* Surface */
+  --color-navy-800: #1E293B; /* Cards */
+  --color-navy-700: #334155; /* Borders */
 
-  --color-ivory-50:  #FBF9F6;
-  --color-ivory-200: #F3EFE9;
-  --color-ivory-500: #E8E1D8;
+  --color-cyan-400: #22D3EE; /* Main Accent */
+  --color-cyan-500: #06B6D4; /* Hover/Action */
+  --color-blue-500: #3B82F6; /* Secondary Accent */
 
-  /* Semantic Data Colors */
-  --color-brand-burnt:       #B3472A; /* Critical */
-  --color-brand-deep-orange: #D9534F; /* Severe */
-  --color-brand-amber:       #D19F2B; /* Moderate */
-  --color-brand-olive:       #9AA03A; /* Watch */
-  --color-brand-teal:        #0F9D88; /* Safe */
-  --color-brand-primary:     #0B61B8; /* Interaction */
+  --color-slate-100: #F1F5F9; /* Primary Text */
+  --color-slate-400: #94A3B8; /* Muted Text */
+
+  /* Semantic Data Colors (Intelligence Grade) */
+  --color-risk-critical: #EF4444; 
+  --color-risk-high:     #F97316; 
+  --color-risk-mod:      #FBBF24; 
+  --color-risk-low:      #10B981; 
+  --color-risk-stable:   #38BDF8; 
 
   /* UI Aliases */
-  --color-primary:           var(--color-slate-900);
-  --color-surface-alt:       var(--color-ivory-50);
-  --color-text-muted:        #6B7280;
-  --color-border:            #E5E7EB;
+  --color-primary:           var(--color-cyan-400);
+  --color-background:        var(--color-navy-950);
+  --color-surface:           var(--color-navy-900);
+  --color-surface-card:      var(--color-navy-800);
+  --color-text-main:         var(--color-slate-100);
+  --color-text-dim:          var(--color-slate-400);
+  --color-border-subtle:     var(--color-navy-700);
 
   /* ── Layout & Spacing ── */
-  --container-max: 1280px;
-  --radius-card:   2px; /* Institutional Sharpness */
-  --shadow-card:   0 1px 3px rgba(15,23,36,0.04), 0 1px 2px rgba(15,23,36,0.06);
-  --shadow-elevated: 0 10px 40px -10px rgba(15,23,36,0.12), 0 4px 12px -4px rgba(15,23,36,0.06);
-  --shadow-premium: 0 20px 50px rgba(15,23,36,0.15);
+  --container-max: 1440px;
+  --radius-card:   0px; /* Maximum Institutional Sharpness */
+  --shadow-glow:   0 0 20px rgba(6, 182, 212, 0.15);
+  --shadow-premium: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
 @layer base {
   body {
-    background-color: var(--color-ivory-50);
+    background-color: var(--color-background);
     font-family: var(--font-sans);
-    color: var(--color-slate-700);
+    color: var(--color-text-main);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     scroll-behavior: smooth;
   }
 
-  h1, h2, h3, .font-serif {
-    font-family: var(--font-serif);
-    color: var(--color-slate-900);
-    letter-spacing: -0.03em;
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    color: white;
+    letter-spacing: -0.02em;
+    font-weight: 700;
   }
 
-  h1 { font-size: 3.5rem; font-weight: 900; line-height: 1.05; }
-  h2 { font-size: 2.25rem; font-weight: 900; line-height: 1.1; }
-  h3 { font-size: 1.5rem; font-weight: 900; }
+  h1 { font-size: 4rem; font-weight: 900; line-height: 1; }
+  h2 { font-size: 2.5rem; font-weight: 800; line-height: 1.1; }
+  h3 { font-size: 1.25rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
 }
 
 @layer components {
   .max-w-content {
     max-width: var(--container-max);
     margin-inline: auto;
-    padding-inline: 2rem;
+    padding-inline: 3rem;
   }
 
   .grid-12 {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
-  /* Institutional Card Pattern (Paper Aesthetic) */
+  /* Intelligence Card Pattern (Engineered Aesthetic) */
   .xi-card {
-    background-color: white;
-    border: 1px solid var(--color-ivory-500);
+    background-color: var(--color-surface-card);
+    border: 1px solid var(--color-border-subtle);
     border-radius: var(--radius-card);
-    box-shadow: var(--shadow-card);
+    box-shadow: var(--shadow-premium);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
   }
 
-  .shadow-elevated {
-    box-shadow: var(--shadow-elevated);
+  .xi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 0;
+    background-color: var(--color-primary);
+    transition: height 0.3s ease;
   }
 
   .xi-card:hover {
-    box-shadow: var(--shadow-elevated);
-    border-color: var(--color-slate-900);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .xi-card:hover::before {
+    height: 100%;
   }
 
   .xi-eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
-    font-size: 0.65rem;
-    font-weight: 900;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--color-slate-500);
-    margin-bottom: 1.5rem;
-    font-family: var(--font-sans);
+    letter-spacing: 0.3em;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-family: var(--font-mono);
   }
 
   .btn-primary {
-    background-color: var(--color-slate-900);
-    color: white;
-    padding: 0.75rem 1.5rem;
+    background-color: var(--color-primary);
+    color: var(--color-navy-950);
+    padding: 0.85rem 2rem;
     border-radius: var(--radius-card);
-    font-weight: 900;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.75rem;
     transition: all 0.2s ease;
-    border: 1px solid transparent;
+    border: 1px solid var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
   }
 
   .btn-primary:hover {
-    background-color: var(--color-slate-700);
-    box-shadow: var(--shadow-elevated);
-    transform: translateY(-1px);
+    background-color: transparent;
+    color: var(--color-primary);
+    box-shadow: var(--shadow-glow);
   }
 
-  /* Alert Patterns */
+  .btn-outline {
+    background-color: transparent;
+    color: white;
+    padding: 0.85rem 2rem;
+    border-radius: var(--radius-card);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.75rem;
+    transition: all 0.2s ease;
+    border: 1px solid var(--color-border-subtle);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  /* Intelligence Alert Patterns */
   .xi-alert {
-    background-color: white;
-    border: 1px solid var(--color-ivory-500);
-    border-left: 4px solid var(--color-brand-burnt);
-    padding: 1.25rem;
+    background-color: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-left: 2px solid #EF4444;
+    padding: 1.5rem;
     border-radius: var(--radius-card);
     display: flex;
-    gap: 1.25rem;
-    align-items: flex-start;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  /* Global Grid Background */
+  .bg-grid {
+    background-image: radial-gradient(circle, #1E293B 1px, transparent 1px);
+    background-size: 40px 40px;
   }
 }
-

@@ -1,5 +1,5 @@
 /**
- * XIDIGIS Risk Engine (Entry Point)
+ * FALAG Risk Engine (Entry Point)
  * Refactored into a modular architecture.
  */
 

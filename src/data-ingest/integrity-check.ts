@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 /**
- * XIDIGIS System Integrity Check
+ * FALAG System Integrity Check
  * 
  * Audits:
  * 1. Data Staleness: Alerts if ingestion has stalled (>36h).
@@ -32,7 +32,7 @@ async function notify(message: string, severity: 'WARNING' | 'CRITICAL') {
       await fetch(WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: `*XIDIGIS ${severity}*: ${message}` })
+        body: JSON.stringify({ text: `*FALAG ${severity}*: ${message}` })
       });
     } catch {
       console.error('Failed to send webhook');

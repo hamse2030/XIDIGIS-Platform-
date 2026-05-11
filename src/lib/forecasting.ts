@@ -1,5 +1,5 @@
 /**
- * XIDIGIS Forecasting Engine
+ * FALAG Forecasting Engine
  * Simplified econometric models for regional food security and economic trends.
  */
 

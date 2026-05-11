@@ -1,4 +1,4 @@
-# XIDIGIS Data Ingestion Pipeline
+# FALAG Data Ingestion Pipeline
 
 This directory contains scripts for ingesting and processing regional intelligence data.
 

@@ -2,7 +2,7 @@ import { supabase } from '../../supabase';
 import { RiskLevel } from '../index';
 
 /**
- * XIDIGIS Alert Engine
+ * FALAG Alert Engine
  * Automatically generates alerts based on EWS risk thresholds.
  */
 

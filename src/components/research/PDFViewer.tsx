@@ -46,7 +46,7 @@ export default function PDFViewer({ isOpen, onClose, title, url, author, date }:
                 <div>
                   <h3 className="text-xl font-serif font-black text-slate-900 italic leading-tight">{title}</h3>
                   <div className="flex gap-3 mt-1">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest">{author || "XIDIGIS RESEARCH"}</span>
+                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest">{author || "FALAG RESEARCH"}</span>
                     <span className="w-1 h-1 bg-ivory-500 rounded-full mt-1.5" />
                     <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{date || "MAY 2026"}</span>
                   </div>

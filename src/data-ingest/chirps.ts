@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 /**
- * XIDIGIS CHIRPS Ingestion Script
+ * FALAG CHIRPS Ingestion Script
  * 
  * This script simulates the ingestion of CHIRPS precipitation data,
  * aggregates rolling sums, computes anomalies, and pushes to Supabase.

@@ -1,5 +1,5 @@
 /**
- * XIDIGIS Fusion Layer: Conflict Resolver
+ * FALAG Fusion Layer: Conflict Resolver
  * Resolves differences between CHIRPS and Climate Engine outputs.
  */
 

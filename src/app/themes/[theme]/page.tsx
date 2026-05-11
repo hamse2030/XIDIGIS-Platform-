@@ -3,7 +3,7 @@
 import { use } from "react";
 import { publications } from "@/lib/content/publications";
 import PublicationCard from "@/components/research/PublicationCard";
-import { ChevronRight, Activity } from "lucide-react";
+import { ChevronRight, Activity, Terminal, Target, Globe, Shield } from "lucide-react";
 import Link from "next/link";
 
 interface PageProps {
@@ -15,87 +15,92 @@ export default function TopicHubPage({ params }: PageProps) {
   
   const themeMap: Record<string, { title: string, description: string, indicators: string[] }> = {
     "economics": {
-      title: "Development Economics",
-      description: "Analyzing structural transformation, trade dynamics, and macro-fiscal policy in the Horn of Africa.",
-      indicators: ["Berbera Throughput Index", "Inflation Variance", "Livestock Export Volume"]
+      title: "Macro-Economics",
+      description: "Analyzing structural transformation, trade dynamics, and macro-fiscal policy within regional corridors.",
+      indicators: ["Throughput Persistence", "Volatility Index", "Export Performance"]
     },
     "climate": {
-      title: "Climate Risk & Resilience",
-      description: "Evidence-based monitoring of environmental stressors and adaptation strategies for pastoral livelihoods.",
-      indicators: ["CHIRPS Rainfall Anomaly", "NDVI Vegetation Index", "Water Point Functionality"]
+      title: "Climate Systems",
+      description: "Multi-indicator monitoring of environmental stressors and institutional adaptation strategies.",
+      indicators: ["Precipitation Anomaly", "Vegetation Matrix", "Hydrological Security"]
     },
     "security": {
       title: "Strategic Security",
-      description: "Geopolitical analysis and maritime security strategies to ensure regional stability and sovereignty.",
-      indicators: ["Maritime Incident Tracking", "Border Trade Flow", "Geopolitical Risk Score"]
+      description: "High-fidelity regional stability assessment and intelligence-driven conflict analysis protocols.",
+      indicators: ["Maritime Density", "Incident Tracking", "Stability Score"]
     }
   };
 
   const currentTheme = themeMap[theme] || { 
     title: theme.charAt(0).toUpperCase() + theme.slice(1), 
-    description: "Specialized research and intelligence outputs.",
-    indicators: ["General Metrics"]
+    description: "Specialized analytical outputs and institutional intelligence.",
+    indicators: ["System Metrics"]
   };
 
   const themePublications = publications.filter(p => p.theme === theme);
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Institutional Header */}
-      <section className="section bg-surface-alt pt-32 pb-16 border-b border-gray-100">
-        <div className="container mx-auto">
+      {/* 1. STRATEGIC MASTHEAD */}
+      <section className="pt-40 pb-24 border-b border-border-subtle relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid opacity-[0.03] pointer-events-none" />
+        <div className="max-w-content relative z-10">
           <div className="max-w-4xl">
-            <div className="flex items-center gap-4 mb-8">
-              <Link href="/research" className="xi-eyebrow hover:text-primary transition-colors">
-                Research Hub <ChevronRight size={14} />
+            <div className="flex items-center gap-4 mb-10">
+              <Link href="/research" className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-primary hover:text-white transition-all flex items-center gap-2">
+                Knowledge Core <ChevronRight size={14} />
               </Link>
-              <span className="text-[10px] font-black uppercase tracking-widest text-text-muted">Topic Hub</span>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-text-dim">Pillar Output</span>
             </div>
-            <h1 className="text-primary font-serif italic tracking-tighter">{currentTheme.title}</h1>
-            <p className="text-lg text-text-muted leading-relaxed">
+            <h1 className="text-6xl font-display font-black text-white uppercase tracking-tight mb-8 leading-none">{currentTheme.title}</h1>
+            <p className="text-lg text-text-dim leading-relaxed font-medium max-w-2xl">
               {currentTheme.description}
             </p>
           </div>
         </div>
       </section>
 
-      <div className="bg-white border-b border-gray-100">
-        <div className="container mx-auto py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-20">
+      <div className="bg-background relative">
+        <div className="max-w-content py-32">
+        <div className="grid grid-cols-12 gap-16">
           
-          {/* Left Column: Topic Intelligence Indicators */}
-          <div className="lg:col-span-1 space-y-12">
+          {/* 2. PILLAR INTELLIGENCE SIDEBAR */}
+          <div className="col-span-12 lg:col-span-3 space-y-16">
             <div>
-              <div className="xi-eyebrow mb-8 border-b border-gray-200 w-full pb-4">Pillar Indicators</div>
+              <div className="xi-eyebrow mb-10 flex items-center gap-3">
+                 <Target size={14} /> System Indicators
+              </div>
               <div className="space-y-4">
                 {currentTheme.indicators.map((indicator, i) => (
-                  <div key={i} className="xi-card">
-                    <div className="xi-card__body py-4">
-                      <span className="block text-[9px] font-black text-text-muted uppercase tracking-widest italic mb-1">Active Monitoring</span>
-                      <span className="block text-xs font-black text-primary uppercase tracking-tight">{indicator}</span>
-                    </div>
+                  <div key={i} className="xi-card bg-surface/40 border-border-subtle p-5 group hover:border-primary/30 transition-all">
+                     <span className="block text-[9px] font-mono font-bold text-text-dim uppercase tracking-[0.2em] mb-2">Active Protocol</span>
+                     <span className="block text-xs font-display font-bold text-white uppercase tracking-tight group-hover:text-primary transition-colors">{indicator}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="xi-card border-l-4 border-l-primary shadow-lg">
-              <div className="xi-card__body">
-                <Activity size={24} className="text-primary mb-6" />
-                <h4 className="font-serif font-black italic text-lg mb-4">Intelligence Access</h4>
-                <p className="text-[10px] text-text-muted mb-8 italic">Access live analytical dashboards and geospatial monitoring related to this pillar.</p>
-                <Link href="/intelligence" className="btn btn-primary w-full text-[10px]">
-                  Launch Intelligence Suite <ChevronRight size={14} />
+            <div className="xi-card bg-surface border-l-2 border-l-primary shadow-glow group">
+              <div className="p-10">
+                <div className="w-12 h-12 border border-border-subtle flex items-center justify-center text-primary mb-8 group-hover:border-primary transition-all">
+                   <Activity size={24} />
+                </div>
+                <h4 className="text-xl font-display font-bold text-white uppercase tracking-tight mb-4">Intelligence Access</h4>
+                <p className="text-[11px] text-text-dim font-medium uppercase tracking-[0.1em] leading-relaxed mb-10">Access high-fidelity analytical dashboards and geospatial monitoring related to this strategic pillar.</p>
+                <Link href="/intelligence" className="btn-primary w-full group/btn">
+                  Launch Suite <ChevronRight size={14} className="ml-2 group-hover/btn:translate-x-1 transition-transform" />
                 </Link>
               </div>
             </div>
           </div>
 
-          {/* Center Column: Research Outputs */}
-          <div className="lg:col-span-3 space-y-12">
-            <div className="flex items-center justify-between border-b border-gray-100 pb-6 mb-8">
-              <h2 className="text-3xl font-serif font-black text-primary italic">Thematic Publications</h2>
-              <span className="text-[10px] font-black text-primary/60 uppercase tracking-widest italic">{themePublications.length} Outputs Found</span>
+          {/* 3. RESEARCH OUTPUT CORE */}
+          <div className="col-span-12 lg:col-span-9 space-y-16">
+            <div className="flex items-center justify-between border-b border-border-subtle pb-8">
+              <h2 className="text-4xl font-display font-black text-white uppercase tracking-tight">Thematic <span className="text-primary">Artifacts</span></h2>
+              <div className="flex items-center gap-3 text-[10px] font-mono font-bold text-primary uppercase tracking-[0.3em]">
+                 <Terminal size={14} /> {themePublications.length} OBJECTS IDENTIFIED
+              </div>
             </div>
 
             <div className="grid grid-cols-1 gap-12">
@@ -104,8 +109,9 @@ export default function TopicHubPage({ params }: PageProps) {
                   <PublicationCard key={pub.id} publication={pub} />
                 ))
               ) : (
-                <div className="p-20 border-2 border-dashed border-gray-100 text-center">
-                  <p className="font-serif font-bold text-gray-200 italic text-2xl">No active publications for this pillar.</p>
+                <div className="p-32 border border-dashed border-border-subtle bg-surface/20 text-center">
+                  <Globe size={48} className="mx-auto text-border-subtle opacity-20 mb-8" />
+                  <p className="text-2xl font-display font-bold text-text-dim uppercase tracking-tight">No active artifacts for this pillar.</p>
                 </div>
               )}
             </div>
