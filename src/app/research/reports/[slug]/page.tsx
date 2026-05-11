@@ -1,11 +1,10 @@
 "use client";
 
 import { use } from "react";
-import { ArrowLeft, Download, Share2, BookOpen, Clock, ShieldAlert, FileText, Bookmark } from "lucide-react";
+import { ArrowLeft, Download, Share2, Clock, ShieldAlert, Bookmark } from "lucide-react";
 import Link from "next/link";
 
-export default function ReportDetail({ params }: { params: Promise<{ slug: string }> }) {
-  const resolvedParams = use(params);
+export default function ReportDetail() {
   
   return (
     <div className="min-h-screen bg-background pt-24 pb-32">

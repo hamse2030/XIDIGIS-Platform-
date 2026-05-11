@@ -38,7 +38,7 @@ const PILLARS = [
 export default function ThemesGrid() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {PILLARS.map((pillar, i) => (
+      {PILLARS.map((pillar) => (
         <Link href={`/research/${pillar.id}`} key={pillar.id}>
           <motion.div 
             whileHover={{ y: -4 }}

@@ -2,10 +2,10 @@
 
 import { motion } from "framer-motion";
 import { 
-  ShieldAlert, Activity, BarChart3, 
-  Map as MapIcon, Globe, ArrowRight,
+  Activity, BarChart3, 
+  Globe, ArrowRight,
   TrendingUp, Shield, Database, Terminal,
-  ExternalLink, Zap
+  Zap
 } from "lucide-react";
 import Link from "next/link";
 import ThemesGrid from "@/components/research/ThemesGrid";

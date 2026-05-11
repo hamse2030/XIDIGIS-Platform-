@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, Download } from "lucide-react";
+import { BookOpen, Download } from "lucide-react";
 
 interface Publication {
   id: string;

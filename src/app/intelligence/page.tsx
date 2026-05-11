@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { 
-  Activity, Shield, Globe, TrendingUp, AlertTriangle, 
-  Database, Zap, ArrowUpRight, BarChart3, Filter,
+  Activity, Shield, Globe, TrendingUp, 
+  Database, Zap, ArrowUpRight, Filter,
   Terminal, Share2, Download, Maximize2
 } from "lucide-react";
 import Link from "next/link";

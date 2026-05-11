@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Search, Filter, BookOpen, Download, Terminal, ArrowRight, Eye } from "lucide-react";
+import { Search, Filter, BookOpen, Download, Terminal } from "lucide-react";
 import Link from "next/link";
 import PublicationCard from "@/components/research/PublicationCard";
 import ThemesGrid from "@/components/research/ThemesGrid";

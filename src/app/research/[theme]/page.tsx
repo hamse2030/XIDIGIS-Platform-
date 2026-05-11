@@ -1,11 +1,11 @@
 "use client";
 
 import { use } from "react";
-import { ArrowLeft, Filter, FileText, Download, TrendingUp, Globe, Shield, Activity, Target } from "lucide-react";
+import { ArrowLeft, Filter, Download, TrendingUp, Globe, Shield, Activity, Target } from "lucide-react";
 import Link from "next/link";
 import PublicationCard from "@/components/research/PublicationCard";
 
-const THEMES: Record<string, any> = {
+const THEMES: Record<string, { title: string; icon: React.ElementType }> = {
   "macro-economics": { title: "Macro-Economics", icon: TrendingUp },
   "climate-systems": { title: "Climate Systems", icon: Globe },
   "security-strategy": { title: "Security Strategy", icon: Shield },

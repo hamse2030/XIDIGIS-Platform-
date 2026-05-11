@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { MessageSquare, Users, Globe, Shield, Terminal, ArrowRight, Lock, Activity } from "lucide-react";
+import { MessageSquare, Users, Globe, Shield, ArrowRight, Lock, Activity } from "lucide-react";
 import Link from "next/link";
 
 const DISCUSSIONS = [

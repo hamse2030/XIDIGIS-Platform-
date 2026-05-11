@@ -1,8 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { AlertTriangle, ShieldAlert, Activity, CheckCircle, Clock, Filter, ChevronDown, Map, Plus } from "lucide-react";
-import Link from "next/link";
+import { AlertTriangle, Activity, Clock, Filter, ChevronDown, Map, Plus } from "lucide-react";
 
 // Mock Data for Alerts
 const LIVE_ALERTS = [

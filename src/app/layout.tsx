@@ -3,7 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import Link from "next/link";
 import { Globe, ShieldCheck, User, LayoutDashboard, Terminal } from "lucide-react";
-import type { Metadata } from "next";
+// import type { Metadata } from "next";
 
 const inter = Inter({
   subsets: ["latin"],
