@@ -1,125 +1,82 @@
 "use client";
 
 import { use } from "react";
-import { publications } from "@/lib/content/publications";
-import PublicationCard from "@/components/research/PublicationCard";
-import { ShieldCheck, Info, ChevronRight, BarChart3, Database, Terminal, Globe, Activity, Target } from "lucide-react";
+import { ArrowLeft, Filter, FileText, Download, TrendingUp, Globe, Shield, Activity, Target } from "lucide-react";
 import Link from "next/link";
+import PublicationCard from "@/components/research/PublicationCard";
 
-interface PageProps {
-  params: Promise<{ theme: string }>;
-}
+const THEMES: Record<string, any> = {
+  "macro-economics": { title: "Macro-Economics", icon: TrendingUp },
+  "climate-systems": { title: "Climate Systems", icon: Globe },
+  "security-strategy": { title: "Security Strategy", icon: Shield },
+  "digital-transformation": { title: "Digital Systems", icon: Activity },
+};
 
-export default function ResearchThemePage({ params }: PageProps) {
-  const { theme } = use(params);
-  
-  // Map URL-friendly theme back to display name
-  const themeMap: Record<string, string> = {
-    "economics": "Macro-Economics",
-    "climate": "Climate Systems",
-    "security": "Strategic Security",
-    "tech": "Digital Sovereignty"
-  };
+const MOCK_PUBS = [
+  {
+    id: 'pub-001',
+    title: 'The Geopolitics of Red Sea Port Security',
+    type: 'Strategic Dossier',
+    date: '2026-Q1',
+    author: 'FALAG Ops Team',
+    theme: 'Security Strategy',
+    readTime: '18 min',
+    classification: 'UNCLASSIFIED',
+    slug: 'geopolitics-red-sea-port-security'
+  },
+  {
+    id: 'pub-002',
+    title: 'Climate-Induced Migration Patterns in the Horn',
+    type: 'Analytical Brief',
+    date: '2025-Q4',
+    author: 'Dr. S. Ahmed',
+    theme: 'Climate Systems',
+    readTime: '12 min',
+    classification: 'UNCLASSIFIED',
+    slug: 'climate-migration-horn'
+  }
+];
 
-  const currentThemeName = themeMap[theme] || theme.charAt(0).toUpperCase() + theme.slice(1);
-  const themePublications = publications.filter(p => 
-    p.category.toLowerCase().includes(theme.toLowerCase()) || 
-    currentThemeName.includes(p.category)
-  );
+export default function ThemePage({ params }: { params: Promise<{ theme: string }> }) {
+  const resolvedParams = use(params);
+  const themeData = THEMES[resolvedParams.theme] || { title: "Research Theme", icon: Target };
+  const Icon = themeData.icon;
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* 1. INSTITUTIONAL MASTHEAD */}
-      <section className="pt-40 pb-24 border-b border-border-subtle relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid opacity-[0.03] pointer-events-none" />
-        <div className="max-w-content relative z-10">
-          <div className="max-w-4xl">
-            <div className="flex items-center gap-4 mb-10">
-              <Link href="/research" className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-primary hover:text-white transition-all flex items-center gap-2 group">
-                Knowledge Core <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-text-dim">Thematic Archive</span>
+    <div className="min-h-screen bg-background pt-24">
+      <div className="max-w-content py-12">
+        <Link href="/research" className="inline-flex items-center gap-2 text-xs font-semibold text-text-muted hover:text-primary uppercase tracking-widest transition-colors mb-12">
+          <ArrowLeft size={14} /> Back to Repository
+        </Link>
+        
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 mb-16 pb-12 border-b border-border">
+          <div>
+            <div className="xi-eyebrow flex items-center gap-2 mb-4">
+              <Icon size={14} className="text-primary" /> Strategic Pillar
             </div>
-            <h1 className="text-6xl font-display font-black text-white uppercase tracking-tight mb-8 leading-none">{currentThemeName}</h1>
-            <p className="text-lg text-text-dim leading-relaxed font-medium max-w-2xl">
-              Advancing evidence-based policy frameworks to navigate institutional {currentThemeName.toLowerCase()} challenges through empirical regional analysis.
+            <h1 className="text-5xl font-bold text-text-main uppercase tracking-tight mb-4">{themeData.title}</h1>
+            <p className="text-text-secondary font-normal tracking-wide max-w-2xl leading-relaxed">
+              Archived dossiers, intelligence briefs, and datasets pertaining to {themeData.title.toLowerCase()}.
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* 2. REPOSITORY INTERFACE */}
-      <div className="bg-background relative">
-        <div className="max-w-content py-32">
-        <div className="grid grid-cols-12 gap-20">
           
-          {/* Left: Research Outputs */}
-          <div className="col-span-12 lg:col-span-8 space-y-16">
-            <div className="flex items-center justify-between border-b border-border-subtle pb-8">
-              <h2 className="text-4xl font-display font-black text-white uppercase tracking-tight">Active <span className="text-primary">Research</span> Artifacts</h2>
-              <div className="flex items-center gap-3 text-[10px] font-mono font-bold text-primary uppercase tracking-[0.3em]">
-                 <Terminal size={14} /> {themePublications.length} OBJECTS IDENTIFIED
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-12">
-              {themePublications.length > 0 ? (
-                themePublications.map(pub => (
-                  <PublicationCard key={pub.id} publication={pub} />
-                ))
-              ) : (
-                <div className="p-32 border border-dashed border-border-subtle bg-surface/20 text-center">
-                  <Globe size={48} className="mx-auto text-border-subtle opacity-20 mb-8" />
-                  <p className="text-2xl font-display font-bold text-text-dim uppercase tracking-tight">No active artifacts for this pillar.</p>
-                </div>
-              )}
-            </div>
+          <div className="flex gap-4">
+            <button className="btn-outline">
+              <Filter size={14} className="mr-2" /> Refine
+            </button>
+            <button className="btn-primary">
+              <Download size={14} className="mr-2" /> Export
+            </button>
           </div>
+        </div>
 
-          {/* Right: Analytical Rigor & Stats */}
-          <div className="col-span-12 lg:col-span-4 space-y-16">
-            {/* Rigor Panel */}
-            <div className="xi-card bg-surface border-l-2 border-l-primary shadow-glow group">
-              <div className="p-10">
-                <div className="flex items-center gap-4 mb-8 text-primary">
-                  <ShieldCheck size={24} />
-                  <h3 className="text-xl font-display font-bold text-white uppercase tracking-tight">Analytical Rigor</h3>
-                </div>
-                <p className="text-[11px] text-text-dim leading-relaxed font-medium uppercase tracking-[0.1em] mb-10">
-                  Our methodology relies on a multi-modal intelligence approach, combining high-fidelity ground data with regional strategic forecasting models.
-                </p>
-                <ul className="space-y-6">
-                  <li className="flex items-center gap-4 text-[10px] font-mono font-bold text-text-main uppercase tracking-widest group-hover:text-primary transition-colors">
-                    <Activity size={16} className="text-primary/40 shrink-0" /> Real-time indicators
-                  </li>
-                  <li className="flex items-center gap-4 text-[10px] font-mono font-bold text-text-main uppercase tracking-widest group-hover:text-primary transition-colors">
-                    <Database size={16} className="text-primary/40 shrink-0" /> Proprietary datasets
-                  </li>
-                  <li className="flex items-center gap-4 text-[10px] font-mono font-bold text-text-main uppercase tracking-widest group-hover:text-primary transition-colors">
-                    <Info size={16} className="text-primary/40 shrink-0" /> Strategic Briefs
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Pillar Impact Sidebar */}
-            <div className="border-l border-border-subtle pl-10">
-              <div className="xi-eyebrow mb-12 border-b border-border-subtle pb-6 flex items-center gap-3">
-                 <Target size={14} /> Pillar Impact
-              </div>
-              <div className="space-y-12">
-                <div>
-                  <span className="block text-5xl font-display font-black text-white mb-2 leading-none">42+</span>
-                  <span className="text-[9px] font-mono font-bold text-text-dim uppercase tracking-[0.3em]">CITED BY INSTITUTIONS</span>
-                </div>
-                <div>
-                  <span className="block text-5xl font-display font-black text-white mb-2 leading-none">12K</span>
-                  <span className="text-[9px] font-mono font-bold text-text-dim uppercase tracking-[0.3em]">ANNUAL ARTIFACT DOWNLOADS</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {MOCK_PUBS.map(pub => (
+            <PublicationCard key={pub.id} publication={pub} />
+          ))}
+          {MOCK_PUBS.map(pub => (
+            <PublicationCard key={pub.id + '-dup'} publication={{...pub, id: pub.id + '-dup'}} />
+          ))}
         </div>
       </div>
     </div>

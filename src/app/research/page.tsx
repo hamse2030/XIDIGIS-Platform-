@@ -1,208 +1,183 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { publications, type ContentMetadata } from "@/lib/content/publications";
-import PublicationCard from "@/components/research/PublicationCard";
-import { BookOpen, FileText, Newspaper, ChevronRight, Search, SlidersHorizontal, Terminal, Database, Globe } from "lucide-react";
+import { Search, Filter, BookOpen, Download, Terminal, ArrowRight, Eye } from "lucide-react";
 import Link from "next/link";
-import Fuse from "fuse.js";
+import PublicationCard from "@/components/research/PublicationCard";
+import ThemesGrid from "@/components/research/ThemesGrid";
 
-const THEMES = [
-  { key: "all", label: "All Repositories" },
-  { key: "economics", label: "Macro-Economics" },
-  { key: "climate", label: "Climate Systems" },
-  { key: "security", label: "Strategic Security" },
-  { key: "technology", label: "Digital Sovereignty" },
+// MOCK DATA for Research
+const PUBLICATIONS = [
+  {
+    id: 'pub-001',
+    title: 'The Geopolitics of Red Sea Port Security',
+    type: 'Strategic Dossier',
+    date: '2026-Q1',
+    author: 'FALAG Ops Team',
+    theme: 'Security Strategy',
+    readTime: '18 min',
+    classification: 'UNCLASSIFIED',
+    slug: 'geopolitics-red-sea-port-security'
+  },
+  {
+    id: 'pub-002',
+    title: 'Climate-Induced Migration Patterns in the Horn',
+    type: 'Analytical Brief',
+    date: '2025-Q4',
+    author: 'Dr. S. Ahmed',
+    theme: 'Climate Systems',
+    readTime: '12 min',
+    classification: 'UNCLASSIFIED',
+    slug: 'climate-migration-horn'
+  },
+  {
+    id: 'pub-003',
+    title: 'Inflationary Pressures on Core Commodities',
+    type: 'Economic Assessment',
+    date: '2025-Q4',
+    author: 'FALAG Economics',
+    theme: 'Macro-Economics',
+    readTime: '24 min',
+    classification: 'INTERNAL',
+    slug: 'inflation-core-commodities'
+  }
 ];
 
-const TYPES = ["All", "Paper", "Brief", "Report"];
-
 export default function ResearchHub() {
-  const [activeTheme, setActiveTheme] = useState("all");
-  const [activeType, setActiveType] = useState("All");
-  const [query, setQuery] = useState("");
-  const [dynamicPublications, setDynamicPublications] = useState<ContentMetadata[]>([]);
-
-  useEffect(() => {
-    async function fetchDocs() {
-      try {
-        const response = await fetch('/api/publications');
-        const result = await response.json();
-        if (result.success) {
-          setDynamicPublications(result.data);
-        }
-      } catch {
-        console.error("Failed to synchronize with research stream.");
-      }
-    }
-    fetchDocs();
-  }, []);
-
-  const displayPublications = dynamicPublications.length > 0 ? dynamicPublications : publications;
-
-  const fuse = new Fuse(displayPublications, {
-    keys: ["title", "abstract", "summary", "tags"],
-    threshold: 0.35,
-    distance: 100,
-    ignoreLocation: true
-  });
-
-  const filtered = displayPublications.filter((p) => {
-    const matchTheme = activeTheme === "all" || p.theme === activeTheme;
-    const matchType = activeType === "All" || p.type === activeType;
-    
-    if (query.trim() === "") {
-      return matchTheme && matchType;
-    }
-
-    const searchResults = fuse.search(query);
-    const matchQuery = searchResults.some(result => result.item.id === p.id);
-    
-    return matchTheme && matchType && matchQuery;
-  });
-
-  const stats = [
-    { label: "INDEXED OUTPUTS", value: displayPublications.length, icon: Database },
-    { label: "STRATEGIC BRIEFS", value: displayPublications.filter((p) => p.type === "Brief").length, icon: Terminal },
-    { label: "EMPIRICAL PAPERS", value: displayPublications.filter((p) => p.type === "Paper").length, icon: FileText },
-    { label: "SYSTEM REPORTS", value: displayPublications.filter((p) => p.type === "Report").length, icon: BookOpen },
-  ];
-
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* 1. STRATEGIC HERO (Light Mode) */}
-      <section className="pt-40 pb-24 border-b border-border bg-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid opacity-[0.03] pointer-events-none" />
+    <div className="flex flex-col min-h-screen bg-background">
+      {/* 1. STRATEGIC HEADER */}
+      <section className="pt-32 pb-16 border-b border-border bg-surface relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid opacity-[0.02] pointer-events-none" />
         <div className="max-w-content relative z-10">
-          <div className="max-w-4xl">
-            <div className="xi-eyebrow">
-              <BookOpen size={14} className="text-primary" /> Institutional Knowledge Core
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12">
+            <div className="max-w-3xl">
+              <div className="xi-eyebrow flex items-center gap-2">
+                 <Terminal size={14} /> Knowledge Repository
+              </div>
+              <h1 className="text-5xl font-bold text-text-main uppercase tracking-tight leading-none mb-6">
+                Research <span className="text-primary">Archive</span>.
+              </h1>
+              <p className="text-base text-text-secondary font-normal tracking-wide leading-relaxed">
+                Access peer-reviewed strategic dossiers, open-source intelligence briefs, and quantitative economic models structured for institutional policy design.
+              </p>
             </div>
-            <h1 className="text-6xl font-display font-black text-navy-950 uppercase tracking-tight leading-none mb-10">
-              Analytical <span className="text-primary">Repository</span> & <br /> 
-              Strategic <span className="text-navy-700/40">Analysis.</span>
-            </h1>
-            <p className="text-lg text-text-dim leading-relaxed mb-16 font-medium max-w-2xl">
-              A high-fidelity archive of FALAG analytical outputs, policy frameworks, and regional system reports — all synthesized from empirical field data and institutional expertise.
-            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex-1 py-16 bg-background">
+        <div className="max-w-content">
+          <div className="grid grid-cols-12 gap-12">
             
-            {/* System Stats Matrix */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-12 pt-12 border-t border-border">
-              {stats.map((s, i) => (
-                <div key={i} className="flex flex-col">
-                  <span className="text-4xl font-display font-black text-navy-950 mb-2">{s.value}</span>
-                  <span className="text-[9px] font-mono font-bold uppercase tracking-[0.2em] text-text-dim flex items-center gap-2">
-                     <s.icon size={10} className="text-primary/50" /> {s.label}
-                  </span>
+            {/* LEFT: THEMATIC INDEX & FILTERS */}
+            <div className="col-span-12 lg:col-span-3 space-y-12">
+              {/* Search Console */}
+              <div className="xi-card p-6 bg-surface-elevated border-border sticky top-32">
+                <div className="flex items-center gap-3 border-b border-border pb-4 mb-6">
+                  <Search size={16} className="text-text-muted" />
+                  <input 
+                    type="text" 
+                    placeholder="QUERY DATABASE..." 
+                    className="bg-transparent border-none outline-none text-xs font-semibold text-text-main w-full placeholder:text-text-muted tracking-widest uppercase"
+                  />
                 </div>
-              ))}
+                
+                <h4 className="text-[10px] font-semibold text-text-muted uppercase tracking-widest mb-4 flex items-center gap-2">
+                  <Filter size={14} /> Filter Matrices
+                </h4>
+                
+                <div className="space-y-6">
+                  <div>
+                    <h5 className="text-[11px] font-bold text-text-main uppercase tracking-widest mb-3">Classification</h5>
+                    <div className="space-y-2">
+                      {['All Documents', 'Unclassified', 'Internal', 'Restricted'].map((level) => (
+                        <label key={level} className="flex items-center gap-3 cursor-pointer group">
+                          <div className="w-3 h-3 border border-border group-hover:border-primary transition-colors flex items-center justify-center">
+                            {level === 'All Documents' && <div className="w-1.5 h-1.5 bg-primary" />}
+                          </div>
+                          <span className="text-xs font-medium text-text-secondary group-hover:text-text-main transition-colors">{level}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h5 className="text-[11px] font-bold text-text-main uppercase tracking-widest mb-3">Document Type</h5>
+                    <div className="space-y-2">
+                      {['Strategic Dossiers', 'Analytical Briefs', 'Data Models', 'Field Reports'].map((type) => (
+                        <label key={type} className="flex items-center gap-3 cursor-pointer group">
+                          <div className="w-3 h-3 border border-border group-hover:border-primary transition-colors" />
+                          <span className="text-xs font-medium text-text-secondary group-hover:text-text-main transition-colors">{type}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            {/* RIGHT: PUBLICATION FEED */}
+            <div className="col-span-12 lg:col-span-9 space-y-12">
+              
+              {/* Highlighted/Latest Release */}
+              <div className="xi-card p-10 bg-surface border-border flex flex-col md:flex-row gap-10 items-center">
+                <div className="flex-1">
+                  <div className="flex items-center gap-4 mb-4">
+                    <span className="px-3 py-1 bg-risk-critical/20 text-risk-critical text-[10px] font-bold uppercase tracking-widest border border-risk-critical/30">
+                      Urgent Brief
+                    </span>
+                    <span className="text-[10px] font-medium text-text-muted uppercase tracking-widest">Released: 24h Ago</span>
+                  </div>
+                  <h2 className="text-3xl font-bold text-text-main uppercase tracking-tight mb-4">
+                    Maritime Supply Chain Vulnerabilities
+                  </h2>
+                  <p className="text-sm text-text-secondary font-normal leading-relaxed mb-8">
+                    An urgent assessment of recent disruptions in the Bab-el-Mandeb strait and their direct inflationary impact on primary commodity markets in the Horn.
+                  </p>
+                  <div className="flex gap-4">
+                    <Link href={`/research/reports/maritime-vulnerabilities`} className="btn-primary">
+                      <BookOpen size={14} className="mr-2" /> Read Dossier
+                    </Link>
+                    <button className="btn-outline">
+                      <Download size={14} />
+                    </button>
+                  </div>
+                </div>
+                <div className="w-full md:w-64 h-64 bg-surface-elevated border border-border flex items-center justify-center text-text-muted">
+                   <span className="text-[10px] font-semibold uppercase tracking-widest">Document Preview</span>
+                </div>
+              </div>
+
+              {/* Grid of Standard Publications */}
+              <div>
+                <div className="flex justify-between items-end mb-6 border-b border-border pb-4">
+                  <h3 className="text-lg font-bold text-text-main uppercase tracking-widest">Archive Feed</h3>
+                  <span className="text-xs font-semibold text-text-muted uppercase tracking-widest">Showing 24 Documents</span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {PUBLICATIONS.map((pub) => (
+                    <PublicationCard key={pub.id} publication={pub} />
+                  ))}
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* 2. FILTER & SEARCH INTERFACE (Light Mode) */}
-      <section className="sticky top-20 z-40 bg-white/90 backdrop-blur-xl border-b border-border shadow-sm">
-        <div className="max-w-content py-6 flex flex-col md:flex-row items-center gap-8">
-          {/* Search Module */}
-          <div className="relative flex-1 w-full">
-            <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
-            <input
-              type="text"
-              placeholder="SEARCH BY TITLE, THEME, OR IDENTIFIER..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-surface-alt border border-border text-[11px] font-mono font-bold text-navy-950 uppercase tracking-widest focus:outline-none focus:border-primary transition-all"
-            />
+      {/* THEMATIC EXPLORATION */}
+      <section className="py-24 border-t border-border bg-surface">
+        <div className="max-w-content">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-text-main uppercase tracking-tight mb-4">Explore by Strategic Pillar</h2>
+            <p className="text-sm text-text-secondary font-normal">Navigate the repository through our core analytical vectors.</p>
           </div>
-
-          {/* Type Selector */}
-          <div className="flex items-center gap-3">
-            <SlidersHorizontal size={14} className="text-text-dim mr-2" />
-            {TYPES.map((t) => (
-              <button
-                key={t}
-                onClick={() => setActiveType(t)}
-                className={`px-4 py-2 text-[10px] font-mono font-bold uppercase tracking-widest transition-all border ${
-                  activeType === t
-                    ? "bg-navy-950 text-white border-navy-950 shadow-sm"
-                    : "bg-transparent text-text-dim border-border hover:border-primary/50"
-                }`}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Theme Matrix Tabs */}
-        <div className="max-w-content flex gap-0 overflow-x-auto border-t border-border">
-          {THEMES.map((th) => (
-            <button
-              key={th.key}
-              onClick={() => setActiveTheme(th.key)}
-              className={`px-8 py-4 text-[10px] font-mono font-bold uppercase tracking-[0.2em] border-b-2 transition-all whitespace-nowrap ${
-                activeTheme === th.key
-                  ? "border-primary text-primary bg-primary/5"
-                  : "border-transparent text-text-dim hover:text-navy-950"
-              }`}
-            >
-              {th.label}
-            </button>
-          ))}
+          <ThemesGrid />
         </div>
       </section>
 
-      {/* 3. REPOSITORY OUTPUTS (Light Mode) */}
-      <section className="py-24 bg-surface-alt/20 flex-1 relative">
-        <div className="max-w-content relative z-10">
-          <div className="flex justify-between items-center mb-16">
-            <div className="flex items-center gap-3 text-[10px] font-mono font-bold text-primary uppercase tracking-[0.3em]">
-               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-               QUERY RESULTS: {filtered.length} OBJECT{filtered.length !== 1 ? "S" : ""} IDENTIFIED
-            </div>
-            <div className="flex gap-8">
-              {THEMES.slice(1).map((th) => (
-                <Link
-                  key={th.key}
-                  href={`/themes/${th.key}`}
-                  className="text-[10px] font-mono font-bold text-text-dim uppercase tracking-widest hover:text-primary flex items-center gap-2 transition-all group"
-                >
-                  {th.label} <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {filtered.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-              {filtered.map((pub, i) => (
-                <motion.div
-                  key={pub.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                >
-                  <PublicationCard publication={pub} />
-                </motion.div>
-              ))}
-            </div>
-          ) : (
-            <div className="py-40 text-center border border-dashed border-border bg-white">
-              <Globe size={56} className="mx-auto text-border mb-8 opacity-30" />
-              <h3 className="text-3xl font-display font-black text-navy-950 uppercase tracking-tight mb-6">No Matching Artifacts</h3>
-              <p className="text-text-dim font-medium max-w-sm mx-auto mb-10">Adjust your system filters or query parameters to locate strategic outputs.</p>
-              <button 
-                onClick={() => { setQuery(""); setActiveTheme("all"); setActiveType("All"); }}
-                className="btn-outline text-[10px]"
-              >
-                Reset System Filters
-              </button>
-            </div>
-          )}
-        </div>
-      </section>
     </div>
   );
 }

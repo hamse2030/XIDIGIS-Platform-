@@ -1,169 +1,92 @@
 "use client";
 
 import { use } from "react";
-import { publications } from "@/lib/content/publications";
-import { ChevronLeft, Download, Share2, BookOpen, Clock, Tag, User, MapPin, Terminal, Database, Shield } from "lucide-react";
+import { ArrowLeft, Download, Share2, BookOpen, Clock, ShieldAlert, FileText, Bookmark } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 
-interface PageProps {
-  params: Promise<{ slug: string }>;
-}
-
-export default function ReportDetailPage({ params }: PageProps) {
-  const { slug } = use(params);
-  const report = publications.find(p => p.slug === slug);
-
-  if (!report) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-white">
-        <div className="text-center">
-          <Terminal className="mx-auto text-primary mb-6" size={48} />
-          <p className="text-xl font-display font-bold text-navy-950 uppercase tracking-tight">Artifact Not Found in Archive.</p>
-        </div>
-      </div>
-    );
-  }
-
+export default function ReportDetail({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = use(params);
+  
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* 1. STRATEGIC NAVIGATION (Light Mode) */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-border">
-        <div className="max-w-content h-20 flex items-center justify-between">
-          <Link href="/research" className="flex items-center gap-3 text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-text-dim hover:text-navy-950 transition-all group">
-            <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Core
-          </Link>
-          <div className="flex gap-4">
-             <button className="px-5 py-2.5 border border-border text-[10px] font-mono font-bold text-text-dim uppercase tracking-widest hover:border-navy-950 hover:text-navy-950 transition-all">
-               <Share2 size={14} className="mr-2 inline" /> Share
-             </button>
-             <button className="btn-primary py-2.5 px-6">
-               <Download size={14} className="mr-2 inline" /> Download Protocol (PDF)
-             </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* 2. INSTITUTIONAL MASTHEAD (Light Mode) */}
-      <header className="pt-48 pb-24 border-b border-border bg-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid opacity-[0.03] pointer-events-none" />
-        <div className="max-w-content relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex gap-4 mb-10">
-               <span className="px-3 py-1 border border-primary text-primary text-[9px] font-mono font-bold uppercase tracking-widest bg-primary/5">{report.type}</span>
-               <span className="px-3 py-1 border border-border text-text-dim text-[9px] font-mono font-bold uppercase tracking-widest">{report.category}</span>
-            </div>
+    <div className="min-h-screen bg-background pt-24 pb-32">
+      {/* HEADER */}
+      <section className="bg-surface border-b border-border py-16 relative overflow-hidden">
+         <div className="absolute inset-0 bg-grid opacity-[0.02] pointer-events-none" />
+         <div className="max-w-4xl mx-auto px-6 relative z-10">
+            <Link href="/research" className="inline-flex items-center gap-2 text-xs font-semibold text-text-muted hover:text-primary uppercase tracking-widest transition-colors mb-10">
+               <ArrowLeft size={14} /> Back to Archive
+            </Link>
             
-            <h1 className="text-6xl font-display font-black text-navy-950 uppercase tracking-tight mb-12 leading-[1.1] max-w-5xl">
-              {report.title}
+            <div className="flex items-center gap-4 mb-6">
+               <span className="px-3 py-1 bg-risk-critical/10 text-risk-critical text-[10px] font-bold uppercase tracking-widest border border-risk-critical/30">
+                 UNCLASSIFIED
+               </span>
+               <span className="text-[10px] font-medium text-text-muted uppercase tracking-widest">Dossier // 2026-Q1</span>
+            </div>
+
+            <h1 className="text-4xl md:text-5xl font-bold text-text-main uppercase tracking-tight leading-tight mb-8">
+               Maritime Supply Chain Vulnerabilities in the Red Sea
             </h1>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-12 py-10 border-y border-border">
-              <div className="space-y-3">
-                <span className="text-[10px] font-mono font-bold uppercase text-text-dim tracking-[0.3em] block">Principal Author</span>
-                <span className="text-sm font-display font-bold text-navy-950 flex items-center gap-3 uppercase tracking-tight"><User size={16} className="text-primary" /> {report.author}</span>
-              </div>
-              <div className="space-y-3">
-                <span className="text-[10px] font-mono font-bold uppercase text-text-dim tracking-[0.3em] block">Release Date</span>
-                <span className="text-sm font-display font-bold text-navy-950 flex items-center gap-3 uppercase tracking-tight"><Clock size={16} className="text-primary" /> {report.date}</span>
-              </div>
-              <div className="space-y-3">
-                <span className="text-[10px] font-mono font-bold uppercase text-text-dim tracking-[0.3em] block">Regional Vector</span>
-                <span className="text-sm font-display font-bold text-navy-950 flex items-center gap-3 uppercase tracking-tight"><MapPin size={16} className="text-primary" /> {report.region}</span>
-              </div>
-              <div className="space-y-3">
-                <span className="text-[10px] font-mono font-bold uppercase text-text-dim tracking-[0.3em] block">Data Fidelity</span>
-                <span className="text-sm font-display font-bold text-navy-950 flex items-center gap-3 uppercase tracking-tight"><Database size={16} className="text-primary" /> {report.dataSources.length} SOURCES</span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </header>
-
-      {/* 3. EXECUTIVE ANALYSIS (Light Mode) */}
-      <main className="py-32 bg-white relative">
-        <div className="max-w-content grid grid-cols-12 gap-20">
-          
-          <div className="col-span-12 lg:col-span-8 space-y-24">
-            <section>
-              <h2 className="text-3xl font-display font-bold text-navy-950 uppercase tracking-tight mb-8">Executive Summary</h2>
-              <p className="text-2xl font-medium text-text-dim leading-relaxed tracking-wide border-l-2 border-l-primary pl-10 py-6 bg-surface-alt/50">
-                {report.summary}
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-3xl font-display font-bold text-navy-950 uppercase tracking-tight mb-8">Strategic Abstract</h2>
-              <div className="space-y-8">
-                <p className="text-md text-text-dim leading-relaxed font-medium tracking-wide">
-                  {report.abstract}
-                </p>
-                <p className="text-md text-text-dim leading-relaxed font-medium tracking-wide opacity-80">
-                  The primary objective of this institutional study is to address the multifaceted challenges within the {report.category.toLowerCase()} framework. By leveraging proprietary datasets and high-fidelity regional monitoring, our analytical team identifies critical inflection points that will shape {report.region} over the next strategic cycle.
-                </p>
-              </div>
-            </section>
-
-            <section className="p-10 bg-white border border-border group hover:border-primary/20 transition-all">
-               <h3 className="text-[11px] font-mono font-bold uppercase tracking-[0.4em] text-primary mb-8 flex items-center gap-3">
-                  <Terminal size={14} /> Methodological Framework
-               </h3>
-               <p className="text-sm text-text-dim leading-relaxed font-medium tracking-wide">
-                 {report.methodology}
-               </p>
-            </section>
-          </div>
-
-          <aside className="col-span-12 lg:col-span-4 space-y-16">
-            <div>
-              <h3 className="text-[11px] font-mono font-bold uppercase tracking-[0.4em] text-navy-950 mb-10 border-b border-border pb-6 flex items-center gap-3">
-                 <Database size={14} className="text-primary" /> System Inputs
-              </h3>
-              <div className="flex flex-wrap gap-3">
-                {report.dataSources.map((source, i) => (
-                  <span key={i} className="px-4 py-2 border border-border text-[10px] font-mono font-bold text-text-dim uppercase tracking-widest hover:border-primary/50 hover:text-navy-950 transition-all">
-                    {source}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-[11px] font-mono font-bold uppercase tracking-[0.4em] text-navy-950 mb-10 border-b border-border pb-6 flex items-center gap-3">
-                 <Tag size={14} className="text-primary" /> Taxonomy
-              </h3>
-              <div className="flex flex-wrap gap-3">
-                {report.tags.map((tag, i) => (
-                  <span key={i} className="flex items-center gap-2 px-4 py-2 bg-surface-alt border border-border text-[10px] font-mono font-bold text-primary uppercase tracking-widest transition-all hover:bg-primary/5">
-                    <Tag size={12} className="opacity-50" /> {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="p-10 bg-white border-l-2 border-l-primary shadow-premium">
-               <div className="flex items-center gap-4 mb-6">
-                  <Shield size={20} className="text-primary" />
-                  <h3 className="text-xl font-display font-bold text-navy-950 uppercase tracking-tight">Institutional Access</h3>
+            <div className="flex flex-wrap items-center gap-8 border-t border-border pt-8">
+               <div>
+                  <p className="text-[10px] font-medium text-text-muted uppercase tracking-widest mb-1">Author</p>
+                  <p className="text-xs font-bold text-text-main uppercase tracking-widest">FALAG Ops Team</p>
                </div>
-               <p className="text-sm text-text-dim font-medium leading-relaxed mb-10 tracking-wide">Full datasets and econometric models used in this report are available for authenticated institutional partners.</p>
-               <button className="btn-primary w-full shadow-sm">Request Access Protocol</button>
+               <div>
+                  <p className="text-[10px] font-medium text-text-muted uppercase tracking-widest mb-1">Vector</p>
+                  <p className="text-xs font-bold text-text-main uppercase tracking-widest">Security Strategy</p>
+               </div>
+               <div>
+                  <p className="text-[10px] font-medium text-text-muted uppercase tracking-widest mb-1">Read Time</p>
+                  <p className="text-xs font-bold text-text-main uppercase tracking-widest flex items-center gap-2"><Clock size={12}/> 18 Min</p>
+               </div>
+               <div className="flex-1 flex justify-end gap-3">
+                  <button className="p-3 border border-border text-text-muted hover:text-text-main hover:bg-surface-elevated transition-colors">
+                     <Bookmark size={16} />
+                  </button>
+                  <button className="p-3 border border-border text-text-muted hover:text-text-main hover:bg-surface-elevated transition-colors">
+                     <Share2 size={16} />
+                  </button>
+                  <button className="btn-primary flex items-center gap-2">
+                     <Download size={14} /> Download PDF
+                  </button>
+               </div>
             </div>
-          </aside>
-
-        </div>
-      </main>
-
-      {/* 4. FOOTER (Light Mode) */}
-      <footer className="py-20 border-t border-border bg-surface-alt text-center">
-         <div className="max-w-content">
-            <p className="text-[10px] font-mono font-bold text-text-dim uppercase tracking-[0.4em]">© 2026 FALAG STRATEGIC RESEARCH SERIES // INTERNAL USE ONLY</p>
          </div>
-      </footer>
+      </section>
+
+      {/* CONTENT */}
+      <section className="max-w-4xl mx-auto px-6 py-16">
+         <div className="prose prose-invert prose-slate max-w-none prose-headings:font-bold prose-headings:uppercase prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
+            <h2 className="text-2xl font-bold text-text-main uppercase tracking-tight mb-6">Executive Summary</h2>
+            <p className="text-base text-text-secondary font-normal leading-relaxed mb-8">
+               The recent escalation of asymmetric naval operations in the Bab-el-Mandeb strait has fundamentally altered the risk calculus for maritime logistics routing through the Suez Canal. This dossier synthesizes quantitative trade flow data with qualitative regional security assessments to project the medium-term inflationary impacts on primary commodities within the Horn of Africa.
+            </p>
+            <div className="p-6 bg-surface-elevated border-l-2 border-primary mb-10">
+               <h4 className="text-xs font-bold text-text-main uppercase tracking-widest mb-2 flex items-center gap-2">
+                  <ShieldAlert size={14} className="text-primary"/> Key Finding
+               </h4>
+               <p className="text-sm text-text-secondary font-normal m-0">
+                  Container freight rates to regional ports have increased by an average of 42% over the baseline, directly translating to a projected 3.5% localized CPI increase by Q3.
+               </p>
+            </div>
+            
+            <h3 className="text-xl font-bold text-text-main uppercase tracking-tight mb-6 mt-12">1. Methodology & Data Sources</h3>
+            <p className="text-base text-text-secondary font-normal leading-relaxed mb-8">
+               Our analysis relies on a multi-sensor approach, integrating AIS (Automatic Identification System) tracking data, regional port authority logs, and macroeconomic indicators from central banks across the region.
+            </p>
+            <p className="text-base text-text-secondary font-normal leading-relaxed mb-8">
+               *End of Preview. Authenticate to view full report.*
+            </p>
+         </div>
+
+         <div className="mt-16 pt-12 border-t border-border flex justify-center">
+            <button className="btn-outline">
+               Load Full Document Structure
+            </button>
+         </div>
+      </section>
     </div>
   );
 }

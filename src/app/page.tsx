@@ -13,8 +13,8 @@ import ThemesGrid from "@/components/research/ThemesGrid";
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* 1. STRATEGIC HERO (Light Mode) */}
-      <section className="relative pt-40 pb-32 border-b border-border overflow-hidden">
+      {/* 1. STRATEGIC HERO (Dark Institutional Mode) */}
+      <section className="relative pt-40 pb-32 border-b border-border overflow-hidden bg-background">
         <div className="absolute inset-0 bg-grid opacity-[0.03] pointer-events-none" />
         
         <div className="max-w-content relative z-10">
@@ -28,14 +28,14 @@ export default function Home() {
                 <div className="xi-eyebrow">
                    <Shield size={14} className="text-primary" /> Institutional Intelligence Platform
                 </div>
-                <h1 className="text-7xl font-display font-black text-navy-950 uppercase tracking-tight leading-[0.9] mb-10">
+                <h1 className="text-6xl md:text-7xl font-bold text-text-main uppercase tracking-tight leading-[1.1] mb-8">
                   Strategic <span className="text-primary">Foresight</span> <br /> 
-                  & Regional <span className="text-navy-700/40">Analysis.</span>
+                  & Regional <span className="text-text-muted">Analysis.</span>
                 </h1>
-                <p className="text-xl text-text-dim leading-relaxed mb-16 font-medium max-w-2xl">
+                <p className="text-lg text-text-secondary leading-relaxed mb-12 font-normal max-w-2xl">
                   Navigating complexity through high-fidelity data economics, strategic security frameworks, and real-time climate monitoring in the Horn of Africa.
                 </p>
-                <div className="flex flex-wrap gap-6">
+                <div className="flex flex-wrap gap-4">
                   <Link href="/intelligence" className="btn-primary group">
                     Initialize System <Zap size={14} className="ml-3 group-hover:scale-125 transition-transform" />
                   </Link>
@@ -48,7 +48,7 @@ export default function Home() {
             
             {/* System Status Matrix */}
             <div className="hidden lg:col-span-4 lg:block">
-              <div className="xi-card p-10 bg-surface-alt/50 border-border">
+              <div className="xi-card p-10 bg-surface-elevated/50 border-border">
                 <div className="xi-eyebrow mb-8 flex items-center gap-3">
                    <Terminal size={14} /> Live System Status
                 </div>
@@ -56,11 +56,11 @@ export default function Home() {
                   {[
                     { label: "Alert Density", value: "ELEVATED", color: "text-risk-high" },
                     { label: "Data Fidelity", value: "99.8%", color: "text-primary" },
-                    { label: "Active Vectors", value: "14", color: "text-navy-950" },
+                    { label: "Active Vectors", value: "14", color: "text-text-main" },
                   ].map((stat, i) => (
                     <div key={i} className="flex justify-between items-end border-b border-border pb-4 last:border-0 last:pb-0">
-                      <span className="text-[10px] font-mono font-bold text-text-dim uppercase tracking-widest">{stat.label}</span>
-                      <span className={`text-lg font-display font-black uppercase tracking-tight ${stat.color}`}>{stat.value}</span>
+                      <span className="text-xs font-semibold text-text-muted uppercase tracking-widest">{stat.label}</span>
+                      <span className={`text-xl font-bold uppercase tracking-tight ${stat.color}`}>{stat.value}</span>
                     </div>
                   ))}
                 </div>
@@ -70,25 +70,25 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. REAL-TIME MONITORING (Light Mode) */}
-      <section className="py-32 bg-white">
+      {/* 2. REAL-TIME MONITORING (Dark Institutional Mode) */}
+      <section className="py-32 bg-surface">
         <div className="max-w-content">
           <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
             <div className="max-w-2xl">
               <div className="xi-eyebrow">
                  <Activity size={14} /> Operational Intelligence
               </div>
-              <h2 className="text-5xl font-display font-black text-navy-950 uppercase tracking-tight leading-none mb-6">
+              <h2 className="text-5xl font-bold text-text-main uppercase tracking-tight leading-tight mb-6">
                 Critical <span className="text-primary">Risk</span> Index
               </h2>
-              <p className="text-text-dim font-medium tracking-wide">Synthesized regional metrics derived from multi-sensor data and expert validation.</p>
+              <p className="text-text-secondary font-normal tracking-wide">Synthesized regional metrics derived from multi-sensor data and expert validation.</p>
             </div>
-            <Link href="/ops/alerts" className="text-[11px] font-mono font-bold text-primary uppercase tracking-[0.3em] flex items-center gap-3 hover:gap-5 transition-all group">
+            <Link href="/ops/alerts" className="text-xs font-semibold text-primary uppercase tracking-[0.2em] flex items-center gap-3 hover:gap-5 transition-all group">
                Full Alert Feed <ArrowRight size={16} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { label: "Economic Volatility", val: "MODERATE", color: "bg-risk-mod", icon: TrendingUp, detail: "CPI Fluctuations: +2.4%" },
               { label: "Climate Stress", val: "CRITICAL", color: "bg-risk-critical", icon: Globe, detail: "Precipitation Deficit: -40%" },
@@ -97,21 +97,21 @@ export default function Home() {
             ].map((item, i) => (
               <motion.div 
                 key={i}
-                whileHover={{ y: -8 }}
-                className="xi-card p-10 relative overflow-hidden group border-border"
+                whileHover={{ y: -6 }}
+                className="xi-card p-8 relative overflow-hidden group border-border bg-surface-elevated/30"
               >
                 <div className={`absolute top-0 left-0 w-full h-1 ${item.color}`} />
                 <div className="flex flex-col h-full">
-                  <div className="flex justify-between items-start mb-10">
-                    <div className="w-12 h-12 border border-border flex items-center justify-center text-navy-950 group-hover:border-primary group-hover:text-primary transition-all">
+                  <div className="flex justify-between items-start mb-8">
+                    <div className="w-12 h-12 border border-border flex items-center justify-center text-text-muted group-hover:border-primary group-hover:text-primary transition-all">
                       <item.icon size={24} />
                     </div>
-                    <span className={`text-[9px] font-mono font-bold px-3 py-1 rounded-sm uppercase tracking-widest text-white ${item.color}`}>
+                    <span className={`text-[10px] font-bold px-3 py-1 rounded uppercase tracking-widest text-white ${item.color}`}>
                       {item.val}
                     </span>
                   </div>
-                  <h3 className="text-xl font-display font-bold text-navy-950 uppercase tracking-tight mb-4">{item.label}</h3>
-                  <p className="text-[11px] font-mono font-bold text-text-dim uppercase tracking-widest">{item.detail}</p>
+                  <h3 className="text-lg font-bold text-text-main uppercase tracking-tight mb-3">{item.label}</h3>
+                  <p className="text-xs font-medium text-text-muted uppercase tracking-widest">{item.detail}</p>
                 </div>
               </motion.div>
             ))}
@@ -119,8 +119,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. THEMATIC RESEARCH (Light Mode) */}
-      <section className="py-32 bg-surface">
+      {/* 3. THEMATIC RESEARCH (Dark Institutional Mode) */}
+      <section className="py-32 bg-background">
         <div className="max-w-content">
           <div className="grid grid-cols-12 gap-16">
             <div className="col-span-12 lg:col-span-4">
@@ -128,16 +128,16 @@ export default function Home() {
                 <div className="xi-eyebrow">
                    <BarChart3 size={14} /> Strategic Pillars
                 </div>
-                <h2 className="text-5xl font-display font-black text-navy-950 uppercase tracking-tight leading-none mb-8">
+                <h2 className="text-5xl font-bold text-text-main uppercase tracking-tight leading-tight mb-8">
                   Pillars of <br /> <span className="text-primary">Inquiry.</span>
                 </h2>
-                <p className="text-text-dim font-medium leading-relaxed mb-12">
+                <p className="text-text-secondary font-normal leading-relaxed mb-12">
                   Our research framework is structured around four critical verticals that determine regional stability and institutional development.
                 </p>
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {['Macro-Economics', 'Climate Systems', 'Security Strategy', 'Digital Transformation'].map((theme, i) => (
-                    <div key={i} className="flex items-center gap-4 text-[10px] font-mono font-bold text-navy-900 uppercase tracking-[0.3em]">
-                       <div className="w-2 h-2 bg-primary/30 rounded-full" /> {theme}
+                    <div key={i} className="flex items-center gap-4 text-xs font-semibold text-text-muted uppercase tracking-[0.2em]">
+                       <div className="w-2 h-2 bg-primary/50 rounded-full" /> {theme}
                     </div>
                   ))}
                 </div>
@@ -151,19 +151,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. MISSION STATEMENT (Light Mode) */}
-      <section className="py-40 bg-navy-950 text-white relative overflow-hidden">
+      {/* 4. MISSION STATEMENT (Dark Institutional Mode) */}
+      <section className="py-40 bg-surface relative overflow-hidden border-t border-border">
         <div className="absolute inset-0 bg-grid opacity-[0.05] pointer-events-none" />
         <div className="max-w-content relative z-10 text-center">
           <div className="max-w-4xl mx-auto">
-             <Terminal size={48} className="mx-auto text-primary mb-12" />
-             <h2 className="text-5xl md:text-7xl font-display font-black uppercase tracking-tight leading-[0.9] mb-12">
-                Elevating regional <span className="text-primary">understanding</span> through data <span className="text-white/40">integrity.</span>
+             <Terminal size={48} className="mx-auto text-primary mb-10" />
+             <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tight leading-tight mb-10 text-text-main">
+                Elevating regional <span className="text-primary">understanding</span> through data <span className="text-text-muted">integrity.</span>
              </h2>
-             <p className="text-xl text-white/60 leading-relaxed font-medium mb-16 max-w-2xl mx-auto uppercase tracking-wide">
+             <p className="text-lg text-text-secondary leading-relaxed font-normal mb-12 max-w-2xl mx-auto tracking-wide">
                 FALAG is committed to providing high-fidelity, independent analytical frameworks to support strategic decision-making and sustainable development in the Horn of Africa.
              </p>
-             <button className="btn-primary bg-white text-navy-950 hover:bg-primary hover:text-white">
+             <button className="btn-primary mx-auto">
                 View Institutional Profile
              </button>
           </div>

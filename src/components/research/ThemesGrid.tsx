@@ -1,95 +1,66 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TrendingUp, Globe, Shield, Terminal, ArrowRight, Activity, Zap } from "lucide-react";
+import { ArrowRight, Globe, TrendingUp, Shield, Activity } from "lucide-react";
 import Link from "next/link";
 
-const THEMES = [
+const PILLARS = [
   {
-    id: "economics",
+    id: "macro-economics",
     title: "Macro-Economics",
-    description: "Structural transformation, trade flows, and fiscal stability frameworks.",
     icon: TrendingUp,
-    color: "text-primary",
-    bg: "bg-primary/5",
-    metrics: ["Berbera Corridor", "Inflation Monitor"]
+    description: "Analyzing inflationary trends, trade deficits, and regional market stability mechanisms.",
+    docs: 142
   },
   {
-    id: "climate",
+    id: "climate-systems",
     title: "Climate Systems",
-    description: "Evidence-based environmental monitoring and adaptation strategies.",
     icon: Globe,
-    color: "text-risk-stable",
-    bg: "bg-risk-stable/5",
-    metrics: ["Rainfall Anomaly", "VCI Matrix"]
+    description: "Tracking hydrological anomalies, drought indices, and ecological resource scarcity.",
+    docs: 89
   },
   {
-    id: "security",
-    title: "Strategic Security",
-    description: "Regional stability, maritime sovereignty, and conflict dynamics.",
+    id: "security-strategy",
+    title: "Security Strategy",
     icon: Shield,
-    color: "text-navy-900",
-    bg: "bg-navy-900/5",
-    metrics: ["Incident Tracking", "Maritime Density"]
+    description: "Monitoring conflict density, maritime route vulnerabilities, and cross-border security.",
+    docs: 215
   },
   {
-    id: "tech",
-    title: "Digital Sovereignty",
-    description: "Infrastructure development, data policy, and technological resilience.",
-    icon: Zap,
-    color: "text-risk-high",
-    bg: "bg-risk-high/5",
-    metrics: ["Connectivity Index", "Policy Framework"]
+    id: "digital-transformation",
+    title: "Digital Systems",
+    icon: Activity,
+    description: "Evaluating infrastructure resilience, telecommunications, and digital economy growth.",
+    docs: 64
   }
 ];
 
 export default function ThemesGrid() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {THEMES.map((theme, i) => (
-        <motion.div
-          key={theme.id}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: i * 0.1 }}
-          className="xi-card group bg-white border-border hover:border-primary/40 overflow-hidden"
-        >
-          <div className="p-10">
-            <div className="flex justify-between items-start mb-10">
-              <div className={`w-14 h-14 ${theme.bg} flex items-center justify-center border border-border group-hover:border-primary transition-all`}>
-                <theme.icon className={`${theme.color} group-hover:scale-110 transition-transform`} size={28} />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {PILLARS.map((pillar, i) => (
+        <Link href={`/research/${pillar.id}`} key={pillar.id}>
+          <motion.div 
+            whileHover={{ y: -4 }}
+            className="xi-card p-8 h-full flex flex-col group cursor-pointer bg-surface border-border hover:bg-surface-elevated"
+          >
+            <div className="flex justify-between items-start mb-6">
+              <div className="w-12 h-12 bg-background border border-border flex items-center justify-center text-text-muted group-hover:border-primary group-hover:text-primary transition-all">
+                <pillar.icon size={20} />
               </div>
-              <Activity size={16} className="text-text-dim opacity-20" />
+              <span className="text-[10px] font-semibold text-text-muted uppercase tracking-[0.2em]">{pillar.docs} Dossiers</span>
             </div>
             
-            <h3 className="text-2xl font-display font-bold text-navy-950 uppercase tracking-tight mb-4 group-hover:text-primary transition-colors">
-              {theme.title}
-            </h3>
-            <p className="text-sm text-text-dim leading-relaxed font-medium mb-10 uppercase tracking-wide">
-              {theme.description}
+            <h3 className="text-xl font-bold text-text-main mb-3 group-hover:text-primary transition-colors">{pillar.title}</h3>
+            <p className="text-sm text-text-secondary font-normal mb-8 leading-relaxed flex-1">
+              {pillar.description}
             </p>
-
-            <div className="space-y-3 mb-12">
-               {theme.metrics.map((metric, j) => (
-                 <div key={j} className="flex items-center gap-3 text-[9px] font-mono font-bold text-text-dim uppercase tracking-[0.2em]">
-                    <div className="w-1 h-1 bg-primary/40 rounded-full" /> {metric}
-                 </div>
-               ))}
+            
+            <div className="flex items-center gap-2 text-[10px] font-bold text-primary uppercase tracking-widest mt-auto">
+              Explore Vector <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </div>
-
-            <Link 
-              href={`/themes/${theme.id}`}
-              className="inline-flex items-center gap-3 text-[10px] font-mono font-bold text-primary uppercase tracking-[0.3em] hover:gap-5 transition-all"
-            >
-              Initialize Pillar <ArrowRight size={14} />
-            </Link>
-          </div>
-          
-          {/* Subtle Technical Border Decor */}
-          <div className="absolute top-0 right-0 p-4 opacity-10">
-             <Terminal size={40} strokeWidth={1} />
-          </div>
-        </motion.div>
+          </motion.div>
+        </Link>
       ))}
     </div>
   );

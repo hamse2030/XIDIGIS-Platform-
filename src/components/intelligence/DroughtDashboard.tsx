@@ -1,83 +1,66 @@
 "use client";
 
-import { 
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, 
-  Tooltip, ResponsiveContainer, BarChart, Bar, Cell 
-} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, ReferenceLine } from "recharts";
 
 const data = [
-  { month: 'JAN', value: 45 },
-  { month: 'FEB', value: 52 },
-  { month: 'MAR', value: 48 },
-  { month: 'APR', value: 30 },
-  { month: 'MAY', value: 25 },
-  { month: 'JUN', value: 18 },
-  { month: 'JUL', value: 22 },
-];
-
-const barData = [
-  { name: 'Sool', val: 78 },
-  { name: 'Sanaag', val: 62 },
-  { name: 'Togdheer', val: 84 },
-  { name: 'Awdal', val: 45 },
+  { region: "Guban", current: 15, historical: 45 },
+  { region: "Sool", current: 22, historical: 50 },
+  { region: "Hawd", current: 30, historical: 60 },
+  { region: "Ogo", current: 40, historical: 55 },
+  { region: "Sanag", current: 18, historical: 42 },
 ];
 
 export default function DroughtDashboard() {
   return (
-    <div className="space-y-12">
-      <div className="h-[240px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data}>
-            <defs>
-              <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#0891B2" stopOpacity={0.2}/>
-                <stop offset="95%" stopColor="#0891B2" stopOpacity={0}/>
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
-            <XAxis 
-              dataKey="month" 
-              axisLine={false} 
-              tickLine={false} 
-              tick={{ fill: '#64748B', fontSize: 10, fontWeight: 700 }} 
-            />
-            <YAxis 
-              hide 
-            />
-            <Tooltip 
-              contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#E2E8F0', fontSize: '10px', color: '#0F172A' }}
-              itemStyle={{ color: '#0891B2' }}
-            />
-            <Area 
-              type="monotone" 
-              dataKey="value" 
-              stroke="#0891B2" 
-              strokeWidth={3}
-              fillOpacity={1} 
-              fill="url(#colorValue)" 
-            />
-          </AreaChart>
-        </ResponsiveContainer>
+    <div className="w-full">
+      <div className="flex justify-between items-end mb-6">
+        <div>
+          <h3 className="text-xl font-bold text-text-main uppercase tracking-tight mb-1">Precipitation Deficit</h3>
+          <p className="text-[10px] font-semibold text-text-muted uppercase tracking-widest">30-Day Moving Average vs 5-Year Baseline (mm)</p>
+        </div>
+        <div className="flex gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-primary" />
+            <span className="text-[9px] font-semibold text-text-secondary uppercase tracking-widest">Current</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-border" />
+            <span className="text-[9px] font-semibold text-text-secondary uppercase tracking-widest">Historical</span>
+          </div>
+        </div>
       </div>
 
-      <div className="h-[140px] w-full">
+      <div className="h-64 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={barData}>
+          <BarChart data={data} margin={{ top: 10, right: 0, left: -20, bottom: 0 }} barGap={2}>
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#1E293B" />
             <XAxis 
-              dataKey="name" 
+              dataKey="region" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fill: '#64748B', fontSize: 9, fontWeight: 700 }} 
+              tick={{ fontSize: 10, fill: '#94A3B8', fontFamily: 'var(--font-sans)', fontWeight: 600 }} 
+              dy={10}
             />
-            <Tooltip 
-               cursor={{ fill: '#F1F5F9' }}
-               contentStyle={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0' }}
+            <YAxis 
+              axisLine={false} 
+              tickLine={false} 
+              tick={{ fontSize: 10, fill: '#94A3B8', fontFamily: 'var(--font-sans)', fontWeight: 600 }} 
             />
-            <Bar dataKey="val" radius={[2, 2, 0, 0]}>
-              {barData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.val > 70 ? '#E11D48' : '#0891B2'} />
-              ))}
-            </Bar>
+            <Tooltip
+              cursor={{ fill: '#1F2937' }}
+              contentStyle={{ 
+                backgroundColor: '#111827', 
+                border: '1px solid #1E293B',
+                fontFamily: 'var(--font-sans)',
+                fontWeight: 600,
+                fontSize: '11px',
+                textTransform: 'uppercase',
+                color: '#F8FAFC'
+              }}
+            />
+            <ReferenceLine y={40} stroke="#EF4444" strokeDasharray="3 3" opacity={0.5} />
+            <Bar dataKey="current" fill="#2563EB" radius={[2, 2, 0, 0]} />
+            <Bar dataKey="historical" fill="#1E293B" radius={[2, 2, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
