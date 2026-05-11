@@ -1,229 +1,91 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-import { Play, Pause, Terminal, Layers } from "lucide-react";
+import { useEffect, useRef } from "react";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// Dynamic imports for Leaflet components
-const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false });
-const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLayer), { ssr: false });
-const GeoJSON = dynamic(() => import("react-leaflet").then((mod) => mod.GeoJSON), { ssr: false });
+// Fix for default markers
+const DefaultIcon = L.icon({
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+});
+L.Marker.prototype.options.icon = DefaultIcon;
 
-interface RegionProperties {
-  name: string;
-  compositeRisk?: number;
-  layers?: {
-    climate: number;
-    food: number;
-    security: number;
-    forecast: number;
-  };
-}
-
-interface GeoJSONData {
-  type: "FeatureCollection";
-  features: Array<{
-    type: "Feature";
-    properties: RegionProperties;
-    geometry: unknown;
-  }>;
-}
-
-interface DroughtMapProps {
-  onRegionSelect?: (region: RegionProperties) => void;
-}
-
-export default function DroughtMap({ onRegionSelect }: DroughtMapProps) {
-  const [mapData, setMapData] = useState<GeoJSONData | null>(null);
-  const [timeStep, setTimeStep] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [activeLayer, setActiveLayer] = useState<'compositeRisk' | 'climate' | 'food' | 'security' | 'forecast'>('compositeRisk');
+export default function DroughtMap() {
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const mapInstance = useRef<L.Map | null>(null);
 
   useEffect(() => {
-    let active = true;
-    const daysOffset = 100 - timeStep;
-    const targetDate = new Date();
-    targetDate.setDate(targetDate.getDate() - daysOffset);
-    
-    async function loadData() {
-      try {
-        const res = await fetch(`/api/intelligence/map?date=${targetDate.toISOString()}`);
-        const data = await res.json();
-        if (active) {
-          if (data.error) console.error('API Error:', data.error);
-          else setMapData(data);
-          setIsLoading(false);
-        }
-      } catch (err) {
-        console.error('Error fetching map data:', err);
-        if (active) setIsLoading(false);
-      }
-    }
+    if (!mapContainer.current || mapInstance.current) return;
 
-    loadData();
-    return () => { active = false; };
-  }, [timeStep]);
-
-  // ── Auto-Playback Effect ──
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isPlaying) {
-      interval = setInterval(() => {
-        setTimeStep(prev => (prev >= 100 ? 0 : prev + 1));
-      }, 500);
-    }
-    return () => clearInterval(interval);
-  }, [isPlaying]);
-
-  // ── Choropleth Styling (FALAG Dark Palette) ──
-  const getStyle = (feature: GeoJSONData['features'][0] | undefined) => {
-    if (!feature) return {};
-    const props = feature.properties as RegionProperties;
-    let score = 0;
-    if (activeLayer === 'compositeRisk') score = props.compositeRisk || 0;
-    else score = props.layers?.[activeLayer] || 0;
-
-    let color = "#38BDF8"; // risk-stable (Sky-400)
-    if (score >= 75) color = "#EF4444";      // risk-critical (Red-500)
-    else if (score >= 55) color = "#F97316"; // risk-high (Orange-500)
-    else if (score >= 35) color = "#FBBF24"; // risk-mod (Amber-400)
-    else if (score >= 15) color = "#10B981"; // risk-low (Emerald-500)
-
-    return {
-      fillColor: color,
-      weight: 1,
-      opacity: 0.5,
-      color: '#1E293B',
-      fillOpacity: 0.6
-    };
-  };
-
-  const onEachFeature = (feature: GeoJSONData['features'][0], layer: unknown) => {
-    interface LeafletEvent {
-      target: {
-        setStyle: (style: { fillOpacity: number; weight: number; opacity: number }) => void;
-      };
-    }
-
-    const leafletLayer = layer as { 
-      on: (events: { 
-        click: () => void; 
-        mouseover: (e: LeafletEvent) => void; 
-        mouseout: (e: LeafletEvent) => void; 
-      }) => void 
-    };
-
-    leafletLayer.on({
-      click: () => {
-        if (onRegionSelect) onRegionSelect(feature.properties as RegionProperties);
-      },
-      mouseover: (e) => {
-        e.target.setStyle({ fillOpacity: 0.9, weight: 2, opacity: 1 });
-      },
-      mouseout: (e) => {
-        e.target.setStyle({ fillOpacity: 0.6, weight: 1, opacity: 0.5 });
-      }
+    // Initialize map focused on Somaliland/East Africa
+    const map = L.map(mapContainer.current, {
+      center: [9.5624, 45.3618], // Hargeisa
+      zoom: 6,
+      zoomControl: false,
+      scrollWheelZoom: false,
     });
-  };
 
-  if (isLoading) return (
-    <div className="h-full bg-navy-950 animate-pulse flex flex-col items-center justify-center text-primary gap-6">
-      <div className="w-12 h-12 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
-      <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em]">Initializing GIS Matrix...</span>
-    </div>
-  );
+    // LIGHT MODE TILES (CartoDB Positron)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20
+    }).addTo(map);
+
+    // Mock Hotspots (Risk Clusters)
+    const hotspots = [
+      { coords: [9.56, 45.36], label: "Hargeisa", severity: "Moderate", color: "#FBBF24" },
+      { coords: [10.62, 47.36], label: "Sanaag Core", severity: "Critical", color: "#E11D48" },
+      { coords: [8.48, 47.33], label: "Sool Plateau", severity: "Severe", color: "#F97316" },
+      { coords: [10.28, 43.33], label: "Awdal Coast", severity: "Stable", color: "#0891B2" },
+    ];
+
+    hotspots.forEach((point) => {
+      L.circle(point.coords as L.LatLngExpression, {
+        color: point.color,
+        fillColor: point.color,
+        fillOpacity: 0.2,
+        radius: 35000,
+        weight: 1,
+      }).addTo(map)
+        .bindPopup(`
+          <div style="font-family: var(--font-mono); padding: 4px;">
+            <div style="font-weight: 800; text-transform: uppercase; font-size: 10px; margin-bottom: 4px;">${point.label}</div>
+            <div style="font-size: 9px; text-transform: uppercase; color: ${point.color}">Severity: ${point.severity}</div>
+          </div>
+        `);
+    });
+
+    mapInstance.current = map;
+
+    return () => {
+      map.remove();
+      mapInstance.current = null;
+    };
+  }, []);
 
   return (
-    <div className="relative h-full w-full bg-navy-950">
+    <div className="relative w-full h-full">
+      <div ref={mapContainer} className="w-full h-full z-10" />
       
-      {/* 1. MAP CORE (Dark Matter) */}
-      <MapContainer 
-        center={[9.7, 46.5]} 
-        zoom={6} 
-        zoomControl={false}
-        className="h-full w-full z-0"
-        style={{ background: '#080C16' }}
-      >
-        <TileLayer
-          attribution='&copy; CARTO'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-        />
-        {mapData && (
-          <GeoJSON 
-            key={`${activeLayer}-${timeStep}`}
-            data={mapData} 
-            style={getStyle} 
-            onEachFeature={onEachFeature} 
-          />
-        )}
-      </MapContainer>
-
-      {/* 2. STRATEGIC LAYER SELECTOR */}
-      <div className="absolute top-8 left-8 z-[1000] flex flex-col gap-3">
-        <div className="mb-2 flex items-center gap-2 text-[10px] font-mono font-bold text-primary uppercase tracking-[0.3em]">
-           <Layers size={14} /> Matrix Layers
-        </div>
-        {[
-          { id: 'compositeRisk', label: 'Composite Risk' },
-          { id: 'climate', label: 'Climate Stress' },
-          { id: 'food', label: 'Food Security' },
-          { id: 'security', label: 'Security Density' },
-          { id: 'forecast', label: '90D Forecast' }
-        ].map((layer) => (
-          <button
-            key={layer.id}
-            onClick={() => setActiveLayer(layer.id as 'compositeRisk' | 'climate' | 'food' | 'security' | 'forecast')}
-            className={`px-5 py-3 text-[10px] font-mono font-bold uppercase tracking-widest transition-all text-left border ${
-              activeLayer === layer.id 
-                ? 'bg-primary text-navy-950 border-primary shadow-[0_0_15px_rgba(34,211,238,0.4)] translate-x-2' 
-                : 'bg-navy-900/80 text-text-dim border-border-subtle hover:border-primary/50 backdrop-blur-md'
-            }`}
+      {/* Map Overlay Controls (Light Mode) */}
+      <div className="absolute top-24 right-8 z-20 flex flex-col gap-3">
+        {['SATELLITE', 'TERRAIN', 'HEATMAP', 'MARKETS'].map((layer) => (
+          <button 
+            key={layer}
+            className="px-4 py-2 bg-white/90 backdrop-blur-sm border border-border text-[9px] font-mono font-bold text-navy-950 uppercase tracking-widest hover:border-primary transition-all shadow-sm"
           >
-            {layer.label}
+            {layer}
           </button>
         ))}
       </div>
 
-      {/* 3. TEMPORAL SLIDER (Engineered Aesthetic) */}
-      <div className="absolute bottom-10 left-10 right-10 z-[1000]">
-        <div className="xi-card bg-navy-900/90 backdrop-blur-xl p-6 max-w-2xl mx-auto border-primary/20 shadow-premium">
-          <div className="flex items-center gap-8">
-            <button 
-              onClick={() => setIsPlaying(!isPlaying)}
-              className={`w-12 h-12 flex items-center justify-center transition-all ${
-                isPlaying ? 'bg-risk-critical text-white' : 'bg-primary text-navy-950'
-              } shadow-lg`}
-            >
-              {isPlaying ? <Pause size={18} /> : <Play size={18} fill="currentColor" />}
-            </button>
-            
-            <div className="flex-1">
-              <div className="flex justify-between text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-text-dim mb-4">
-                <span>01 MAR 2026</span>
-                <div className="flex items-center gap-2 text-primary">
-                   <Terminal size={12} />
-                   <span>SYNC: MAY 2026</span>
-                </div>
-                <span>30 JUN 2026</span>
-              </div>
-              <div className="relative h-1.5 w-full bg-navy-800">
-                <input 
-                  type="range" 
-                  min="0" max="100" 
-                  value={timeStep}
-                  onChange={(e) => setTimeStep(parseInt(e.target.value))}
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                />
-                <div 
-                  className="absolute inset-y-0 left-0 bg-primary shadow-[0_0_10px_rgba(34,211,238,0.5)]" 
-                  style={{ width: `${timeStep}%` }} 
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="absolute bottom-8 right-8 z-20 px-6 py-3 bg-white/90 backdrop-blur-sm border border-border text-[9px] font-mono font-bold text-navy-950 uppercase tracking-[0.3em] shadow-sm flex items-center gap-3">
+         <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+         GPS: 9.5624° N, 45.3618° E
       </div>
     </div>
   );

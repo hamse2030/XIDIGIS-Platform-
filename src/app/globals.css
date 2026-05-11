@@ -1,189 +1,98 @@
-/* Google Fonts — Outfit for Headings, Inter for Body */
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
 
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  /* Fonts */
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Outfit", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+:root {
+  /* LIGHT MODE - High Credibility Institutional */
+  --background: #FFFFFF;
+  --surface: #F8FAFC;
+  --surface-alt: #F1F5F9;
+  
+  --text-main: #0F172A;
+  --text-dim: #64748B;
+  
+  --primary: #0891B2; /* Strategic Cyan */
+  --primary-hover: #0E7490;
+  
+  --border: #E2E8F0;
+  --border-subtle: #F1F5F9;
+  
+  --risk-critical: #E11D48;
+  --risk-high: #F97316;
+  --risk-mod: #FBBF24;
+  --risk-low: #10B981;
+  --risk-stable: #0891B2;
 
-  /* ── FALAG Intelligence Palette (Space & Cyan) ───── */
-  --color-navy-950: #080C16; /* Deep Background */
-  --color-navy-900: #0F172A; /* Surface */
-  --color-navy-800: #1E293B; /* Cards */
-  --color-navy-700: #334155; /* Borders */
-
-  --color-cyan-400: #22D3EE; /* Main Accent */
-  --color-cyan-500: #06B6D4; /* Hover/Action */
-  --color-blue-500: #3B82F6; /* Secondary Accent */
-
-  --color-slate-100: #F1F5F9; /* Primary Text */
-  --color-slate-400: #94A3B8; /* Muted Text */
-
-  /* Semantic Data Colors (Intelligence Grade) */
-  --color-risk-critical: #EF4444; 
-  --color-risk-high:     #F97316; 
-  --color-risk-mod:      #FBBF24; 
-  --color-risk-low:      #10B981; 
-  --color-risk-stable:   #38BDF8; 
-
-  /* UI Aliases */
-  --color-primary:           var(--color-cyan-400);
-  --color-background:        var(--color-navy-950);
-  --color-surface:           var(--color-navy-900);
-  --color-surface-card:      var(--color-navy-800);
-  --color-text-main:         var(--color-slate-100);
-  --color-text-dim:          var(--color-slate-400);
-  --color-border-subtle:     var(--color-navy-700);
-
-  /* ── Layout & Spacing ── */
-  --container-max: 1440px;
-  --radius-card:   0px; /* Maximum Institutional Sharpness */
-  --shadow-glow:   0 0 20px rgba(6, 182, 212, 0.15);
-  --shadow-premium: 0 20px 50px rgba(0, 0, 0, 0.5);
+  --navy-950: #0F172A;
+  --navy-900: #1E293B;
+  --navy-800: #334155;
+  
+  --font-display: 'Outfit', sans-serif;
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 @layer base {
   body {
-    background-color: var(--color-background);
-    font-family: var(--font-sans);
-    color: var(--color-text-main);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    scroll-behavior: smooth;
+    @apply bg-background text-text-main font-sans selection:bg-primary/20;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
-
-  h1, h2, h3, .font-display {
-    font-family: var(--font-display);
-    color: white;
-    letter-spacing: -0.02em;
-    font-weight: 700;
-  }
-
-  h1 { font-size: 4rem; font-weight: 900; line-height: 1; }
-  h2 { font-size: 2.5rem; font-weight: 800; line-height: 1.1; }
-  h3 { font-size: 1.25rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
 }
 
 @layer components {
   .max-w-content {
-    max-width: var(--container-max);
-    margin-inline: auto;
-    padding-inline: 3rem;
+    @apply max-w-7xl mx-auto px-6 lg:px-8;
   }
 
-  .grid-12 {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 1.5rem;
-  }
-
-  /* Intelligence Card Pattern (Engineered Aesthetic) */
   .xi-card {
-    background-color: var(--color-surface-card);
-    border: 1px solid var(--color-border-subtle);
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-premium);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .xi-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 2px;
-    height: 0;
-    background-color: var(--color-primary);
-    transition: height 0.3s ease;
+    @apply bg-white border border-border shadow-sm transition-all duration-300;
   }
 
   .xi-card:hover {
-    border-color: var(--color-primary);
-    box-shadow: var(--shadow-glow);
-  }
-
-  .xi-card:hover::before {
-    height: 100%;
+    @apply border-primary/30 shadow-md;
   }
 
   .xi-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-    color: var(--color-primary);
-    margin-bottom: 1rem;
-    font-family: var(--font-mono);
+    @apply text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-primary mb-4 flex items-center gap-2;
   }
 
   .btn-primary {
-    background-color: var(--color-primary);
-    color: var(--color-navy-950);
-    padding: 0.85rem 2rem;
-    border-radius: var(--radius-card);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-size: 0.75rem;
-    transition: all 0.2s ease;
-    border: 1px solid var(--color-primary);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-
-  .btn-primary:hover {
-    background-color: transparent;
-    color: var(--color-primary);
-    box-shadow: var(--shadow-glow);
+    @apply px-8 py-3 bg-navy-950 text-white font-mono font-bold text-[10px] uppercase tracking-[0.2em] 
+           hover:bg-primary transition-all duration-300 shadow-sm flex items-center justify-center;
   }
 
   .btn-outline {
-    background-color: transparent;
-    color: white;
-    padding: 0.85rem 2rem;
-    border-radius: var(--radius-card);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-size: 0.75rem;
-    transition: all 0.2s ease;
-    border: 1px solid var(--color-border-subtle);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+    @apply px-8 py-3 bg-transparent border border-navy-950 text-navy-950 font-mono font-bold text-[10px] uppercase tracking-[0.2em] 
+           hover:bg-navy-950 hover:text-white transition-all duration-300 flex items-center justify-center;
   }
 
-  .btn-outline:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+  .shadow-premium {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   }
 
-  /* Intelligence Alert Patterns */
-  .xi-alert {
-    background-color: rgba(239, 68, 68, 0.05);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    border-left: 2px solid #EF4444;
-    padding: 1.5rem;
-    border-radius: var(--radius-card);
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(8, 145, 178, 0.08);
   }
 
-  /* Global Grid Background */
   .bg-grid {
-    background-image: radial-gradient(circle, #1E293B 1px, transparent 1px);
     background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
   }
 }
+
+/* Custom Utilities */
+.text-risk-critical { color: var(--risk-critical); }
+.text-risk-high { color: var(--risk-high); }
+.text-risk-mod { color: var(--risk-mod); }
+.text-risk-low { color: var(--risk-low); }
+.text-risk-stable { color: var(--risk-stable); }
+
+.bg-risk-critical { background-color: var(--risk-critical); }
+.bg-risk-high { background-color: var(--risk-high); }
+.bg-risk-mod { background-color: var(--risk-mod); }
+.bg-risk-low { background-color: var(--risk-low); }
+.bg-risk-stable { background-color: var(--risk-stable); }
