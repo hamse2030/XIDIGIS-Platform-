@@ -1,14 +1,11 @@
 "use client";
 
 import { 
-  TrendingDown, AlertCircle, 
+  AlertCircle, 
   ArrowLeft
 } from "lucide-react";
 import Link from "next/link";
-import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, 
-  Tooltip, ResponsiveContainer, Cell, PieChart, Pie
-} from 'recharts';
+
 
 import IPCDashboard from "@/components/intelligence/IPCDashboard";
 
