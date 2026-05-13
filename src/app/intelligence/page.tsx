@@ -22,9 +22,11 @@ const DroughtMap = dynamic(() => import("@/components/intelligence/DroughtMap"),
 
 import DroughtDashboard from "@/components/intelligence/DroughtDashboard";
 import AIBriefing from "@/components/intelligence/AIBriefing";
+import IPCDashboard from "@/components/intelligence/IPCDashboard";
 
 const INTELLIGENCE_NODES = [
   { id: 'climate', label: 'Climate Stress', icon: Globe, status: 'Critical', color: 'text-risk-critical' },
+  { id: 'food-security', label: 'Food Security', icon: Zap, status: 'Severe', color: 'text-risk-high' },
   { id: 'security', label: 'Security Density', icon: Shield, status: 'Stable', color: 'text-risk-stable' },
   { id: 'economy', label: 'Market Stability', icon: TrendingUp, status: 'Mod', color: 'text-risk-mod' },
   { id: 'forecast', label: 'Forecasting', icon: Activity, status: 'Active', color: 'text-primary' },
@@ -138,7 +140,7 @@ export default function IntelligenceHub() {
                     <div className="xi-eyebrow mb-0">Temporal Anomaly</div>
                     <Link href="#" className="text-primary hover:text-primary-hover transition-colors"><ArrowUpRight size={16} /></Link>
                   </div>
-                  <DroughtDashboard />
+                  {activeNode === 'food-security' ? <IPCDashboard /> : <DroughtDashboard />}
                 </div>
 
                 <div className="xi-card p-8 h-full">
