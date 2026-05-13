@@ -35,6 +35,7 @@ interface IPCData {
     observed_at: string;
   }>;
   error?: string;
+  details?: string;
 }
 
 export default function IPCDashboard() {
