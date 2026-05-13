@@ -87,7 +87,7 @@ export class IPCClient {
    */
   public async getAnalyses(countryCode?: string): Promise<IPCAnalysis[]> {
     const endpoint = countryCode ? `/analyses?country=${countryCode}` : '/analyses';
-    const data = await this.fetchSecure<any>(endpoint);
+    const data = await this.fetchSecure<IPCAnalysis[]>(endpoint);
     return data || [];
   }
 
@@ -95,18 +95,16 @@ export class IPCClient {
    * Fetches population tracking data for a specific country
    */
   public async getPopulationData(countryCode: string): Promise<IPCPopulationData[]> {
-    // Note: In a real implementation, we would call the developer population endpoint
-    // and normalize the results based on the IPC-CH schema.
     const endpoint = `/population?country=${countryCode}`;
-    const data = await this.fetchSecure<any[]>(endpoint);
+    const data = await this.fetchSecure<{ country?: string; area?: string; region?: string; phase: string; population: string | number; period?: string; confidence?: string }[]>(endpoint);
     
     if (!data) return [];
 
-    return data.map(item => ({
+    return data.map((item: { country?: string; area?: string; region?: string; phase: string; population: string | number; period?: string; confidence?: string }) => ({
       country: item.country || countryCode,
       region: item.area || item.region,
       phase: parseInt(item.phase) || 0,
-      population_affected: item.population || 0,
+      population_affected: typeof item.population === 'string' ? parseInt(item.population) : item.population || 0,
       reporting_period: item.period || 'Unknown',
       confidence_level: item.confidence,
       timestamp: new Date().toISOString()

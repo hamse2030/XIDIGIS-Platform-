@@ -41,30 +41,32 @@ export async function GET() {
     const dashboardData = {
       summary: {
         total_regions: foodIndices?.length || 0,
-        average_risk: foodIndices?.reduce((acc, curr) => acc + (curr.value as number), 0) / (foodIndices?.length || 1),
+        average_risk: (foodIndices?.reduce((acc: number, curr: { value: number }) => acc + curr.value, 0) || 0) / (foodIndices?.length || 1),
         last_update: foodIndices?.[0]?.calculated_at
       },
-      distribution: foodIndices?.reduce((acc: any, curr: any) => {
-        const phase = curr.metadata?.phase || 0;
-        acc[phase] = (acc[phase] || 0) + 1;
+      distribution: foodIndices?.reduce((acc: Record<string, number>, curr: { metadata: { phase?: number } | unknown }) => {
+        const metadata = curr.metadata as { phase?: number };
+        const phase = metadata?.phase || 0;
+        acc[phase.toString()] = (acc[phase.toString()] || 0) + 1;
         return acc;
       }, {}),
       regions: foodIndices?.map(item => {
         const region = Array.isArray(item.regions) ? item.regions[0] : item.regions;
+        const metadata = item.metadata as { phase?: number; population?: number; period?: string };
         return {
-          name: region?.name || 'Unknown',
-          code: region?.code || '??',
+          name: (region as { name: string })?.name || 'Unknown',
+          code: (region as { code: string })?.code || '??',
           score: item.value,
-          phase: (item.metadata as any)?.phase,
-          population: (item.metadata as any)?.population,
-          period: (item.metadata as any)?.period
+          phase: metadata?.phase,
+          population: metadata?.population,
+          period: metadata?.period
         };
       }),
       trends: history // Simplified for MVP
     };
 
     return NextResponse.json(dashboardData);
-  } catch (error: any) {
+  } catch (error) {
     console.error('❌ IPC API Route Error:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }

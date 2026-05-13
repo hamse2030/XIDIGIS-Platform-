@@ -15,8 +15,30 @@ const PHASE_COLORS: Record<number, string> = {
   5: "#7F1D1D", // Famine
 };
 
+interface IPCData {
+  summary: {
+    total_regions: number;
+    average_risk: number;
+    last_update: string;
+  };
+  distribution: Record<string, number>;
+  regions: Array<{
+    name: string;
+    code: string;
+    score: number;
+    population: number;
+    phase: number;
+    period: string;
+  }>;
+  trends: Array<{
+    value: number;
+    observed_at: string;
+  }>;
+  error?: string;
+}
+
 export default function IPCDashboard() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<IPCData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -80,7 +102,7 @@ export default function IPCDashboard() {
         <div className="xi-card p-6 bg-background border-border flex items-center justify-between">
           <div>
              <div className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1">Affected Pop.</div>
-             <div className="text-2xl font-bold text-text-main">{(data.regions.reduce((a: any, b: any) => a + (b.population || 0), 0) / 1000000).toFixed(1)}M</div>
+             <div className="text-2xl font-bold text-text-main">{(data.regions.reduce((a: number, b: { population: number }) => a + (b.population || 0), 0) / 1000000).toFixed(1)}M</div>
           </div>
           <Users className="text-risk-high" size={20} />
         </div>
@@ -150,7 +172,7 @@ export default function IPCDashboard() {
                   itemStyle={{ fontSize: "10px", fontWeight: "bold", textTransform: "uppercase" }}
                 />
                 <Bar dataKey="score" radius={[0, 4, 4, 0]}>
-                  {data.regions.map((entry: any, index: number) => (
+                  {data.regions.map((entry: { score: number }, index: number) => (
                     <Cell key={`cell-${index}`} fill={entry.score > 70 ? "#EF4444" : "#2563EB"} />
                   ))}
                 </Bar>
