@@ -80,11 +80,15 @@ export default function IPCDashboard() {
     );
   }
 
-  const distributionData = Object.entries(data.distribution).map(([phase, count]) => ({
+  const distributionData = data.distribution ? Object.entries(data.distribution).map(([phase, count]) => ({
     name: `Phase ${phase}`,
     value: count,
     phase: parseInt(phase)
-  }));
+  })) : [];
+
+  const regionsData = data.regions || [];
+  const summaryData = data.summary || { average_risk: 0, total_regions: 0, last_update: '' };
+  const trendsData = data.trends || [];
 
   return (
     <div className="space-y-8">
@@ -93,21 +97,21 @@ export default function IPCDashboard() {
         <div className="xi-card p-6 bg-background border-border flex items-center justify-between">
           <div>
              <div className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1">Avg. Risk Index</div>
-             <div className="text-2xl font-bold text-text-main">{data.summary.average_risk.toFixed(1)}<span className="text-xs opacity-50 ml-1">/100</span></div>
+             <div className="text-2xl font-bold text-text-main">{summaryData.average_risk.toFixed(1)}<span className="text-xs opacity-50 ml-1">/100</span></div>
           </div>
           <TrendingDown className="text-risk-high" size={20} />
         </div>
         <div className="xi-card p-6 bg-background border-border flex items-center justify-between">
           <div>
              <div className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1">Active Regions</div>
-             <div className="text-2xl font-bold text-text-main">{data.summary.total_regions}</div>
+             <div className="text-2xl font-bold text-text-main">{summaryData.total_regions}</div>
           </div>
           <Globe className="text-primary" size={20} />
         </div>
         <div className="xi-card p-6 bg-background border-border flex items-center justify-between">
           <div>
              <div className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1">Affected Pop.</div>
-             <div className="text-2xl font-bold text-text-main">{(data.regions.reduce((a: number, b: { population: number }) => a + (b.population || 0), 0) / 1000000).toFixed(1)}M</div>
+             <div className="text-2xl font-bold text-text-main">{(regionsData.reduce((a: number, b: { population: number }) => a + (b.population || 0), 0) / 1000000).toFixed(1)}M</div>
           </div>
           <Users className="text-risk-high" size={20} />
         </div>
@@ -162,7 +166,7 @@ export default function IPCDashboard() {
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data.regions} layout="vertical" margin={{ left: 20 }}>
+              <BarChart data={regionsData} layout="vertical" margin={{ left: 20 }}>
                 <XAxis type="number" hide />
                 <YAxis 
                   dataKey="name" 
@@ -177,7 +181,7 @@ export default function IPCDashboard() {
                   itemStyle={{ fontSize: "10px", fontWeight: "bold", textTransform: "uppercase" }}
                 />
                 <Bar dataKey="score" radius={[0, 4, 4, 0]}>
-                  {data.regions.map((entry: { score: number }, index: number) => (
+                  {regionsData.map((entry: { score: number }, index: number) => (
                     <Cell key={`cell-${index}`} fill={entry.score > 70 ? "#EF4444" : "#2563EB"} />
                   ))}
                 </Bar>
@@ -197,7 +201,7 @@ export default function IPCDashboard() {
         </div>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data.trends}>
+            <LineChart data={trendsData}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#1E293B" />
               <XAxis 
                 dataKey="observed_at" 
@@ -222,7 +226,7 @@ export default function IPCDashboard() {
            Source: Integrated Food Security Phase Classification (IPC-CH)
          </span>
          <span className="text-[9px] font-medium text-text-muted uppercase tracking-[0.2em]">
-           Last Sync: {data.summary.last_update ? new Date(data.summary.last_update).toLocaleString() : 'N/A'}
+           Last Sync: {summaryData.last_update ? new Date(summaryData.last_update).toLocaleString() : 'N/A'}
          </span>
       </div>
     </div>
