@@ -66,8 +66,12 @@ export async function GET() {
     };
 
     return NextResponse.json(dashboardData);
-  } catch (error) {
+  } catch (error: any) {
+    const isMissingKey = !process.env.IPC_API_KEY;
     console.error('❌ IPC API Route Error:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ 
+      error: isMissingKey ? 'IPC_API_KEY_MISSING' : 'API_UNREACHABLE',
+      details: isMissingKey ? 'Please add IPC_API_KEY to your environment variables.' : error.message
+    }, { status: 500 });
   }
 }

@@ -67,10 +67,14 @@ export default function IPCDashboard() {
 
   if (!data || data.error) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 bg-surface/50 border border-border">
+      <div className="flex flex-col items-center justify-center h-64 bg-surface/50 border border-border px-8 text-center">
         <AlertTriangle size={24} className="text-risk-high mb-2" />
-        <span className="text-xs font-bold text-text-main uppercase tracking-widest">IPC API UNREACHABLE</span>
-        <span className="text-[10px] text-text-muted mt-1 uppercase">Check environment variables</span>
+        <span className="text-xs font-bold text-text-main uppercase tracking-widest">
+          {data?.error === 'IPC_API_KEY_MISSING' ? 'IPC API KEY MISSING' : 'IPC API UNREACHABLE'}
+        </span>
+        <span className="text-[10px] text-text-muted mt-2 uppercase leading-relaxed">
+          {data?.details || 'Verify network connection or API credentials in your environment variables.'}
+        </span>
       </div>
     );
   }
