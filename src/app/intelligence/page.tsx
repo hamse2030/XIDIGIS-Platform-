@@ -23,6 +23,9 @@ const DroughtMap = dynamic(() => import("@/components/intelligence/DroughtMap"),
 import DroughtDashboard from "@/components/intelligence/DroughtDashboard";
 import AIBriefing from "@/components/intelligence/AIBriefing";
 import IPCDashboard from "@/components/intelligence/IPCDashboard";
+import RegionalStatusStrip from "@/components/intelligence/RegionalStatusStrip";
+import TerritorySelector, { type Territory } from "@/components/intelligence/TerritorySelector";
+import RegionPanel, { type RegionData } from "@/components/intelligence/RegionPanel";
 
 const INTELLIGENCE_NODES = [
   { id: 'climate', label: 'Climate Stress', icon: Globe, status: 'Critical', color: 'text-risk-critical' },
@@ -34,6 +37,9 @@ const INTELLIGENCE_NODES = [
 
 export default function IntelligenceHub() {
   const [activeNode, setActiveNode] = useState('climate');
+  const [territory, setTerritory] = useState<Territory>('ALL');
+  const [selectedRegion, setSelectedRegion] = useState<RegionData | null>(null);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -81,15 +87,22 @@ export default function IntelligenceHub() {
                 }`}
               >
                 <node.icon size={18} className={activeNode === node.id ? 'text-primary' : 'text-text-muted'} />
-                <div className="text-left">
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.15em]">{node.label}</div>
-                  <div className={`text-[10px] font-medium uppercase tracking-widest mt-1 ${node.color}`}>Status: {node.status}</div>
                 </div>
               </button>
             ))}
           </div>
         </div>
       </section>
+
+      <RegionalStatusStrip regions={[
+        { name: "Bakool", riskLevel: "CRITICAL", value: 82 },
+        { name: "Bay", riskLevel: "CRITICAL", value: 85 },
+        { name: "Jubbada Hoose", riskLevel: "CRITICAL", value: 79 },
+        { name: "Hiiraan", riskLevel: "HIGH", value: 62 },
+        { name: "Galguduud", riskLevel: "HIGH", value: 58 },
+        { name: "Mudug", riskLevel: "MODERATE", value: 38 },
+        { name: "Banadir", riskLevel: "MODERATE", value: 41 },
+      ]} />
 
       {/* 2. OPERATIONAL GRID (Dark Institutional Mode) */}
       <section className="bg-background flex-1 relative py-12">
@@ -100,19 +113,43 @@ export default function IntelligenceHub() {
             <div className="col-span-12 xl:col-span-8 space-y-8">
               <div className="xi-card relative group overflow-hidden h-[600px] border-border bg-surface-elevated">
                 {/* Visual Header */}
-                <div className="absolute top-0 left-0 right-0 z-20 p-6 flex justify-between items-center bg-surface/90 backdrop-blur-md border-b border-border">
+                <div className="absolute top-0 left-0 right-0 z-20 p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-surface/90 backdrop-blur-md border-b border-border">
                   <div className="flex items-center gap-4">
                      <div className="w-2 h-2 bg-risk-critical rounded-full animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
-                     <span className="text-xs font-semibold text-text-main uppercase tracking-[0.2em]">GIS ENGINE: LIVE MONITORING</span>
+                     <span className="text-xs font-semibold text-text-main uppercase tracking-[0.2em] hidden sm:block">GIS ENGINE: LIVE MONITORING</span>
                   </div>
-                  <div className="flex gap-3">
-                    <button className="p-2 border border-border text-text-muted hover:text-text-main hover:bg-surface-elevated transition-all"><Filter size={14} /></button>
-                    <button className="p-2 border border-border text-text-muted hover:text-text-main hover:bg-surface-elevated transition-all"><Maximize2 size={14} /></button>
+                  <div className="flex items-center gap-4">
+                    <TerritorySelector value={territory} onChange={setTerritory} />
+                    <div className="hidden sm:flex gap-3">
+                      <button className="p-2 border border-border text-text-muted hover:text-text-main hover:bg-surface-elevated transition-all"><Filter size={14} /></button>
+                      <button className="p-2 border border-border text-text-muted hover:text-text-main hover:bg-surface-elevated transition-all"><Maximize2 size={14} /></button>
+                    </div>
                   </div>
                 </div>
 
-                <div className="w-full h-full pt-16">
-                   <DroughtMap />
+                <div className="w-full h-full pt-20 md:pt-16">
+                   <DroughtMap 
+                     territory={territory} 
+                     onTerritoryChange={setTerritory}
+                     onRegionClick={(region) => {
+                       setSelectedRegion({
+                         name: region.name,
+                         territory: region.territory,
+                         ipcPhase: region.riskScore > 70 ? 4 : region.riskScore > 50 ? 3 : 2,
+                         riskLevel: region.riskScore >= 75 ? "Critical" : region.riskScore >= 55 ? "High" : region.riskScore >= 35 ? "Moderate" : "Stable",
+                         stats: {
+                           conflictRisk: Math.floor(region.riskScore * 0.8),
+                           rainfallAnomaly: - Math.floor(region.riskScore / 2),
+                           foodInsecure: region.riskScore,
+                           populationAffected: region.riskScore * 25000
+                         },
+                         narrative: `Current intelligence for ${region.name} indicates structural vulnerabilities. Market volatility and climatic anomalies require immediate institutional monitoring and potential intervention routing.`,
+                         sources: ["ACLED", "CHIRPS", "FSNAU/IPC-CH"],
+                         lastUpdated: new Date().toISOString()
+                       });
+                       setIsPanelOpen(true);
+                     }}
+                   />
                 </div>
 
                 {/* Map Legend */}
@@ -199,6 +236,12 @@ export default function IntelligenceHub() {
           </div>
         </div>
       </section>
+
+      <RegionPanel 
+        region={selectedRegion} 
+        isOpen={isPanelOpen} 
+        onClose={() => setIsPanelOpen(false)} 
+      />
     </div>
   );
 }
